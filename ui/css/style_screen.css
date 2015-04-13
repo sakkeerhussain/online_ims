@@ -1,0 +1,250 @@
+@charset "utf-8";
+html{
+    min-height: 100%;
+}
+body{
+    background-color:#21acd7;
+    z-index:1;
+    margin:0;
+    min-height: 100%;
+}
+input{
+    border-radius:5px;
+    padding:10px; 
+    color: #21ACD7;
+}
+select{
+    border-radius:5px;
+    padding:10px; 
+    color: #21ACD7;
+}
+footer{
+    margin-bottom: -20px;
+    height: 20px;
+    background-color: #ececec;
+    text-align: center;
+    background-color: #043a79;
+    color: #fff;
+}
+font{
+    color: #fff;
+}
+div#spinner-wraper{
+    display:none;
+    width:100%;
+    height:100%;
+    z-index:100;
+}
+div#spinner{
+    width:100px;
+    height:100px;
+    z-index:101;
+}
+div#login-wraper{
+    display:none;
+    width:100%;
+    height:100%;
+    z-index:97;
+}
+div#login{
+    width:45%;
+    min-width:233px;
+    height:320px;
+    border-radius:10px;
+    background-color:#fdfdfd;
+    z-index:98;
+}
+div#content{
+    display:none;
+    z-index:2;
+    padding-top: 65px;
+    padding-bottom: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+div#login-brand-name{
+    height:85px;
+    width:100%;
+    background:#f7f8fa;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+    border-bottom:#c8c9cb solid 2px;
+    z-index:99;
+}
+div#forgot-passeword{
+    margin-top: 68px;
+    margin-left: 8%;
+    margin-right: 8%;
+    z-index:99;
+}
+div#content-header{
+    width:100%;
+    height:65px;
+    margin-top: -65px;
+    background-color:#21acd7;	
+    z-index:3;
+}
+div#content-body{
+    width:100%;
+    background-color:transparent;	
+    z-index:3;
+    overflow: hidden;
+    height: 100%
+}
+div#content-body-menu{
+    width:200px;
+    background-color:#ccc;
+    float: left;
+    margin-top:10px;
+    margin-left: 10px;
+    height: 100%;
+}
+div#content-body-action{
+    width:100%;
+    min-width:300px;
+    background-color:#ececec;
+    float: left;
+    margin-top:10px;
+    margin-left: 10px;
+    position: relative;
+    height: 100%;
+}
+div#content-body-action-dummy-parent{
+    margin-left: 210px; 
+    height: 100%; 
+    background-color: #ececec;
+}
+div#content-body-action-tools{
+    height: 100%; 
+    width: 70px;
+    right: 0;
+    position: absolute;
+    background-color: #21acd7;
+    overflow-y: hidden;
+}
+div#content-body-action-form{
+    height: 100%;
+    min-height: 300px; 
+    width: 100%;
+    background-color: #21acd7;
+}
+div#user_info{
+    float: right;
+    margin-right: 30px;
+    margin-top: 15px;
+    background-color: #fff;
+    padding:5px 20px;
+    padding-top: 3px;
+    color: #21acd7;
+    text-align: center;
+}
+div#form-header{
+    border-bottom: 3px solid #ececec;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 10px;
+}
+
+div#form-body{
+    min-height: 100%;
+    height: 0px;
+    padding: 3%;
+    overflow-y: auto;
+}
+font#login-brand-name{
+    margin-top: 20px;
+    font-size: 34px;
+    width: 100%;
+    color: #7D7D7D;
+}
+font#brand-name{
+    margin-top: 10px;
+    margin-left: 30px;
+    font-size: 34px;
+    width: auto;
+    color: #FFFFFF;
+}
+a#reset_password{
+    text-decoration: none;
+}
+.centre{
+    margin:auto;
+    position:absolute;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+}
+.centre-text{
+    position: absolute;
+    text-align: center;
+}
+.login-input{
+    width:80%;
+    margin-left:8%;
+    margin-right:8%;
+    margin-top:20px;
+    min-width:50px;
+}
+.login-button{
+    width:100px;
+    margin-top:20px;
+    position:absolute;
+    right:9%;
+}
+.button{
+    height:40px;
+    background-color: #e1eff5;
+    border-radius:20px;
+    font-weight:bold;
+}
+.menu-item{
+    background-color: #21acd7;
+    height: 30px;
+    margin-bottom: 5px;
+    line-height: 30px;
+    padding-left: 20px;
+    cursor: pointer;
+}
+
+@media screen and (max-width:700px){
+    div#content-body-action-dummy-parent{
+        margin-left: 0px; 
+    }
+    .menu-item{
+        height: 40px;
+        line-height: 40px;
+        width: 200px;
+        display: inline-block;
+        margin-bottom: 0;
+        margin-right: 10px;
+        text-align: center;
+        padding-left: 0px;
+    }
+    div#content-body-menu{
+        width:98%;
+        height: 40px;
+        white-space: nowrap;
+        overflow-x: scroll;
+        padding-bottom: 17px;
+    }
+}
+@media screen and (max-width:440px){
+    div#content{
+        display: none !important;
+    }
+    div#login-wraper{
+        display: none !important;
+    }
+    div#spinner-wraper{
+        display: none !important;
+    }
+    body{
+        background-color: #21ACD7 !important;
+        color: #fff;
+        content: "This resoliution is too low to load this application";
+    }
+}

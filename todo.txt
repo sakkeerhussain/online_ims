@@ -1,0 +1,10 @@
+1. reset password
+2. content page design
+3. add item
+4. add user
+5. add purchaces
+6. update stock on purchace
+7. add sales
+8. update stock on sale
+9. Create customer
+10. 
