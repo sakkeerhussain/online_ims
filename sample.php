@@ -10,9 +10,6 @@ spl_autoload_register(function($class_name) {
     }
 });
 
-$inv = new inventry();
-$invs = $inv->getInventryForSpecificCompanyAndItem();
-echo sizeof($invs);
-echo typeof($invs);
-print_r($invs);
+include './forms/16.php';
+echo get_form_html(16);
 ?>
