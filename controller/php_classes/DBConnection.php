@@ -70,20 +70,21 @@ class DBConnection {
         $model_vars = get_object_vars($model);
         $table_name = get_class($model);
         $field_and_values = '';
-        $query = 'UPDATE :table_name SET (:field_and_values) WHERE id='.$model->id;
+        $query = 'UPDATE `:table_name` SET :field_and_values WHERE id='.$model->id;
         foreach ($model_vars as $field => $value) {
             if ($value != null) {
-                if ($field_and_values == '') {
+                if ($field_and_values == '') {         
                     $field_and_values = '`' . $field . '` = '."'" . $value . "'";
                 } else {
-                    $field_and_values = ', `' . $field . '` = '."'" . $value . "'";
+                    $field_and_values = $field_and_values.', `' . $field . '` = '."'" . $value . "'";
                 }
             }
         }
 
+        $query = str_replace(':table_name', $table_name, $query);
         $query = str_replace(':field_and_values', $field_and_values, $query);
         if($this->executeQuery($query)){
-            return mysql_insert_id($this->handler);
+            return TRUE;
         }  else {
             return FALSE;
         }

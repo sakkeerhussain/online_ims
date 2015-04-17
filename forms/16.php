@@ -66,6 +66,9 @@ function get_form_html($id) {
                     $user->getUser();
                     $purchaces = $purchace_obj->getNotStockedPurchaces($user->company_id);
                     $i = 0;
+                    if($purchaces==NULL || sizeof($purchaces)==0){
+                        echo '<tr><td colspan="8"> No Purchace Found </td></tr>';
+                    } else{
                     foreach ($purchaces as $purchace) {
                         ?>
                         <tr id="<?php echo $purchace->id; ?>">
@@ -134,7 +137,7 @@ function get_form_html($id) {
                                                 $item = new item();
                                                 $item->id = $p_item->item_id;
                                                 $item->getItem();
-                                                echo $item->item_name . ' - ' . $item->item_code;
+                                                echo $item->item_name . ' - ' . $item->item_code .' (ID : '.$item->id.')';
                                                 ?>
                                             </td>
                                             <td>
@@ -155,6 +158,7 @@ function get_form_html($id) {
                         </tr>
                         <?php
                     }
+                }
                     ?>
                 </tbody>                               
             </table>
@@ -170,6 +174,9 @@ function get_form_html($id) {
             add_purchace_to_stock(data, function(message) {
                 row.hide();
                 row.next().hide();
+                if(row.parent('tbody').children('tr:visible').length==0){
+                    row.parent('tbody').html('<tr><td colspan="8"> No Purchace left more </td></tr>');
+                }
                 alert(message);
             }, function(message) {
                 alert(message);
