@@ -102,8 +102,10 @@ function get_form_html($id) {
                                      onclick="add_to_stock(this)" src="../ui/images/tick_button.png"/>
                             </td>
                             <td id="down_button" style="width: 20px;text-align: center; padding: 10px;">
-                                <img id="add_to_stock_button" style="width: 20px; height: 20px; cursor: pointer;"
-                                     onclick="toggle_items_visibility(this)" src="../ui/images/tick_button.png"/>
+                                <img id="toggle_button" style="width: 20px; height: 20px; cursor: pointer;"
+                                     onclick="toggle_items_visibility(this)" src="../ui/images/down_arrow.png"/>
+                                <img id="toggle_button" style="width: 20px; height: 20px; cursor: pointer; display: none;"
+                                     onclick="toggle_items_visibility(this)" src="../ui/images/up_arrow.png"/>
                             </td>
                         </tr>
                         <tr id="purchace_item" style="display: none;">
@@ -130,7 +132,7 @@ function get_form_html($id) {
                                             <td>
                                                 <?php
                                                 $item = new item();
-                                                $item->id = $p_item->id;
+                                                $item->id = $p_item->item_id;
                                                 $item->getItem();
                                                 echo $item->item_name . ' - ' . $item->item_code;
                                                 ?>
@@ -167,6 +169,7 @@ function get_form_html($id) {
             }
             add_purchace_to_stock(data, function(message) {
                 row.hide();
+                row.next().hide();
                 alert(message);
             }, function(message) {
                 alert(message);
@@ -175,6 +178,8 @@ function get_form_html($id) {
         function toggle_items_visibility(down_button) {
             var row = $(down_button).closest('tr');
             row.next('tr').fadeToggle();
+            row.find('img#toggle_button').toggle();
+            
         }
     </script>
 
