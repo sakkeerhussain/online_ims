@@ -47,8 +47,12 @@ if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){
                     $inv->addInventry();
                 }
             }
-            $message = "Purchace added to stock succesfully";
-            $responce = array('status'=>'success','error'=>'','data'=> array('message'=>$message));
+			if($purchace->markAsStocked()){
+            	$message = "Purchace added to stock succesfully";
+            	$responce = array('status'=>'success','error'=>'','data'=> array('message'=>$message));
+			}else{
+				$responce = array('status'=>'failed','error'=>'Purchace already stocked','data'=> array());
+			}
         }
     }
 }else{
