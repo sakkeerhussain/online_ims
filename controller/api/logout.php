@@ -13,7 +13,7 @@ spl_autoload_register(function($class_name) {
 
 
 //if (isset($_POST['id']) and !empty($_POST['id'])) {
-    $user = new User();
+    $user = new user();
 //    $user->id = $_POST['id'];
 
     if (session_destroy()) {
