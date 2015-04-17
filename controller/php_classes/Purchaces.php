@@ -63,6 +63,12 @@ class purchaces {
         $description = "Added new Purchace (" . $purchace->to_string() . ")";
         Log::i($this->tag, $description);
     }
+	
+	function markAsStocked(){
+		$query = "UPDATE `purchaces` SET `stocked`=1 WHERE `id` =".$this->id.";";
+		return $this->db_handler->executeQuery($query);
+	}
+	
     function getPurchace(){
         $this->db_handler->get_model($this,  $this->id);
         $purchace_item = new purchace_items();
