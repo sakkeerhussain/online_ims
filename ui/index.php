@@ -1,5 +1,3 @@
-<!doctype html>
-
 <?php
 //registering for class auto loading
 spl_autoload_register(function($class_name) {
@@ -37,7 +35,7 @@ spl_autoload_register(function($class_name) {
                 </div>
 
                 <form id="login_form" method="post">
-                    <input type="text" required id="user_name" placeholder="Email" class="login-input">
+                    <input type="text" required id="user_name" placeholder="Username" class="login-input">
                     <br/>
                     <input type="password" required id="password" placeholder="Password" class="login-input">
                     <br/>
@@ -75,6 +73,9 @@ spl_autoload_register(function($class_name) {
                                 </div>
                                 <div id="form-body">
                                     <!-- form loads here -->
+                                    <?php 
+//                                    include '../forms/16.php';
+                                    ?>
                                 </div>
                             </div>
                         </div>

@@ -10,9 +10,7 @@ spl_autoload_register(function($class_name) {
     }
 });
 
-sleep(2);
-
-$user = new User();
+$user = new user();
 if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){    
     $id = $_SESSION['user_id'];
     $user->id = $id;

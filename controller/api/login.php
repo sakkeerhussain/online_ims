@@ -10,11 +10,9 @@ spl_autoload_register(function($class_name) {
     }
 });
 
-sleep(2);
-
 if(isset($_POST['user_name']) and !empty($_POST['user_name']) 
         and isset($_POST['password']) and !empty($_POST['password'])){
-    $user = new User();
+    $user = new user();
     $user_name = $_POST['user_name'];
     $password = $_POST['password'];
     $result = $user->login($user_name, $password);

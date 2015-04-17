@@ -5,7 +5,7 @@
  *
  * @author Sakkeer Hussain
  */
-class Customer {
+class customer {
     
     public $id;
     public $customer_name;

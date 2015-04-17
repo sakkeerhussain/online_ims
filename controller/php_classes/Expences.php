@@ -5,7 +5,7 @@
  *
  * @author Sakkeer Hussain
  */
-class Expences {
+class expences {
     public $id;
     public $amount;
     public $description;

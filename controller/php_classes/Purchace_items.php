@@ -5,7 +5,7 @@
  *
  * @author Sakkeer Hussain
  */
-class Purchace_items {
+class purchace_items {
 
     public $id;
     public $purchace_id;

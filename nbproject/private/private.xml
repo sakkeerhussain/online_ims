@@ -3,17 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/piknik_ims/controller/api/get_form.php</file>
-            <file>file:/C:/xampp/htdocs/piknik_ims/forms/11.php</file>
-            <file>file:/C:/xampp/htdocs/piknik_ims/controller/api/logout.php</file>
-            <file>file:/C:/xampp/htdocs/piknik_ims/ui/css/style_screen.css</file>
-            <file>file:/C:/xampp/htdocs/piknik_ims/controller/php_classes/Item.php</file>
+            <file>file:/C:/xampp/htdocs/piknik_ims/controller/php_classes/purchaces.php</file>
+            <file>file:/C:/xampp/htdocs/piknik_ims/controller/php_classes/inventry.php</file>
+            <file>file:/C:/xampp/htdocs/piknik_ims/forms/16.php</file>
+            <file>file:/C:/xampp/htdocs/piknik_ims/controller/api/add_to_stock.php</file>
+            <file>file:/C:/xampp/htdocs/piknik_ims/controller/php_classes/wendors.php</file>
             <file>file:/C:/xampp/htdocs/piknik_ims/ui/index.php</file>
-            <file>file:/C:/xampp/htdocs/piknik_ims/controller/api/add_form_data.php</file>
-            <file>file:/C:/xampp/htdocs/piknik_ims/controller/php_classes/DBConnection.php</file>
-            <file>file:/C:/xampp/htdocs/piknik_ims/controller/php_classes/Bank_deposits.php</file>
-            <file>file:/C:/xampp/htdocs/piknik_ims/ui/js/event_handler.js</file>
+            <file>file:/C:/xampp/htdocs/piknik_ims/controller/php_classes/purchace_items.php</file>
             <file>file:/C:/xampp/htdocs/piknik_ims/ui/js/ajax.js</file>
+            <file>file:/C:/xampp/htdocs/piknik_ims/controller/php_classes/user.php</file>
         </group>
     </open-files>
 </project-private>

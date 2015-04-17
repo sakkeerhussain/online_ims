@@ -9,14 +9,16 @@
  *
  * @author Sakkeer Hussain
  */
-class Purchaces {
+class purchaces {
 
     public $id;
     public $wendor_id;
     public $purchace_manager_id;
+    public $company_id; 
     public $amount;
     public $created_at;
     public $last_edited;
+    public $stocked;
     
     private $purchace_items = array();
     private $db_handler;
@@ -29,11 +31,12 @@ class Purchaces {
     public function to_string() {
         $purchace_items = '';
         foreach ($this->purchace_items as $purchace_item) {
-            $purchace_items = $purchace_items.$purchace_item->to_string();
+            $purchace_items = $purchace_items.'['.$purchace_item->to_string().']';
         }
         return 'id : ' . $this->id . ' - '
                 . 'wendor_id : ' . $this->wendor_id . ' - '
                 . 'purchace_manager_id : ' . $this->purchace_manager_id . ' - '
+                . 'company_id : ' . $this->company_id . ' - '
                 . 'amount : ' . $this->amount . ' - '
                 . 'purchace_items : ' . $purchace_items . ' - '
                 . 'created_at : ' . $this->created_at . ' - '
@@ -62,9 +65,25 @@ class Purchaces {
     }
     function getPurchace(){
         $this->db_handler->get_model($this,  $this->id);
-        $purchace_item = new Purchace_items();
-        $purchace_items =  $purchace_item->getPurchace_items($this->id);
+        $purchace_item = new purchace_items();
+        $purchace_items = $purchace_item->getPurchace_items($this->id);
         $this->purchace_items = $purchace_items;
+    }
+    function getPurchaces($company_id){
+        $purchaces = $this->db_handler->get_model_list($this,  'company_id = '+$company_id);
+        foreach ($purchaces as $purchace) {
+            $purchace_item = new purchace_items();
+            $purchace->purchace_items =  $purchace_item->getPurchace_items($purchace->id);
+        }
+        return $purchaces;
+    }
+    function getNotStockedPurchaces($company_id){
+        $purchaces = $this->db_handler->get_model_list($this,  'company_id = '+$company_id." and stocked=0");
+        foreach ($purchaces as $purchace) {
+            $purchace_item = new purchace_items();
+            $purchace->purchace_items =  $purchace_item->getPurchace_items($purchace->id);
+        }
+        return $purchaces;
     }
 
 }

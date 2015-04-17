@@ -11,7 +11,7 @@
  *
  * @author Sakkeer Hussain
  */
-class User {
+class user {
 
     public $id;
     public $user_name;

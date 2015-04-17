@@ -66,6 +66,29 @@ class DBConnection {
         }
     }
 
+    function update_model($model) {
+        $model_vars = get_object_vars($model);
+        $table_name = get_class($model);
+        $field_and_values = '';
+        $query = 'UPDATE :table_name SET (:field_and_values) WHERE id='.$model->id;
+        foreach ($model_vars as $field => $value) {
+            if ($value != null) {
+                if ($field_and_values == '') {
+                    $field_and_values = '`' . $field . '` = '."'" . $value . "'";
+                } else {
+                    $field_and_values = ', `' . $field . '` = '."'" . $value . "'";
+                }
+            }
+        }
+
+        $query = str_replace(':field_and_values', $field_and_values, $query);
+        if($this->executeQuery($query)){
+            return mysql_insert_id($this->handler);
+        }  else {
+            return FALSE;
+        }
+    }
+
     function get_model($model, $id=null) {
         if($id==NULL){
             $id = $model->id;
@@ -93,17 +116,21 @@ class DBConnection {
             $query = $query . ' WHERE ' . $conditions;
         }
         $result = $this->executeQuery($query);
-        while ($row = mysql_fetch_assoc($result)) {
-            $obj = new $table_name;
-            foreach ($row as $key => $value) {
-                $obj->{$key} = $value;
+        if ($result) {
+            while ($row = mysql_fetch_assoc($result)) {
+                $obj = new $table_name;
+                foreach ($row as $key => $value) {
+                    $obj->{$key} = $value;
+                }
+                array_push($array, $obj);
             }
-            array_push($array, $obj);
-        }
-        if (empty($array)) {
-            return FALSE;
+            if (empty($array)) {
+                return FALSE;
+            } else {
+                return $array;
+            }
         } else {
-            return $array;
+            return FALSE;
         }
     }
 

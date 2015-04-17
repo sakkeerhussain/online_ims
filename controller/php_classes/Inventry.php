@@ -5,7 +5,7 @@
  *
  * @author Sakkeer Hussain
  */
-class Inventry {
+class inventry {
     
     public $id;
     public $item_id;
@@ -40,7 +40,18 @@ class Inventry {
         $description = "Added new Inventry(Stock) (". $inventry->to_string().")";
         Log::i($this->tag, $description);
     }
+    function updateInventry($inventry=null){
+        if($inventry==null){
+            $inventry = $this;
+        }
+        $this->db_handler->update_model($inventry);
+        $description = "Updated Inventry(Stock) (". $inventry->to_string().")";
+        Log::i($this->tag, $description);
+    }
     function getInventry(){
-        return $this->db_handler->get_model(new Inventry(),  $this->id);
+        return $this->db_handler->get_model($this,  $this->id);
+    }
+    function getInventryForSpecificCompanyAndItem(){
+        return $this->db_handler->get_model_list($this, "company_id=".$this->company_id." and item_id=".$this->item_id);
     }
 }

@@ -5,7 +5,7 @@
  *
  * @author Sakkeer Hussain
  */
-class Wendors {
+class wendors {
 
     public $id;
     public $wendor_name;
@@ -43,9 +43,11 @@ class Wendors {
         Log::i($this->tag, $description);
     }
     function getWendor(){
-        return $this->db_handler->get_model(new Wendors(),  $this->id);
+        return $this->db_handler->get_model($this,  $this->id);
+        
     }
     function getWendors(){
-        return $this->db_handler->get_model_list(new Wendors());
+        $wendors = $this->db_handler->get_model_list($this);
+        return $wendors;
     }
 }

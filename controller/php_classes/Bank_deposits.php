@@ -5,7 +5,7 @@
  *
  * @author Sakkeer Hussain
  */
-class Bank_deposits {
+class bank_deposits {
 
     public $id;
     public $cachier_id;

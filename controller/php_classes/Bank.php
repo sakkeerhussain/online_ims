@@ -11,7 +11,7 @@
  *
  * @author Sakkeer Hussain
  */
-class Bank {
+class bank {
     
     public $id;
     public $bank_name;

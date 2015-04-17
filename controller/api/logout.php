@@ -11,7 +11,6 @@ spl_autoload_register(function($class_name) {
     }
 });
 
-sleep(2);
 
 //if (isset($_POST['id']) and !empty($_POST['id'])) {
     $user = new User();

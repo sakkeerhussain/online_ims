@@ -11,7 +11,7 @@
  *
  * @author Sakkeer Hussain
  */
-class Sales {
+class sales {
 
     public $id;
     public $customer_id;

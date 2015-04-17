@@ -78,7 +78,6 @@ $(document).ready(function(e) {
 
 function setListeners() {
     setListenerForMenuItems();
-    setListenerForActionForms();
 }
 function setListenerForMenuItems() {
     $("div.menu-item").on('click', function(e) {
@@ -88,43 +87,47 @@ function setListenerForMenuItems() {
         get_form($(this).attr('id'),
                 function(html) {
                     $('div#form-body').html(html);
-                    setListenerForActionForms();
+//                    setFormActionListener();
                 }, function(message) {
             $('font#section_heading').empty();
             alert(message);
         });
     });
 }
-function setListenerForActionForms() {
-    $('form.action_form').on('submit', function(e) {
-        e.preventDefault();
-        id = $(this).attr('id');
-        operation = $(this).attr('operation');
-        console.log();
-        if (operation == 'add') {
-            if (id == 11) {
-                var data = {
-                    form_id: id,
-                    item_name: $('form input#item_name').val(),
-                    item_code: $('form input#item_code').val(),
-                    mrp: $('form input#mrp').val(),
-                            purchace_rate: $('form input#purchace_rate').val()
-                }
-                add_form_data(data, function(message) {
-                    $('form input#item_name').val('');
-                    $('form input#item_code').val('');
-                    $('form input#mrp').val('');
-                    $('form input#purchace_rate').val('');
-                    alert(message);
-                }, function(message) {
-                    alert(message);
-                });
-
-            } else {
-                alert("Invalid form " + id + ' - ' + operation);
-            }
-        } else {
-            alert("Invalid Operation " + id + ' - ' + operation);
-        }
-    });
-}
+//function setListenerForActionForms() {
+//    $('form.action_form').on('submit', function(e) {
+//        e.preventDefault();
+//        id = $(this).attr('id');
+//        operation = $(this).attr('operation');
+//        //console.log(id+operation);
+//        if (operation == 'add') {
+//            if (id == 11) {
+//                var data = {
+//                    form_id: id,
+//                    item_name: $('form input#item_name').val(),
+//                    item_code: $('form input#item_code').val(),
+//                    mrp: $('form input#mrp').val(),
+//                    purchace_rate: $('form input#purchace_rate').val()
+//                }
+//                add_form_data(data, function(message) {
+//                    $('form input#item_name').val('');
+//                    $('form input#item_code').val('');
+//                    $('form input#mrp').val('');
+//                    $('form input#purchace_rate').val('');
+//                    alert(message);
+//                }, function(message) {
+//                    alert(message);
+//                });
+//
+//            } else if (id == 7) {
+//                $('tbody#items_table_body').find('#item').each(function() {
+//                    consle.log($(this).html());
+//                });
+//            } else {
+//                alert("Invalid form " + id + ' - ' + operation);
+//            }
+//        } else {
+//            alert("Invalid Operation " + id + ' - ' + operation);
+//        }
+//    });
+//}

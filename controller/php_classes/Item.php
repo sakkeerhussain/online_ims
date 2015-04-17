@@ -5,7 +5,7 @@
  *
  * @author Sakkeer Hussain
  */
-class Item {
+class item {
     public $id ;
     public $item_name;
     public $item_code;
@@ -39,6 +39,9 @@ class Item {
         }
     }
     function getItem(){
-        return $this->db_handler->get_model(new Item(),  $this->id);
+        return $this->db_handler->get_model($this,  $this->id);
+    }
+    function getItems(){
+        return $this->db_handler->get_model_list($this,  $this->id);
     }
 }
