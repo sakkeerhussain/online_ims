@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2015 at 07:18 PM
+-- Generation Time: Apr 17, 2015 at 04:02 AM
 -- Server version: 5.6.14
 -- PHP Version: 5.5.6
 
@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `inventry` (
 
 INSERT INTO `inventry` (`id`, `item_id`, `in_stock_count`, `cutoff_count`, `selling_prize`, `company_id`, `tax_category_id`, `created_at`, `last_edited`) VALUES
 (1, 1, 100, 20, 250, 1, 1, '2015-04-08 10:15:41', '2015-04-08 10:15:41'),
-(2, 1, 100, 20, 250, 1, 1, '2015-04-08 10:15:43', '2015-04-08 10:15:43');
+(2, 2, 100, 20, 250, 1, 1, '2015-04-08 10:15:43', '2015-04-08 10:15:43');
 
 -- --------------------------------------------------------
 
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `item` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_edited` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `item`
@@ -201,7 +201,8 @@ INSERT INTO `item` (`id`, `item_name`, `item_code`, `mrp`, `purchace_rate`, `cre
 (1, 'Dry Dates', 'DD', 300, 200, '2015-04-08 09:58:21', '2015-04-08 09:58:21'),
 (2, 'Tomato', 'TMT', 40, 25, '2015-04-12 15:41:56', '2015-04-12 15:41:56'),
 (3, 'Ginger', 'GGR', 50, 30, '2015-04-12 15:45:17', '2015-04-12 15:45:17'),
-(4, 'Apple', 'APL', 70, 50, '2015-04-12 16:56:11', '2015-04-12 16:56:11');
+(4, 'Apple', 'APL', 70, 50, '2015-04-12 16:56:11', '2015-04-12 16:56:11'),
+(5, 'safdhdh', 'dfhdh', 10, 10, '2015-04-16 16:56:10', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -215,19 +216,22 @@ CREATE TABLE IF NOT EXISTS `purchaces` (
   `purchace_manager_id` int(11) NOT NULL,
   `company_id` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
+  `stocked` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_edited` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `purchaces`
 --
 
-INSERT INTO `purchaces` (`id`, `wendor_id`, `purchace_manager_id`, `company_id`, `amount`, `created_at`, `last_edited`) VALUES
-(1, 1, 2, 2, 9200, '2015-04-15 17:05:21', '2015-04-15 17:05:21'),
-(2, 3, 2, 2, 9205, '2015-04-15 17:06:41', '2015-04-15 17:06:41'),
-(3, 3, 2, 2, 1000, '2015-04-15 17:11:19', '2015-04-15 17:11:19');
+INSERT INTO `purchaces` (`id`, `wendor_id`, `purchace_manager_id`, `company_id`, `amount`, `stocked`, `created_at`, `last_edited`) VALUES
+(1, 1, 3, 1, 9200, 0, '2015-04-15 17:05:21', '2015-04-15 17:05:21'),
+(2, 3, 3, 1, 9205, 0, '2015-04-15 17:06:41', '2015-04-15 17:06:41'),
+(3, 3, 3, 1, 1000, 0, '2015-04-15 17:11:19', '2015-04-15 17:11:19'),
+(4, 1, 3, 1, 24, 0, '2015-04-16 16:45:59', '0000-00-00 00:00:00'),
+(5, 2, 3, 1, 13, 0, '2015-04-16 16:54:51', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -243,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `purchace_items` (
   `rate` int(11) NOT NULL,
   `creeated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `purchace_items`
@@ -256,7 +260,11 @@ INSERT INTO `purchace_items` (`id`, `purchace_id`, `item_id`, `quantity`, `rate`
 (4, 2, 1, 100, 50, '2015-04-15 17:15:29'),
 (5, 2, 4, 50, 79, '2015-04-15 17:15:29'),
 (6, 2, 2, 15, 17, '2015-04-15 17:15:29'),
-(7, 3, 3, 10, 100, '2015-04-15 17:15:29');
+(7, 3, 3, 10, 100, '2015-04-15 17:15:29'),
+(8, 4, 3, 3, 4, '2015-04-16 16:46:00'),
+(9, 4, 4, 4, 3, '2015-04-16 16:46:00'),
+(10, 5, 3, 2, 2, '2015-04-16 16:54:51'),
+(11, 5, 3, 3, 3, '2015-04-16 16:54:51');
 
 -- --------------------------------------------------------
 
@@ -314,7 +322,7 @@ CREATE TABLE IF NOT EXISTS `sales_items` (
   `quantity` int(11) NOT NULL,
   `tax` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_edited` timestamp NOT NULL DEFAULT  '0000-00-00 00:00:00',
+  `last_edited` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
@@ -374,51 +382,17 @@ CREATE TABLE IF NOT EXISTS `user` (
   `last_accessed` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_name` (`user_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=39 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `user_name`, `name`, `company_id`, `wacher_id`, `password_hashed`, `access_tocken`, `user_type_id`, `created_at`, `last_edited`, `last_accessed`) VALUES
-(1, 'sample1@gmail.com', 'Sample 1', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 1, '2015-04-08 09:21:37', '2015-04-08 09:21:37', '2015-04-08 09:21:37'),
-(2, 'sample2@gmail.com', 'Sample 2', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 2, '2015-04-08 09:21:38', '2015-04-08 09:21:38', '2015-04-08 09:21:38'),
-(3, 'sample3@gmail.com', 'Sample 3', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:21:38', '2015-04-08 09:21:38', '2015-04-08 09:21:38'),
-(4, 'sample4@gmail.com', 'Sample 4', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 4, '2015-04-08 09:21:39', '2015-04-08 09:21:39', '2015-04-08 09:21:39'),
-(5, 'sample5@gmail.com', 'Sample 5', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:21:39', '2015-04-08 09:21:39', '2015-04-08 09:21:39'),
-(6, 'sample6@gmail.com', 'Sample 6', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:22:09', '2015-04-08 09:22:09', '2015-04-08 09:22:09'),
-(7, 'sample7@gmail.com', 'Sample 7', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:22:09', '2015-04-08 09:22:09', '2015-04-08 09:22:09'),
-(8, 'sample8@gmail.com', 'Sample 8', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:22:10', '2015-04-08 09:22:10', '2015-04-08 09:22:10'),
-(9, 'sample9@gmail.com', 'Sample 9', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:22:10', '2015-04-08 09:22:10', '2015-04-08 09:22:10'),
-(10, 'sample10@gmail.com', 'Sample 10', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:22:10', '2015-04-08 09:22:10', '2015-04-08 09:22:10'),
-(11, 'sample11@gmail.com', 'Sample 11', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:22:10', '2015-04-08 09:22:10', '2015-04-08 09:22:10'),
-(12, 'sample12@gmail.com', 'Sample 12', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:22:10', '2015-04-08 09:22:10', '2015-04-08 09:22:10'),
-(13, 'sample13@gmail.com', 'Sample 13', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:22:10', '2015-04-08 09:22:10', '2015-04-08 09:22:10'),
-(14, 'sample14@gmail.com', 'Sample 14', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:28:06', '2015-04-08 09:28:06', '2015-04-08 09:28:06'),
-(15, 'sample15@gmail.com', 'Sample 15', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:28:06', '2015-04-08 09:28:06', '2015-04-08 09:28:06'),
-(16, 'sample16@gmail.com', 'Sample 16', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:28:07', '2015-04-08 09:28:07', '2015-04-08 09:28:07'),
-(17, 'sample17@gmail.com', 'Sample 17', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:28:07', '2015-04-08 09:28:07', '2015-04-08 09:28:07'),
-(18, 'sample18@gmail.com', 'Sample 18', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:28:19', '2015-04-08 09:28:19', '2015-04-08 09:28:19'),
-(19, 'sample19@gmail.com', 'Sample 19', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:28:19', '2015-04-08 09:28:19', '2015-04-08 09:28:19'),
-(20, 'sample20@gmail.com', 'Sample 20', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:28:19', '2015-04-08 09:28:19', '2015-04-08 09:28:19'),
-(21, 'sample21@gmail.com', 'Sample 21', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:28:19', '2015-04-08 09:28:19', '2015-04-08 09:28:19'),
-(22, 'sample22@gmail.com', 'Sample 22', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:28:20', '2015-04-08 09:28:20', '2015-04-08 09:28:20'),
-(23, 'sample23@gmail.com', 'Sample 23', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:28:20', '2015-04-08 09:28:20', '2015-04-08 09:28:20'),
-(24, 'sample24@gmail.com', 'Sample 24', 2, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:28:20', '2015-04-08 09:28:20', '2015-04-08 09:28:20'),
-(25, 'sample25@gmail.com', 'Sample 25', 2, 3, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:29:35', '2015-04-08 09:29:35', '2015-04-08 09:29:35'),
-(26, 'sample26@gmail.com', 'Sample 26', 2, 3, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:29:35', '2015-04-08 09:29:35', '2015-04-08 09:29:35'),
-(27, 'sample27@gmail.com', 'Sample 27', 2, 3, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:29:35', '2015-04-08 09:29:35', '2015-04-08 09:29:35'),
-(28, 'sample28@gmail.com', 'Sample 28', 2, 3, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:29:35', '2015-04-08 09:29:35', '2015-04-08 09:29:35'),
-(29, 'sample29@gmail.com', 'Sample 29', 2, 3, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:37:11', '2015-04-08 09:37:11', '2015-04-08 09:37:11'),
-(30, 'sample30@gmail.com', 'Sample 30', 2, 3, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:37:12', '2015-04-08 09:37:12', '2015-04-08 09:37:12'),
-(31, 'sample31@gmail.com', 'Sample 31', 2, 3, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:37:12', '2015-04-08 09:37:12', '2015-04-08 09:37:12'),
-(32, 'sample32@gmail.com', 'Sample 32', 2, 3, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:37:12', '2015-04-08 09:37:12', '2015-04-08 09:37:12'),
-(33, 'sample33@gmail.com', 'Sample 33', 2, 3, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:37:13', '2015-04-08 09:37:13', '2015-04-08 09:37:13'),
-(34, 'sample34@gmail.com', 'Sample 34', 2, 3, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:37:13', '2015-04-08 09:37:13', '2015-04-08 09:37:13'),
-(35, 'sample35@gmail.com', 'Sample 35', 2, 3, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:37:13', '2015-04-08 09:37:13', '2015-04-08 09:37:13'),
-(36, 'sample36@gmail.com', 'Sample 36', 2, 3, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:38:09', '2015-04-08 09:38:09', '2015-04-08 09:38:09'),
-(37, 'sample37@gmail.com', 'Sample 37', 2, 3, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:38:09', '2015-04-08 09:38:09', '2015-04-08 09:38:09'),
-(38, 'sample38@gmail.com', 'Sample 38', 2, 3, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:38:10', '2015-04-08 09:38:10', '2015-04-08 09:38:10');
+(1, 'admin', 'Pik Nik admin', 0, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 4, '2015-04-08 09:21:37', '2015-04-08 09:21:37', '2015-04-08 09:21:37'),
+(2, 'company_admin1', 'Admin company 1', 1, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 3, '2015-04-08 09:21:38', '2015-04-08 09:21:38', '2015-04-08 09:21:38'),
+(3, 'purchace1', 'Purchace manager company 1', 1, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 2, '2015-04-08 09:21:38', '2015-04-08 09:21:38', '2015-04-08 09:21:38'),
+(4, 'pos1', 'POS company 1', 1, 0, '81dc9bdb52d04dc20036dbd8313ed055', NULL, 1, '2015-04-08 09:21:39', '2015-04-08 09:21:39', '2015-04-08 09:21:39');
 
 -- --------------------------------------------------------
 
