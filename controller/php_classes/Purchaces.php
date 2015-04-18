@@ -14,12 +14,11 @@ class purchaces {
     public $id;
     public $wendor_id;
     public $purchace_manager_id;
-    public $company_id; 
+    public $company_id;
     public $amount;
     public $created_at;
     public $last_edited;
     public $stocked;
-    
     private $purchace_items = array();
     private $db_handler;
     private $tag = 'PURCHACE CONTROLLER';
@@ -31,7 +30,7 @@ class purchaces {
     public function to_string() {
         $purchace_items = '';
         foreach ($this->purchace_items as $purchace_item) {
-            $purchace_items = $purchace_items.'['.$purchace_item->to_string().']';
+            $purchace_items = $purchace_items . '[' . $purchace_item->to_string() . ']';
         }
         return 'id : ' . $this->id . ' - '
                 . 'wendor_id : ' . $this->wendor_id . ' - '
@@ -42,12 +41,12 @@ class purchaces {
                 . 'created_at : ' . $this->created_at . ' - '
                 . 'last_edited : ' . $this->last_edited;
     }
-    
-    public function setPurchaceItems($purchace_items){
+
+    public function setPurchaceItems($purchace_items) {
         $this->purchace_items = $purchace_items;
     }
-    
-    public function getPurchaceItems(){
+
+    public function getPurchaceItems() {
         return $this->purchace_items;
     }
 
@@ -63,31 +62,33 @@ class purchaces {
         $description = "Added new Purchace (" . $purchace->to_string() . ")";
         Log::i($this->tag, $description);
     }
-	
-	function markAsStocked(){
-		$query = "UPDATE `purchaces` SET `stocked`=1 WHERE `id` =".$this->id.";";
-		return $this->db_handler->executeQuery($query);
-	}
-	
-    function getPurchace(){
-        $this->db_handler->get_model($this,  $this->id);
+
+    function markAsStocked() {
+        $query = "UPDATE `purchaces` SET `stocked`=1 WHERE `id` =" . $this->id . ";";
+        return $this->db_handler->executeQuery($query);
+    }
+
+    function getPurchace() {
+        $this->db_handler->get_model($this, $this->id);
         $purchace_item = new purchace_items();
         $purchace_items = $purchace_item->getPurchace_items($this->id);
         $this->purchace_items = $purchace_items;
     }
-    function getPurchaces($company_id){
-        $purchaces = $this->db_handler->get_model_list($this,  'company_id = '+$company_id);
+
+    function getPurchaces($company_id) {
+        $purchaces = $this->db_handler->get_model_list($this, 'company_id = ' + $company_id);
         foreach ($purchaces as $purchace) {
             $purchace_item = new purchace_items();
-            $purchace->purchace_items =  $purchace_item->getPurchace_items($purchace->id);
+            $purchace->purchace_items = $purchace_item->getPurchace_items($purchace->id);
         }
         return $purchaces;
     }
-    function getNotStockedPurchaces($company_id){
-        $purchaces = $this->db_handler->get_model_list($this,  'company_id = '+$company_id." and stocked=0");
+
+    function getNotStockedPurchaces($company_id) {
+        $purchaces = $this->db_handler->get_model_list($this, 'company_id = ' + $company_id . " and stocked=0");
         foreach ($purchaces as $purchace) {
             $purchace_item = new purchace_items();
-            $purchace->purchace_items =  $purchace_item->getPurchace_items($purchace->id);
+            $purchace->purchace_items = $purchace_item->getPurchace_items($purchace->id);
         }
         return $purchaces;
     }

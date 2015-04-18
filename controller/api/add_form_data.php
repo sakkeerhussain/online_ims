@@ -16,8 +16,43 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
     if (isset($_POST['form_id']) and !empty($_POST['form_id'])) {
         $form_id = $_POST['form_id'];
         $tag = "ADD_FORM_DATA";
-        if ($form_id == 7) {
-            if (isset($_POST['wendor_id']) and !empty($_POST['wendor_id']) and isset($_POST['total']) and !empty($_POST['total']) and isset($_POST['items']) and !empty($_POST['items'])) {
+        if ($form_id == 1) {
+            if (isset($_POST['customer_id']) 
+                    and isset($_POST['total']) and !empty($_POST['total']) 
+                    and isset($_POST['net_amount']) and !empty($_POST['net_amount']) 
+                    and isset($_POST['tax_amount']) and !empty($_POST['tax_amount']) 
+                    and isset($_POST['items']) and !empty($_POST['items'])) {
+                $sale = new sales();
+                $sale->customer_id = $_POST['customer_id'];
+                $sale->amount = $_POST['total'];
+                $sale->net_amount = $_POST['net_amount'];
+                $sale->tax_amount = $_POST['tax_amount'];
+                $user = new user();
+                $user->id = $_SESSION['user_id'];
+                $user->getUser();
+                $sale->company_id = $user->company_id;
+                $sales_items = array();
+                foreach ($_POST['items'] as $sales_array_item) {
+                    $sales_item = new sales_items();
+                    $sales_item->item_id = $sales_array_item['id'];
+                    $sales_item->quantity = $sales_array_item['quantity'];
+                    $sales_item->rate = $sales_array_item['rate'];
+                    $sales_item->tax = $sales_array_item['tax'];
+                    array_push($sales_items, $sales_item);
+                }
+                $sale->setSalesItems($sales_items);
+                $sale->addSales();
+                $message = "Sale completed successfuly";
+                $responce = array('status' => 'success', 'error' => ''.$sale->to_string(), 'data' => array("message" => $message));
+            } else {
+                ob_start();
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }
+        } else if ($form_id == 7) {
+            if (isset($_POST['wendor_id']) and !empty($_POST['wendor_id']) 
+                    and isset($_POST['total']) and !empty($_POST['total']) 
+                    and isset($_POST['items']) and !empty($_POST['items'])) {
                 $purchace = new purchaces();
                 $purchace->amount = $_POST['total'];
                 $purchace->wendor_id = $_POST['wendor_id'];
@@ -26,7 +61,6 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $user->id = $_SESSION['user_id'];
                 $user->getUser();
                 $purchace->company_id = $user->company_id;
-                $message = "";
                 $purchace_items = array();
                 foreach ($_POST['items'] as $items_array_item) {
                     $purchace_item = new purchace_items();
@@ -41,7 +75,6 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message));
             } else {
                 ob_start();
-                print_r($_POST);
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }

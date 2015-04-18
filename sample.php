@@ -10,6 +10,6 @@ spl_autoload_register(function($class_name) {
     }
 });
 
-include './forms/16.php';
-echo get_form_html(16);
+include './forms/1.php';
+echo get_form_html(1);
 ?>

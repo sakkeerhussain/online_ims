@@ -29,7 +29,7 @@ function get_form_html($id) {
 
     </div>
     <div style="margin-top: 30px; background-color:transparent;padding-bottom: 100px;">
-        <form action="#" method="post" onsubmit="return false" class="action_form" operation="add" style="width:100%;">
+        <form action="#" method="post" onsubmit="return false" class="action_form" operation="add" style="width:30%;">
             <table style="width:100%;">
                 <tr>
                     <td class="field_name">                    
@@ -37,7 +37,7 @@ function get_form_html($id) {
                     </td>
                     <td class="field"> 
                         <div class="parent">
-                            <input id="wendor_id" onfocus="$(this).css('border', '0px')" required list="wendors" autocomplete="off" />
+                            <input id="wendor_id" onfocus="$(this).css('border', '0px')" required list="wendors" autocomplete="off" style="border: 0;" />
                             <datalist id="wendors">
                                 <?php
                                 $wendor = new wendors();
@@ -140,9 +140,9 @@ function get_form_html($id) {
                                         <td>
                                             <input type="text" min="0" required  id="total" disabled/>
                                         </td>
-                                        <td style="width: 20px;text-align: center; padding-right: 5px;">
-                                            <font id="delete_button" onclick="delete_this_row(this)" style="color: #f00; cursor: pointer;">X</font>
-                                            <font id="activate_button" onclick="enable_this_row(this)" style="color: #f00; cursor: pointer; display: none;">Y</font>
+                                        <td style="width: 20px; text-align: center; padding-right: 5px;">
+                                            <img id="delete_button" onclick="delete_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto;  margin-left: auto;" src="../ui/images/cross_button.png"/>
+                                            <img id="activate_button" onclick="enable_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto; margin-left: auto; display: none;" src="../ui/images/tick_button.png" />
                                         </td>
                                     </tr>
                                     <?php
@@ -221,6 +221,7 @@ function get_form_html($id) {
             row.find('input').css('border',"0px");
             $(delete_btn).css('display','none');
             $(delete_btn).siblings().first().css('display','block');
+            $(delete_btn).parent('td').css('text-align', 'centre');
             calculate_purchace_total();
         }
         function enable_this_row(enable_btn) {
@@ -230,15 +231,18 @@ function get_form_html($id) {
             row.find('input').prop('required','required');
             $(enable_btn).siblings().first().css('display','block');
             $(enable_btn).css('display','none');
+            $(enable_btn).parent('td').css('text-align', 'centre');
             calculate_purchace_total();
         }
         function add_purchace_item() {
-            var row = '<tr  status="active"><td style="text-align: center;"></td><td><input type="text" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
+            var row = '<tr  status="active" slno=""><td style="text-align: center;"></td><td>'
+                    +'<input type="text" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
                     +'</td><td><input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>'
                     +'</td><td><input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>'
-                    +'</td><td><input type="text" min="0" required  id="total" disabled/></td><td style="width: 20px;text-align: center; padding-right: 5px;">'
-                    +'<font id="delete_button" onclick="delete_this_row(this)" style="color: #f00; cursor: pointer;">X</font>'
-                    +'<font id="activate_button" onclick="enable_this_row(this)" style="color: #f00; cursor: pointer; display: none;">Y</font></td></tr>';
+                    +'</td><td><input type="text" min="0" required  id="total" disabled/></td><td style="width: 20px; text-align: center; padding-right: 5px;">'
+                    +'<img id="delete_button" onclick="delete_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto;  margin-left: auto;" src="../ui/images/cross_button.png"/>'
+                    +'<img id="activate_button" onclick="enable_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto; margin-left: auto; display: none;" src="../ui/images/tick_button.png" />'
+                    +'</td></tr>';
             var lastcount = $('table#items_table tbody tr:last-child').attr('slno');
             $('table#items_table tbody').append(row);
             lastcount = parseInt(lastcount) + 1;

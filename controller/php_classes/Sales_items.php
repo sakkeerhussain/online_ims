@@ -45,7 +45,9 @@ class sales_items {
         Log::i($this->tag, $description);
     }
     function getSaleItem(){
-        return $this->db_handler->get_model(new SaleItem(),  $this->id);
+        return $this->db_handler->get_model($this,  $this->id);
     }
-
+    function getSaleItems($sale_id){
+        return $this->db_handler->get_model_list($this,  'sale_id = '.$sale_id);
+    }
 }

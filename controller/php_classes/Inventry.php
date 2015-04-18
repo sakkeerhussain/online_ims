@@ -54,4 +54,7 @@ class inventry {
     function getInventryForSpecificCompanyAndItem(){
         return $this->db_handler->get_model_list($this, "company_id=".$this->company_id." and item_id=".$this->item_id);
     }
+    function getInventryForSpecificCompany($company_id){
+        return $this->db_handler->get_model_list($this, "company_id=".$company_id);
+    }
 }
