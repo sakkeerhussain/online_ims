@@ -16,8 +16,8 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
     if (isset($_POST['menu_item_id']) and !empty($_POST['menu_item_id'])) {
         $id = $_POST['menu_item_id'];
         $file_name = "../../forms/" . $id . ".php";
-        include $file_name;
         if (file_exists($file_name)) {
+            include $file_name;
             $data = get_form_html($id);
             $responce = array('status' => 'success', 'error' => '', 'data' => array('form' => $data));
         } else {
