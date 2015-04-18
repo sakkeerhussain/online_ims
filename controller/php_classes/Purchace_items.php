@@ -44,7 +44,7 @@ class purchace_items {
         return $this->db_handler->get_model(new Purchace(),  $this->id);
     }
     function getPurchace_items($purchace_id){
-        $purchace_items = $this->db_handler->get_model_list(new Purchace_items(),  'purchace_id = '.$purchace_id);
+        $purchace_items = $this->db_handler->get_model_list($this,  'purchace_id = '.$purchace_id);
         return $purchace_items;
     }
 

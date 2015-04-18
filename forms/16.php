@@ -10,7 +10,7 @@ function get_form_html($id) {
 
 
     </div>
-    <div style="margin-top: 30px; background-color:transparent;padding-bottom: 100px;">
+    <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
         <style>
             div#purchace_items td{
                 border: 1px solid #21ACD7;
@@ -113,7 +113,7 @@ function get_form_html($id) {
                         </tr>
                         <tr id="purchace_item" style="display: none;">
                             <td colspan="8" style="padding:0 0 20px 0;">
-                                <table style="border-collapse: collapse; width: 80%; color: #21ACD7; float: right;">
+                                <table style="border-collapse: collapse; background-color: #c0effd; width: 80%; color: #21ACD7; float: right;">
                                     <tr>
                                         <td>
                                             ITEM

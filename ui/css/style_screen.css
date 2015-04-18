@@ -156,10 +156,10 @@ div#form-header{
 }
 
 div#form-body{
-    height: calc(94% - 33px);
-    height: -moz-calc(94% - 33px);
-    height: -webkit-calc(94% - 33px);
-    padding: 3%;
+    height: calc(100% - 53px);
+    height: -moz-calc(100% - 53px);
+    height: -webkit-calc(100% - 53px);
+    padding: 10px;
     overflow-y: auto;
 }
 font#login-brand-name{

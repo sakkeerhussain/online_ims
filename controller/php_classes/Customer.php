@@ -43,7 +43,9 @@ class customer {
         Log::i($this->tag, $description);
     }
     function getCustomer(){
-        return $this->db_handler->get_model(new Customer(),  $this->id);
+        return $this->db_handler->get_model($this,  $this->id);
     }
-
+    function getCustomers($company_id){
+        return $this->db_handler->get_model_list($this,  'company_id = '.$company_id);
+    }
 }
