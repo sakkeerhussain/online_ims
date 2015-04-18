@@ -29,7 +29,7 @@ function get_form_html($id) {
 
     </div>
     <div style="margin-top: 30px; background-color:transparent;padding-bottom: 100px;">
-        <form action="#" method="post" onsubmit="return false" class="action_form" operation="add" style="width:30%;">
+        <form action="#" method="post" onsubmit="return false" class="action_form" operation="add" >
             <table style="width:100%;">
                 <tr>
                     <td class="field_name">                    
