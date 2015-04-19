@@ -48,6 +48,7 @@ function get_form_html($id) {
                                 $customers = $customer_obj->getCustomers($user->company_id);
                                 foreach ($customers as $customer) {
                                     echo '<option id="' . $customer->id
+                                    . '" customer_name="' . $customer->customer_name 
                                     . '" value="' . $customer->customer_name . ' ( ID : ' . $customer->id . ')" >'
                                     . $customer->customer_name . ' ( ID : ' . $customer->id . ')'
                                     . '</option>';
@@ -127,6 +128,7 @@ function get_form_html($id) {
                                         . ' stock_count="' . $inv->in_stock_count . '"'
                                         . ' selling_pize="' . $inv->selling_prize . '"'
                                         . ' tax="' . $tax_category->tax_percentage . '"'
+                                        . ' item_name="' . $item->item_name . '"'
                                         . ' value="' . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ')" >'
                                         . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ')'
                                         . '</option>';
@@ -147,7 +149,7 @@ function get_form_html($id) {
                                             <input type="number" min="0" step="any" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>
                                         </td>
                                         <td>
-                                            <input type="text"  value="0" min="0" required disabled onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>
+                                            <input type="text"  value="0" min="0" required disabled id="rate"/>
                                         </td>
                                         <td>
                                             <input type="text" min="0" required  id="total" disabled/>
@@ -214,7 +216,7 @@ function get_form_html($id) {
                 row.find('input#rate').val(selling_prize);
                 row.find('input#rate').attr('tax', tax);
                 row.find('input#quantity').prop('max', stock_count);
-                //alert('selling_prize : '+selling_prize+' stock_count : '+stock_count);
+                calculate_total(row.find('input#rate').get(0));
             }
         }
         function calculate_total(field) {
@@ -222,9 +224,11 @@ function get_form_html($id) {
             var $quantity = parseFloat($parent.find('input#quantity').val());
             var $rate = parseFloat($parent.find('input#rate').val());
             var $total = $quantity * $rate;
+            $total = $total.toFixed(2);
             if ($.isNumeric($total)) {
                 var $tax_percentage = parseFloat($parent.find('input#rate').attr('tax'));
                 var $tax = $total * $tax_percentage / 100;
+                //$tax = $tax.toFixed(2);
                 $parent.find('input#total').val($total);
                 $parent.find('input#total').attr('tax', $tax);
             } else {
@@ -247,6 +251,8 @@ function get_form_html($id) {
                     total_tax = parseFloat(total_tax) + parseFloat(item_tax);
                 }
             });
+            total = total.toFixed(2);
+            total_tax = total_tax.toFixed(2);
             $('span#total').html(total);
             $('span#total').attr('tax', total_tax);
         }
@@ -295,8 +301,10 @@ function get_form_html($id) {
                 var customer_option_obj = $('datalist#customers').find("option[value='" + customer + "']");
                 if (customer_option_obj.length == "0") {
                     var customer_id = 0;
+                    var customer_name ='Not Registered Customer';
                 } else {
                     var customer_id = customer_option_obj.attr('id');
+                    var customer_name = customer_option_obj.attr('customer_name');
                 }
                 
                 
@@ -315,13 +323,17 @@ function get_form_html($id) {
                             return;
                         } else {
                             var id = item_option_obj.attr('id');
+                            var item_name = item_option_obj.attr('item_name');
                             var quantity = $(this).find('input#quantity').val();
                             var rate = $(this).find('input#rate').val();
                             var tax = $(this).find('input#total').attr('tax');
+                            var total = $(this).find('input#total').val();
                             var item = {
                                 id: id,
                                 quantity: quantity,
                                 rate: rate,
+                                item_name: item_name,
+                                total: total,
                                 tax:tax
                             }
                             items[i++] = item;
@@ -351,7 +363,8 @@ function get_form_html($id) {
                     }
                     add_form_data(data, function(message) {
                         $('form.action_form').get(0).reset();
-                        alert(message);
+                        //alert(message);
+                        print_bill(data, customer_name);
                     }, function(message) {
                         alert(message);
                     });
@@ -359,6 +372,26 @@ function get_form_html($id) {
                     alert("Invalid Operation " + id + ' - ' + operation);
                 }
             });
+            function print_bill(data, customer_name){
+                var html = '';
+                html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table><tr><td>Customer</td><td>:</td><td>"+customer_name+"</td></tr></table></div>";
+                html = html + "<div style=\"border-top:1px dashed #000; margin:0 auto;padding:10px 0;\"><table style=\"width:100%;\"><tr style=\"border-bottom: 1px solid #000; border-top: 1px solid #000;\">"
+                        +"<td style=\"width:40%;\">Description</td><td style=\"width:10%;\">Qty</td><td style=\"width:10%;\">Rate</td><td style=\"width:15%;\">Amount</td><td style=\"width:10%;\">Tax</td><td style=\"width:15%;\">Total</td></tr>";
+                var i =0;
+                for(var key in data.items){
+                    var item = data.items[key];
+                    html = html + "<tr><td>"+item.item_name+"</td><td>"+item.quantity+"</td><td>"+item.rate+"</td><td>"+(parseFloat(item.total)-parseFloat(item.tax))+"</td><td>"+item.tax+"</td><td>"+item.total+"</td></tr>";                    
+                }
+                html = html + "</table></div>";
+                html = html + "<div style=\"border-top:1px dashed #000; margin:0 auto;padding:10px\"><table>";
+                html = html + "<tr><td>Net. Amount</td><td>:</td><td>"+data.net_amount+"</td></tr>";
+                html = html + "<tr><td>Tax</td><td>:</td><td>"+data.tax_amount+"</td></tr>";
+                html = html + "<tr><td>Total</td><td>:</td><td>"+data.total+"</td></tr>";
+                html = html + "</table></div>";
+                console.log("Creating bill : "+html);
+                $('div#print_container_body').html(html);
+                print();
+            }
         });
     </script>
 

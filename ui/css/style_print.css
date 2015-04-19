@@ -1,4 +1,38 @@
 @charset "utf-8";
 html,body{
-    width: 300px;
+    width: 100%;
+}
+div#spinner-wraper{
+    display:none !important;
+}
+div#login-wraper{
+    display:none !important;
+}
+div#content{
+    display:none !important;
+}
+div#print_container{
+    display: block;
+    width: 100%;
+    margin: 0;
+    float: none;
+    padding: 3px;
+}
+div#print_container_header{
+    text-align: center;
+}
+div#print_container_body{
+    margin: 20px auto 0 auto;
+}
+font{
+    color: #000;
+}
+font#print_container_header_company_name{
+    font-size: 24px;
+}
+font#print_container_header_company_service{
+    font-size: 18px;
+}
+font#print_container_header_company_adderss{
+    font-size: 16px;
 }

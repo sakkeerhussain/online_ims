@@ -70,6 +70,9 @@ div#content{
     left: 0;
     right: 0;
 }
+div#print_container{
+    display: none;
+}
 div#login-brand-name{
     height:85px;
     width:100%;
