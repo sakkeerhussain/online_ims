@@ -53,9 +53,17 @@ class sales {
         foreach ($this->sales_items as $sales_item) {
             $sales_item->sale_id = $sale_id;
             $sales_item->addSaleItem();
+            $inv = new inventry();
+            $inv->company_id = $sale->company_id;
+            $inv->item_id = $sales_item->item_id;
+            $invs = $inv->getInventryForSpecificCompanyAndItem();
+            $inv = $invs[0];  
+            $inv->in_stock_count = $inv->in_stock_count - $sales_item->quantity; 
+            $inv->updateInventry();
         }
         $description = "Added new Sale (". $sale->to_string().")";
         Log::i($this->tag, $description);
+        return $sale_id;
     }
     function getSale(){
         $this->db_handler->get_model($this,  $this->id);

@@ -81,7 +81,7 @@ function setListeners() {
 }
 function setListenerForMenuItems() {
     $("div.menu-item").on('click', function(e) {
-        heading = $(this).find('font#menu-item-font').html();
+        var heading = $(this).find('font#menu-item-font').html();
         $('div#form-body').empty();
         $('font#section_heading').html(heading);
         get_form($(this).attr('id'),
