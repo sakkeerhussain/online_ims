@@ -72,7 +72,7 @@ class DBConnection {
         $field_and_values = '';
         $query = 'UPDATE `:table_name` SET :field_and_values WHERE id='.$model->id;
         foreach ($model_vars as $field => $value) {
-            if ($value != null) {
+            if ($value != null || $value == 0 || $value == '') {
                 if ($field_and_values == '') {         
                     $field_and_values = '`' . $field . '` = '."'" . $value . "'";
                 } else {
@@ -80,7 +80,6 @@ class DBConnection {
                 }
             }
         }
-
         $query = str_replace(':table_name', $table_name, $query);
         $query = str_replace(':field_and_values', $field_and_values, $query);
         if($this->executeQuery($query)){

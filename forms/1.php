@@ -48,7 +48,7 @@ function get_form_html($id) {
                                 $customers = $customer_obj->getCustomers($user->company_id);
                                 foreach ($customers as $customer) {
                                     echo '<option id="' . $customer->id
-                                    . '" customer_name="' . $customer->customer_name 
+                                    . '" customer_name="' . $customer->customer_name
                                     . '" value="' . $customer->customer_name . ' ( ID : ' . $customer->id . ')" >'
                                     . $customer->customer_name . ' ( ID : ' . $customer->id . ')'
                                     . '</option>';
@@ -118,20 +118,22 @@ function get_form_html($id) {
                                     $invs = array();
                                     $invs = $inv->getInventryForSpecificCompany($user->company_id);
                                     foreach ($invs as $inv) {
-                                        $item = new item();
-                                        $item->id = $inv->item_id;
-                                        $item->getItem();
-                                        $tax_category = new tax_category();
-                                        $tax_category->id = $inv->tax_category_id;
-                                        $tax_category->getTaxCategory();
-                                        echo '<option id="' . $item->id . '"'
-                                        . ' stock_count="' . $inv->in_stock_count . '"'
-                                        . ' selling_pize="' . $inv->selling_prize . '"'
-                                        . ' tax="' . $tax_category->tax_percentage . '"'
-                                        . ' item_name="' . $item->item_name . '"'
-                                        . ' value="' . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ')" >'
-                                        . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ')'
-                                        . '</option>';
+                                        if ($inv->in_stock_count > 0) {
+                                            $item = new item();
+                                            $item->id = $inv->item_id;
+                                            $item->getItem();
+                                            $tax_category = new tax_category();
+                                            $tax_category->id = $inv->tax_category_id;
+                                            $tax_category->getTaxCategory();
+                                            echo '<option id="' . $item->id . '"'
+                                            . ' stock_count="' . $inv->in_stock_count . '"'
+                                            . ' selling_pize="' . $inv->selling_prize . '"'
+                                            . ' tax="' . $tax_category->tax_percentage . '"'
+                                            . ' item_name="' . $item->item_name . '"'
+                                            . ' value="' . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ')" >'
+                                            . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ')'
+                                            . '</option>';
+                                        }
                                     }
                                     ?>  
                                 </datalist>
@@ -279,13 +281,13 @@ function get_form_html($id) {
         }
         function add_purchace_item() {
             var row = '<tr  status="active" slno=""><td style="text-align: center;"></td><td>'
-                    +'<input type="text" onchange="update_item_details(this)" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
-                    +'</td><td><input type="number" min="0" step="any" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>'
-                    +'</td><td><input type="text"  value="0" min="0" required disabled onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>'
-                    +'</td><td><input type="text" min="0" required  id="total" disabled/></td><td style="width: 20px; text-align: center; padding-right: 5px;">'
-                    +'<img id="delete_button" onclick="delete_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto;  margin-left: auto;" src="../ui/images/cross_button.png"/>'
-                    +'<img id="activate_button" onclick="enable_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto; margin-left: auto; display: none;" src="../ui/images/tick_button.png" />'
-                    +'</td></tr>';
+                    + '<input type="text" onchange="update_item_details(this)" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
+                    + '</td><td><input type="number" min="0" step="any" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>'
+                    + '</td><td><input type="text"  value="0" min="0" required disabled onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>'
+                    + '</td><td><input type="text" min="0" required  id="total" disabled/></td><td style="width: 20px; text-align: center; padding-right: 5px;">'
+                    + '<img id="delete_button" onclick="delete_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto;  margin-left: auto;" src="../ui/images/cross_button.png"/>'
+                    + '<img id="activate_button" onclick="enable_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto; margin-left: auto; display: none;" src="../ui/images/tick_button.png" />'
+                    + '</td></tr>';
             var lastcount = $('table#items_table tbody tr:last-child').attr('slno');
             $('table#items_table tbody').append(row);
             lastcount = parseInt(lastcount) + 1;
@@ -301,13 +303,13 @@ function get_form_html($id) {
                 var customer_option_obj = $('datalist#customers').find("option[value='" + customer + "']");
                 if (customer_option_obj.length == "0") {
                     var customer_id = 0;
-                    var customer_name ='Not Registered Customer';
+                    var customer_name = 'Not Regd.';
                 } else {
                     var customer_id = customer_option_obj.attr('id');
                     var customer_name = customer_option_obj.attr('customer_name');
                 }
-                
-                
+
+
                 var items = new Array();
                 var i = 0;
                 var items_table = $('#items_table').find('tbody').children();
@@ -334,7 +336,7 @@ function get_form_html($id) {
                                 rate: rate,
                                 item_name: item_name,
                                 total: total,
-                                tax:tax
+                                tax: tax
                             }
                             items[i++] = item;
                         }
@@ -351,44 +353,87 @@ function get_form_html($id) {
                 var total = $('span#total').html();
                 var total_tax = $('span#total').attr('tax');
                 var net_total = parseFloat(total) - parseFloat(total_tax);
+                net_total = net_total.toFixed(2);
 
                 if (operation == 'add') {
                     var data = {
                         form_id: form_id,
                         customer_id: customer_id,
                         total: total,
-                        net_amount : net_total,
-                        tax_amount : total_tax,
+                        net_amount: net_total,
+                        tax_amount: total_tax,
                         items: items
                     }
-                    add_form_data(data, function(message) {
-                        $('form.action_form').get(0).reset();
-                        //alert(message);
-                        print_bill(data, customer_name);
-                    }, function(message) {
-                        alert(message);
-                    });
+                        add_form_data(data, function(message, sale_id) {
+                            $('form.action_form').get(0).reset();
+                            //alert(message);
+                            print_bill(data, customer_name, sale_id);
+                            get_form(1,
+                                function(html) {
+                                    $('div#form-body').html(html);
+                                }, function(message) {
+                                    $('font#section_heading').empty();
+                                    $('div#form-body').empty();
+                                    alert(message);
+                                });
+                        }, function(message) {
+                            alert(message);
+                        });
                 } else {
                     alert("Invalid Operation " + id + ' - ' + operation);
                 }
             });
-            function print_bill(data, customer_name){
+            function print_bill(data, customer_name, sale_id) {
                 var html = '';
-                html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table><tr><td>Customer</td><td>:</td><td>"+customer_name+"</td></tr></table></div>";
+                var d = new Date();
+                var date = d.getDate()+"/"+(parseInt(d.getMonth())+parseInt(1))+"/"+d.getFullYear();
+                var hour = d.getHours();
+                if(hour==0){
+                    hour = 12;
+                }else if(hour>12){                    
+                    hour = parseInt(hour)-parseInt(12);
+                }
+                var am_or_pm;
+                if(hour<12){
+                    am_or_pm = "AM";
+                }else{                    
+                    am_or_pm = "PM";
+                }
+                var time = hour+":"+d.getMinutes()+" "+am_or_pm;
+                html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table style=\"float:right;\">"
+                        +"<tr><td>Date</td><td>:</td><td>" + date + "</td></tr>"
+                        +"<tr><td>Time</td><td>:</td><td>" + time + "</td></tr></table>";
+                
+                html = html + "<table>"
+                        +"<tr><td>Bill No.</td><td>:</td><td>" + sale_id + "</td></tr>"
+                        +"<tr><td>Cust. ID</td><td>:</td><td>" + data.customer_id + "</td></tr>"
+                        +"<tr><td>Cust. Name</td><td>:</td><td>" + customer_name + "</td></tr></table></div>";
+                
                 html = html + "<div style=\"border-top:1px dashed #000; margin:0 auto;padding:10px 0;\"><table style=\"width:100%;\"><tr style=\"border-bottom: 1px solid #000; border-top: 1px solid #000;\">"
-                        +"<td style=\"width:40%;\">Description</td><td style=\"width:10%;\">Qty</td><td style=\"width:10%;\">Rate</td><td style=\"width:15%;\">Amount</td><td style=\"width:10%;\">Tax</td><td style=\"width:15%;\">Total</td></tr>";
-                var i =0;
-                for(var key in data.items){
+                        + "<td style=\"width:45%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px;\">Description</td>"
+                        + "<td style=\"width:17%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Qty</td>"
+                        + "<td style=\"width:17%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Rate</td>"
+                        // + "<td style=\"width:15%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Amount</td>"
+                        // + "<td style=\"width:10%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Tax</td>"
+                        + "<td style=\"width:21%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Total</td></tr>";
+                var i = 0;
+                for (var key in data.items) {
                     var item = data.items[key];
-                    html = html + "<tr><td>"+item.item_name+"</td><td>"+item.quantity+"</td><td>"+item.rate+"</td><td>"+(parseFloat(item.total)-parseFloat(item.tax))+"</td><td>"+item.tax+"</td><td>"+item.total+"</td></tr>";                    
+                    html = html + "<tr><td>" + item.item_name + "</td>"
+                            +"<td style=\"text-align:right;\">" + item.quantity + "</td>"
+                            +"<td style=\"text-align:right;\">" + item.rate + "</td>"
+                            //+"<td style=\"text-align:right;\">" + (parseFloat(item.total) - parseFloat(item.tax)) + "</td>"
+//                            +"<td style=\"text-align:right;\">" + item.tax + "</td>"
+                            +"<td style=\"text-align:right;\">" + item.total + "</td>"
+                            +"</tr>";
                 }
                 html = html + "</table></div>";
-                html = html + "<div style=\"border-top:1px dashed #000; margin:0 auto;padding:10px\"><table>";
-                html = html + "<tr><td>Net. Amount</td><td>:</td><td>"+data.net_amount+"</td></tr>";
-                html = html + "<tr><td>Tax</td><td>:</td><td>"+data.tax_amount+"</td></tr>";
-                html = html + "<tr><td>Total</td><td>:</td><td>"+data.total+"</td></tr>";
+                html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table style=\"margin-left: auto;\">";
+                html = html + "<tr><td>Net. Amount</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.net_amount + "</td></tr>";
+                html = html + "<tr><td>Tax</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.tax_amount + "</td></tr>";
+                html = html + "<tr style=\"font-size:18px;\"><td><b>Total</b></td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\"><b>" + data.total + "</b></td></tr>";
                 html = html + "</table></div>";
-                console.log("Creating bill : "+html);
+                console.log("Creating bill : " + html);
                 $('div#print_container_body').html(html);
                 print();
             }

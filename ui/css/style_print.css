@@ -13,16 +13,26 @@ div#content{
 }
 div#print_container{
     display: block;
-    width: 100%;
+    width: calc(100% - 20px);
+    width: -webkit-calc(100% - 20px);
+    width: -moz-calc(100% - 20px);
     margin: 0;
     float: none;
-    padding: 3px;
+    padding: 10px;
+    background-image: url(../images/bill_bg.png);
 }
 div#print_container_header{
     text-align: center;
 }
 div#print_container_body{
     margin: 20px auto 0 auto;
+}
+div#print_container_footer{
+    text-align: center;
+    margin-top: 20px;
+}
+div#print_container_footer font{
+    font-size: 18px;
 }
 font{
     color: #000;

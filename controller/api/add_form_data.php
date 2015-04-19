@@ -41,9 +41,9 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     array_push($sales_items, $sales_item);
                 }
                 $sale->setSalesItems($sales_items);
-                $sale->addSales();
+                $inserted_id = $sale->addSales();
                 $message = "Sale completed successfuly";
-                $responce = array('status' => 'success', 'error' => ''.$sale->to_string(), 'data' => array("message" => $message));
+                $responce = array('status' => 'success', 'error' => ''.$sale->to_string(), 'data' => array("message" => $message, "id"=>$inserted_id));
             } else {
                 ob_start();
                 $a = ob_get_clean();

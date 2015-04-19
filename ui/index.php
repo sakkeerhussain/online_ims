@@ -104,7 +104,13 @@ spl_autoload_register(function($class_name) {
             
             <div id="print_container_body"> 
                 
-            </div>           
+            </div>   
+            
+            <div id="print_container_footer"> 
+                <font>Thank you for shoping</font> 
+                <br/>
+                <font>Visit again...</font> 
+            </div> 
         </div>
     </body>    
 </html>
