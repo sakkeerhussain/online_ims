@@ -86,5 +86,25 @@ spl_autoload_register(function($class_name) {
                 Copyright &COPY; CGTech Soft 2015
             </footer>
         </div>
+        
+        <div id="print_container">
+            <div id="print_container_header"> 
+                <font id="print_container_header_company_name">
+                    Pik Nik
+                </font>
+                <br/>
+                <font id="print_container_header_company_service">
+                    Sample Service
+                </font>
+                <br/>
+                <font id="print_container_header_company_adderss">
+                    Sample, Address, sample address, 673016
+                </font>
+            </div>
+            
+            <div id="print_container_body"> 
+                
+            </div>           
+        </div>
     </body>    
 </html>
