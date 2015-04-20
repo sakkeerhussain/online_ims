@@ -31,7 +31,7 @@ spl_autoload_register(function($class_name) {
         <div id="login-wraper" >
             <div id="login" class="centre">
                 <div id="login-brand-name">
-                    <font class="centre-text" id="login-brand-name">CGTech Soft</font>
+                    <font class="centre-text" id="login-brand-name">Pik-Nik Royalee</font>
                 </div>
 
                 <form id="login_form" method="post">
@@ -55,7 +55,7 @@ spl_autoload_register(function($class_name) {
                     <font id="user_info_name" style="color: #21acd7;"></font>
                     <a id="logout" style="cursor: pointer;"> Logout </a>
                 </div>                
-                <font class="centre-text" id="brand-name">CGTech Soft</font>
+                <font class="centre-text" id="brand-name">Pik-Nik Royalee</font>
             </div>
             <div id="content-body">
                 <div id="content-body-menu">
@@ -83,7 +83,7 @@ spl_autoload_register(function($class_name) {
                 </div>
             </div>
             <footer>
-                Copyright &COPY; CGTech Soft 2015
+                Copyright &COPY; Royal Piknik Traders LLP 2015
             </footer>
         </div>
         
