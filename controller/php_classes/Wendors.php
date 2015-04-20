@@ -38,9 +38,13 @@ class wendors {
         if ($wendor == null) {
             $wendor = $this;
         }
-        $this->db_handler->add_model($wendor);
-        $description = "Added new Wendor (" . $wendor->to_string() . ")";
-        Log::i($this->tag, $description);
+        if($this->db_handler->add_model($wendor)){
+            $description = "Added new Wendor (" . $wendor->to_string() . ")";
+            Log::i($this->tag, $description);
+            return True;
+        }else{
+            return FALSE;
+        }
     }
     function getWendor(){
         return $this->db_handler->get_model($this,  $this->id);

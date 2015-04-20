@@ -78,7 +78,26 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
-        } else if ($form_id == 11) { //item form
+        } else if ($form_id == 10) { //vendor form
+            if (isset($_POST['vendor_name']) and !empty($_POST['vendor_name']) 
+                    and isset($_POST['contact_number']) and !empty($_POST['contact_number']) 
+                    and isset($_POST['contact_address']) and !empty($_POST['contact_address'])) {
+
+                $vendor = new wendors();
+                $vendor->wendor_name = $_POST['vendor_name'];
+                $vendor->contact_no = $_POST['contact_number'];
+                $vendor->contact_address = $_POST['contact_address'];
+                if ($vendor->addWendor()) {
+                    $responce = array('status' => 'success', 'error' => '',
+                        'data' => array('message' => 'Vendor Added successfully'));
+                } else {
+                    Log::e($tag, "Vendor adding failed item : " . $vendor->to_string());
+                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                }
+            } else {
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
+            }
+        }else if ($form_id == 11) { //item form
             if (isset($_POST['item_code']) and !empty($_POST['item_code']) 
                     and isset($_POST['item_name']) and !empty($_POST['item_name']) 
                     and isset($_POST['mrp']) and !empty($_POST['mrp']) 
