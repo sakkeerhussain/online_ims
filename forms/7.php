@@ -114,8 +114,9 @@ function get_form_html($id) {
                                     $items = array();
                                     $items = $item->getItems();
                                     foreach ($items as $item) {
-                                        echo '<option id="' . $item->id
-                                        . '" value="' . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ')" >'
+                                        echo '<option id="' . $item->id .'"'
+                                        . 'purchace_rate="' . $item->purchace_rate .'"'        
+                                        . ' value="' . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ')" >'
                                         . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ')'
                                         . '</option>';
                                     }
@@ -129,7 +130,7 @@ function get_form_html($id) {
                                             <?php echo $i + 1; ?>
                                         </td>
                                         <td>
-                                            <input type="text" onfocus="$(this).css('border', '0px')" autocomplete="off" list="items" id="item" required />
+                                            <input type="text" onchange="update_item_details(this)" onfocus="$(this).css('border', '0px')" autocomplete="off" list="items" id="item" required />
                                         </td>
                                         <td>
                                             <input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>
@@ -188,6 +189,19 @@ function get_form_html($id) {
         </form>
     </div>
     <script type="text/javascript">
+        function update_item_details(item) {
+            var item_input = $(item);
+            var item_name = item_input.val();
+            var item_option_obj = $('datalist#items').find("option[value='" + item_name + "']");
+            if (item_option_obj.length == "0") {
+                return;
+            } else {
+                var purchace_rate = item_option_obj.attr('purchace_rate');
+                var row = item_input.parent('td').parent('tr');
+                row.find('input#rate').val(purchace_rate);
+                calculate_total(row.find('input#rate').get(0));
+            }
+        }
         function calculate_total(field) {
             var $parent = $(field).closest('tr');
             var $quantity = parseInt($parent.find('input#quantity').val());
