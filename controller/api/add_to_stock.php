@@ -34,8 +34,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $item->id = $p_item->item_id;
                     $item->getItem();
                     $inv->selling_prize = $item->mrp;
-                    //need to update
-                    $inv->tax_category_id = 1;
+                    $inv->tax_category_id = $item->tax_category_id;
                     $inv->updateInventry();
                 } else {
                     $inv->in_stock_count = $p_item->quantity;

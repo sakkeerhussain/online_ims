@@ -38,4 +38,7 @@ class tax_category {
     function getTaxCategory(){
         return $this->db_handler->get_model($this,  $this->id);
     }
+    function getTaxCategories(){
+        return $this->db_handler->get_model_list($this);
+    }
 }

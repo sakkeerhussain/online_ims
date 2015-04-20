@@ -30,60 +30,31 @@ function get_form_html($id) {
             <table style="width:100%;">
                 <tr>
                     <td class="field_name">                    
-                        <font>ITEM NAME</font>
+                        <font>VENDOR NAME</font>
                     </td>
                     <td class="field"> 
                         <div  class="parent">
-                            <input type="text" id="item_name" required />
+                            <input type="text" id="vendor_name" required />
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td class="field_name"> 
-                        <font>ITEM CODE </font>
+                        <font>CONTACT NUMBER</font>
                     </td>
                     <td class="field"> 
                         <div class="parent">
-                            <input type="text" id="item_code" required />
+                            <input type="tel" id="contact_number" required />
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td class="field_name"> 
-                        <font>ITEM MRP </font>
+                        <font>CONTACT ADDRESS</font>
                     </td>
                     <td class="field"> 
                         <div style="padding: 0px 0px;">
-                            <input type="number" id="mrp" required />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="field_name"> 
-                        <font>PURCHACE RATE</font>
-                    </td>
-                    <td class="field"> 
-                        <div class="parent">
-                            <input type="number" id="purchace_rate" required />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="field_name"> 
-                        <font>TAX CATEGORY</font>
-                    </td>
-                    <td class="field"> 
-                        <div class="parent">
-                            <select id="tax_category" required >
-                                <option value=""></option>
-                                <?php
-                                $tax_category = new tax_category();
-                                $tax_categories = $tax_category->getTaxCategories();
-                                foreach ($tax_categories as $tax_category) {
-                                    echo '<option id="'.$tax_category->id.'" value="'.$tax_category->tax_percentage.'">'.$tax_category->tax_category_name.'</option>';
-                                }
-                                ?>
-                            </select>
+                            <input type="text" id="contact_address" required />
                         </div>
                     </td>
                 </tr>
@@ -111,16 +82,14 @@ function get_form_html($id) {
         function setFormActionListener(){ 
         $('form.action_form').on('submit', function(e) {
             e.preventDefault();
-            var id = 11;
+            var id = 10;
             var operation = $(this).attr('operation');
             if (operation == 'add') {
                 var data = {
                     form_id: id,
-                    item_name: $('form input#item_name').val(),
-                    item_code: $('form input#item_code').val(),
-                    mrp: $('form input#mrp').val(),
-                    purchace_rate: $('form input#purchace_rate').val(),
-                    tax_category_id: $('form select#tax_category').find('option:selected').attr('id')
+                    vendor_name: $('form input#vendor_name').val(),
+                    contact_number: $('form input#contact_number').val(),
+                    contact_address: $('form input#contact_address').val()
                 }
                 add_form_data(data, function(message) {
                     $('form.action_form').get(0).reset();
