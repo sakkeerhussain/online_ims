@@ -124,7 +124,7 @@ function get_form_html($id) {
                                             $item->getItem();
                                             $tax_category = new tax_category();
                                             $tax_category->id = $inv->tax_category_id;
-                                            $tax_category->getTaxCategory();
+                                            $tax_category->getTaxCategory(); echo $tax_category->to_string();
                                             echo '<option id="' . $item->id . '"'
                                             . ' stock_count="' . $inv->in_stock_count . '"'
                                             . ' selling_pize="' . $inv->selling_prize . '"'
@@ -400,7 +400,7 @@ function get_form_html($id) {
                     am_or_pm = "PM";
                 }
                 var time = hour+":"+d.getMinutes()+" "+am_or_pm;
-                html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table style=\"float:right;\">"
+                html = html + "<div<!-- style=\"padding:10px 0;\"><table style=\"float:right;\">"
                         +"<tr><td>Date</td><td>:</td><td>" + date + "</td></tr>"
                         +"<tr><td>Time</td><td>:</td><td>" + time + "</td></tr></table>";
                 
@@ -409,7 +409,7 @@ function get_form_html($id) {
                         +"<tr><td>Cust. ID</td><td>:</td><td>" + data.customer_id + "</td></tr>"
                         +"<tr><td>Cust. Name</td><td>:</td><td>" + customer_name + "</td></tr></table></div>";
                 
-                html = html + "<div style=\"border-top:1px dashed #000; margin:0 auto;padding:10px 0;\"><table style=\"width:100%;\"><tr style=\"border-bottom: 1px solid #000; border-top: 1px solid #000;\">"
+                html = html + "<div style=\"border-top:1px dashed #000; margin:10px auto 0 auto;padding:0 0 10px 0;\"><table style=\"width:100%;\"><tr style=\"border-bottom: 1px solid #000; border-top: 1px solid #000;\">"
                         + "<td style=\"width:45%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px;\">Description</td>"
                         + "<td style=\"width:17%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Qty</td>"
                         + "<td style=\"width:17%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Rate</td>"

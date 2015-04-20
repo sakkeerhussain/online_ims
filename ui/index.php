@@ -89,16 +89,21 @@ spl_autoload_register(function($class_name) {
         
         <div id="print_container">
             <div id="print_container_header"> 
-                <font id="print_container_header_company_name">
-                    Pik Nik
-                </font>
+                <img id="logo_bill" src="images/nutiez.jpg"/>
                 <br/>
-                <font id="print_container_header_company_service">
-                    Sample Service
+                <font id="print_container_header_company_adderss">
+                    Royal Piknik Traders LLP, 29/861
                 </font>
                 <br/>
                 <font id="print_container_header_company_adderss">
-                    Sample, Address, sample address, 673016
+                    Parayancheri, Calicut
+                </font><br/>
+                <font id="print_container_header_company_adderss">
+                    Phone : 0495 2741095,+91 9388627725
+                </font>
+                <br/>
+                <font id="print_container_header_company_adderss">
+                    The kerala value added tax rules 2005/ form no. 8
                 </font>
             </div>
             
