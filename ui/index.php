@@ -83,7 +83,7 @@ spl_autoload_register(function($class_name) {
                 </div>
             </div>
             <footer>
-                Copyright &COPY; Royal Piknik Traders LLP 2015
+                Copyright &COPY; Royal Piknik Traders LLP <?php echo date('Y'); ?>
             </footer>
         </div>
         
