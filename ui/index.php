@@ -83,7 +83,7 @@ spl_autoload_register(function($class_name) {
                 </div>
             </div>
             <footer>
-                Copyright &COPY; CGTech Soft 2015
+                Copyright &COPY; CGTech Soft <?php echo date('Y'); ?>
             </footer>
         </div>
         
