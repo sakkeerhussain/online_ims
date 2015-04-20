@@ -68,6 +68,25 @@ function get_form_html($id) {
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <td class="field_name"> 
+                        <font>TAX CATEGORY</font>
+                    </td>
+                    <td class="field"> 
+                        <div class="parent">
+                            <select id="tax_category" required >
+                                <option value=""></option>
+                                <?php
+                                $tax_category = new tax_category();
+                                $tax_categories = $tax_category->getTaxCategories();
+                                foreach ($tax_categories as $tax_category) {
+                                    echo '<option id="'.$tax_category->id.'" value="'.$tax_category->tax_percentage.'">'.$tax_category->tax_category_name.'</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
                 <tr></tr>
                 <tr>
                     <td></td>
@@ -100,13 +119,11 @@ function get_form_html($id) {
                     item_name: $('form input#item_name').val(),
                     item_code: $('form input#item_code').val(),
                     mrp: $('form input#mrp').val(),
-                    purchace_rate: $('form input#purchace_rate').val()
+                    purchace_rate: $('form input#purchace_rate').val(),
+                    tax_category_id: $('form select#tax_category').find('option:selected').attr('id')
                 }
                 add_form_data(data, function(message) {
-                    $('form input#item_name').val('');
-                    $('form input#item_code').val('');
-                    $('form input#mrp').val('');
-                    $('form input#purchace_rate').val('');
+                    $('form.action_form').get(0).reset();
                     alert(message);
                 }, function(message) {
                     alert(message);

@@ -79,12 +79,17 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
         } else if ($form_id == 11) { //item form
-            if (isset($_POST['item_code']) and !empty($_POST['item_code']) and isset($_POST['item_name']) and !empty($_POST['item_name']) and isset($_POST['mrp']) and !empty($_POST['mrp']) and isset($_POST['purchace_rate']) and !empty($_POST['purchace_rate'])) {
+            if (isset($_POST['item_code']) and !empty($_POST['item_code']) 
+                    and isset($_POST['item_name']) and !empty($_POST['item_name']) 
+                    and isset($_POST['mrp']) and !empty($_POST['mrp']) 
+                    and isset($_POST['tax_category_id']) and !empty($_POST['tax_category_id']) 
+                    and isset($_POST['purchace_rate']) and !empty($_POST['purchace_rate'])) {
 
                 $item = new item();
                 $item->item_code = $_POST['item_code'];
                 $item->item_name = $_POST['item_name'];
                 $item->mrp = $_POST['mrp'];
+                $item->tax_category_id = $_POST['tax_category_id'];
                 $item->purchace_rate = $_POST['purchace_rate'];
                 if ($item->addItem()) {
                     $responce = array('status' => 'success', 'error' => '',
