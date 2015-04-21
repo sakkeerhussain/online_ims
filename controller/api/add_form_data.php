@@ -49,7 +49,25 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
-        } else if ($form_id == 7) {
+        } else if ($form_id == 6) {
+            if (isset($_POST['customer_name']) and !empty($_POST['customer_name']) 
+                    and isset($_POST['contact_number']) and !empty($_POST['contact_number']) ) {
+                $customer = new customer();
+                $customer->customer_name = $_POST['customer_name'];
+                $customer->contact_number = $_POST['contact_number'];
+                $user = new user();
+                $user->id = $_SESSION['user_id'];
+                $user->getUser();
+                $customer->company_id = $user->company_id;
+                $customer->addCustomer();
+                $message = "Customer added successfully";
+                $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message));
+            } else {
+                ob_start();
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }
+        }else if ($form_id == 7) {
             if (isset($_POST['wendor_id']) and !empty($_POST['wendor_id']) 
                     and isset($_POST['total']) and !empty($_POST['total']) 
                     and isset($_POST['items']) and !empty($_POST['items'])) {

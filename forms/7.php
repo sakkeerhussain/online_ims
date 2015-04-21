@@ -250,7 +250,7 @@ function get_form_html($id) {
         }
         function add_purchace_item() {
             var row = '<tr  status="active" slno=""><td style="text-align: center;"></td><td>'
-                    +'<input type="text" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
+                    +'<input type="text" onchange="update_item_details(this)" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
                     +'</td><td><input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>'
                     +'</td><td><input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>'
                     +'</td><td><input type="text" min="0" required  id="total" disabled/></td><td style="width: 20px; text-align: center; padding-right: 5px;">'
@@ -323,7 +323,14 @@ function get_form_html($id) {
                         items: items
                     }
                     add_form_data(data, function(message) {
-                        $('form.action_form').get(0).reset();
+                        //$('form.action_form').get(0).reset();
+                        get_form(7,function(html) {
+                                    $('div#form-body').html(html);
+                                }, function(message) {
+                                    $('font#section_heading').empty();
+                                    $('div#form-body').empty();
+                                    alert(message);
+                                });
                         alert(message);
                     }, function(message) {
                         alert(message);
