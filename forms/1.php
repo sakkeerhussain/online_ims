@@ -365,7 +365,7 @@ function get_form_html($id) {
                         items: items
                     }
                         add_form_data(data, function(message, sale_id) {
-                            $('form.action_form').get(0).reset();
+                            //$('form.action_form').get(0).reset();
                             //alert(message);
                             print_bill(data, customer_name, sale_id);
                             get_form(1,
