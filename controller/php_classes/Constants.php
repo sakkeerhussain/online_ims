@@ -20,9 +20,9 @@ Class Constants{
     }
     static function initialize_db_constants(){
         Constants::$db_host = "localhost";
-        Constants::$db_user_name = "root";
-        Constants::$db_password = "";
-        Constants::$database_name = "piknik_ims";
+        Constants::$db_user_name = "piknikin_root";
+        Constants::$db_password = "root";
+        Constants::$database_name = "piknikin_piknik_ims";
     }
     static function initialize_server_constants(){
         Constants::$host = $_SERVER['HTTP_HOST'];
