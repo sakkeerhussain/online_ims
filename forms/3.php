@@ -141,7 +141,7 @@ function get_form_html($id) {
                                                 <?php echo $s_item->rate; ?>
                                             </td>                                            
                                             <td>
-                                                <?php echo (($s_item->quantity * $s_item->rate) - $s_item->rate); ?>
+                                                <?php echo (($s_item->quantity * $s_item->rate) - $s_item->tax); ?>
                                             </td>                                            
                                             <td>
                                                 <?php echo $s_item->tax; ?>
