@@ -39,16 +39,19 @@ function get_form_html($id) {
                             DATE
                         </td>
                         <td>
-                            CUSTOMER
+                            COMPANY
                         </td>
                         <td style="">
-                            TAX
+                            PURCHACED FROM
                         </td>
                         <td style="">
-                            NET. AMOUNT
+                            PURCHACED BY
                         </td>
                         <td style="">
-                            TOTAL
+                            AMOUNT
+                        </td>
+                        <td style="">
+
                         </td>
                         <td style="">
 
@@ -57,40 +60,42 @@ function get_form_html($id) {
                 </thead>
                 <tbody style="padding-left: 3px; text-align: center; ">
                     <?php
-                    $sale_obj = new sales();
+                    $purchace_obj = new purchaces();
                     $user = new user();
                     $user->id = $_SESSION['user_id'];
                     $user->getUser();
-                    $sales = $sale_obj->getTodaysSales($user->company_id);
+                    $purchaces = $purchace_obj->getPurchacesDESC($user->company_id);
                     $i = 0;
-                    if($sales==NULL || sizeof($sales)==0){
-                        echo '<tr><td colspan="8"> No Sales Found </td></tr>';
+                    if($purchaces==NULL || sizeof($purchaces)==0){
+                        echo '<tr><td colspan="8"> No Purchace Found </td></tr>';
                     } else{
-                    foreach ($sales as $sale) {
+                    foreach ($purchaces as $purchace) {
                         ?>
-                        <tr id="<?php echo $sale->id; ?>">
+                        <tr id="<?php echo $purchace->id; ?>">
                             <td style="text-align: center;">
                                 <?php echo ++$i; ?>
                             </td>
                             <td>
-                                <?php echo $sale->sale_at; ?>
+                                <?php echo $purchace->created_at; ?>
                             </td>
                             <td>
-                                <?php 
-                                $customer = new customer();
-                                $customer->id = $sale->customer_id;
-                                $customer->getCustomer();
-                                echo $customer->customer_name. ' ( ID : '.$customer->id.' )';
+                                <?php echo $purchace->company_id; ?>
+                            </td>
+                            <td>
+                                <?php
+                                $vendor = new wendors();
+                                $vendor->id = $purchace->wendor_id;
+                                $vendor->getWendor();
+                                echo $vendor->wendor_name;
                                 ?>
                             </td>
                             <td>
-                                <?php echo $sale->tax_amount; ?>
-                            </td>
-                            <td>
-                                <?php echo $sale->net_amount; ?>
-                            </td>
-                            <td>
-                                <?php echo $sale->amount; ?>
+                                <?php
+                                $p_manager = new user();
+                                $p_manager->id = $purchace->purchace_manager_id;
+                                $p_manager->getUser();
+                                echo $p_manager->name;
+                                ?>
                             </td>
                             <td id="down_button" style="width: 20px;text-align: center; padding: 10px;">
                                 <img id="toggle_button" style="width: 20px; height: 20px; cursor: pointer;"
@@ -110,44 +115,38 @@ function get_form_html($id) {
                                             QUANTITY
                                         </td>
                                         <td>
-                                            RATE
+                                            PURCHACE RATE
                                         </td>
                                         <td>
-                                            NET. AMOUNT
-                                        </td>
-                                        <td>
-                                            TAX
+                                            MRP
                                         </td>
                                         <td>
                                             TOTAL
                                         </td>
                                     </tr>
                                     <?php
-                                    foreach ($sale->getSalesItems() as $s_item) {
+                                    foreach ($purchace->getPurchaceItems() as $p_item) {
                                         ?>
                                         <tr>
                                             <td>
                                                 <?php
                                                 $item = new item();
-                                                $item->id = $s_item->item_id;
+                                                $item->id = $p_item->item_id;
                                                 $item->getItem();
                                                 echo $item->item_name . ' - ' . $item->item_code .' (ID : '.$item->id.')';
                                                 ?>
                                             </td>
                                             <td>
-                                                <?php echo $s_item->quantity; ?>
+                                                <?php echo $p_item->quantity; ?>
                                             </td>
                                             <td>
-                                                <?php echo $s_item->rate; ?>
-                                            </td>                                            
-                                            <td>
-                                                <?php echo (($s_item->quantity * $s_item->rate) - $s_item->rate); ?>
-                                            </td>                                            
-                                            <td>
-                                                <?php echo $s_item->tax; ?>
+                                                <?php echo $p_item->rate; ?>
                                             </td>
                                             <td>
-                                                <?php echo ($s_item->quantity * $s_item->rate); ?>
+                                                <?php echo $item->mrp; ?>
+                                            </td>
+                                            <td>
+                                        <?php echo ($p_item->quantity * $p_item->rate); ?>
                                             </td>
                                         </tr>
                                         <?php
@@ -165,23 +164,6 @@ function get_form_html($id) {
         </div>
     </div>
     <script type="text/javascript">
-        function add_to_stock(ok_button) {
-            var row = $(ok_button).closest('tr');
-            var purchace_id = row.attr('id');
-            var data = {
-                purchace_id: purchace_id
-            }
-            add_purchace_to_stock(data, function(message) {
-                row.hide();
-                row.next().hide();
-                if(row.parent('tbody').children('tr:visible').length==0){
-                    row.parent('tbody').html('<tr><td colspan="8"> No Purchace left more </td></tr>');
-                }
-                alert(message);
-            }, function(message) {
-                alert(message);
-            });
-        }
         function toggle_items_visibility(down_button) {
             var row = $(down_button).closest('tr');
             row.next('tr').fadeToggle();

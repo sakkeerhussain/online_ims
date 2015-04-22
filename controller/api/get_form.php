@@ -19,7 +19,8 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
         if (file_exists($file_name)) {
             include $file_name;
             $data = get_form_html($id);
-            $responce = array('status' => 'success', 'error' => '', 'data' => array('form' => $data));
+            $tools = get_form_tools_html($id);
+            $responce = array('status' => 'success', 'error' => '', 'data' => array('form' => $data, 'tools'=>$tools));
         } else {
             $responce = array('status' => 'failed',
                 'error' => 'Some server error occured, File not exists file name ' . $file_name, 'data' => array());

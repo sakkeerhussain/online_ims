@@ -83,11 +83,12 @@ function setListenerForMenuItems() {
     $("div.menu-item").on('click', function(e) {
         var heading = $(this).find('font#menu-item-font').html();
         $('div#form-body').empty();
+        $('div#content-body-action-tools').empty();
         $('font#section_heading').html(heading);
         get_form($(this).attr('id'),
-                function(html) {
+                function(html, tools) {
                     $('div#form-body').html(html);
-//                    setFormActionListener();
+                    $('div#content-body-action-tools').html(tools);;
                 }, function(message) {
             $('font#section_heading').empty();
             alert(message);

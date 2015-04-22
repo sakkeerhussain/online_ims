@@ -388,17 +388,17 @@ function get_form_html($id) {
                 var d = new Date();
                 var date = d.getDate()+"/"+(parseInt(d.getMonth())+parseInt(1))+"/"+d.getFullYear();
                 var hour = d.getHours();
-                if(hour==0){
-                    hour = 12;
-                }else if(hour>12){                    
-                    hour = parseInt(hour)-parseInt(12);
-                }
                 var am_or_pm;
                 if(hour<12){
                     am_or_pm = "AM";
                 }else{                    
                     am_or_pm = "PM";
                 }
+                if(hour==0){
+                    hour = 12;
+                }else if(hour>12){                    
+                    hour = parseInt(hour)-parseInt(12);
+                }                
                 var time = hour+":"+d.getMinutes()+" "+am_or_pm;
                 html = html + "<div<!-- style=\"padding:10px 0;\"><table style=\"float:right;\">"
                         +"<tr><td>Date</td><td>:</td><td>" + date + "</td></tr>"
@@ -445,5 +445,11 @@ function get_form_html($id) {
     return $form;
 }
 
-//echo get_form_html(1);
+
+function get_form_tools_html($id){
+    ob_start();
+    
+    $tools = ob_get_clean();
+    return $tools;
+}
 ?>

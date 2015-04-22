@@ -346,5 +346,11 @@ function get_form_html($id) {
     $form = ob_get_clean();
     return $form;
 }
-//echo get_form_html(7);
+
+function get_form_tools_html($id){
+    ob_start();
+    
+    $tools = ob_get_clean();
+    return $tools;
+}
 ?>

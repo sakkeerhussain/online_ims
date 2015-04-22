@@ -11,8 +11,8 @@ function ajax(url, type, data, responceHandler) {
 
     }).done(function(html) {
         disable_spinner();
-        console.log("Responce Received : " + html);
         var responce = $.parseJSON(html);
+        console.dir(responce);
         responceHandler(responce);
     });
 }
@@ -67,7 +67,7 @@ function get_form(menu_item_id, success_handler, failure_handler){
     }
     ajax('../controller/api/get_form.php', 'POST', data, function(responce) {
         if (responce.status === 'success') {    
-            success_handler(responce.data.form);
+            success_handler(responce.data.form, responce.data.tools);
         } else {
             failure_handler(responce.error);
         }

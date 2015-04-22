@@ -109,4 +109,25 @@ function get_form_html($id) {
     $form = ob_get_clean();
     return $form;
 }
+
+function get_form_tools_html($id){
+    ob_start();
+    ?>    
+    <img onclick="load_items_list()" src="../ui/images/list_icon.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer;">
+    <script>
+        function load_items_list(){
+            get_form(18,
+                function(html, tools) {
+                    $('div#form-body').html(html);
+                    $('div#content-body-action-tools').html(tools);
+                }, function(message) {
+            $('font#section_heading').empty();
+            alert(message);
+        });
+        }
+    </script>
+    <?php
+    $tools = ob_get_clean();
+    return $tools;
+}
 ?>
