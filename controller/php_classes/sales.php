@@ -71,6 +71,22 @@ class sales {
         $this->sales_items = $sale_item->getSaleItems($this->id);
         return $this;
     }
+    function getSales($company_id){
+        $sales = $this->db_handler->get_model_list($this, 'company_id = ' + $company_id);
+        foreach ($sales as $sale) {
+            $sale_item = new sales_items();
+            $sale->sales_items = $sale_item->getSaleItems($sale->id);
+        }
+        return $sales;
+    }
+    function getTodaysSales($company_id){ 
+        $sales = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . ' and DATE(`sale_at`) = DATE(NOW()) ORDER BY `id` DESC');
+        foreach ($sales as $sale) {
+            $sale_item = new sales_items();
+            $sale->sales_items = $sale_item->getSaleItems($sale->id);
+        }
+        return $sales;
+    }
 }
 
 //$s = new sales();

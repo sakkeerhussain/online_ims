@@ -39,16 +39,16 @@ function get_form_html($id) {
                             DATE
                         </td>
                         <td>
-                            COMPANY
+                            CUSTOMER
                         </td>
                         <td style="">
-                            PURCHACED FROM
+                            TAX
                         </td>
                         <td style="">
-                            PURCHACED BY
+                            NET. AMOUNT
                         </td>
                         <td style="">
-                            AMOUNT
+                            TOTAL
                         </td>
                         <td style="">
 
@@ -60,45 +60,40 @@ function get_form_html($id) {
                 </thead>
                 <tbody style="padding-left: 3px; text-align: center; ">
                     <?php
-                    $purchace_obj = new purchaces();
+                    $sale_obj = new sales();
                     $user = new user();
                     $user->id = $_SESSION['user_id'];
                     $user->getUser();
-                    $purchaces = $purchace_obj->getNotStockedPurchaces($user->company_id);
+                    $sales = $sale_obj->getTodaysSales($user->company_id);
                     $i = 0;
-                    if($purchaces==NULL || sizeof($purchaces)==0){
-                        echo '<tr><td colspan="8"> No Purchace Found </td></tr>';
+                    if($sales==NULL || sizeof($sales)==0){
+                        echo '<tr><td colspan="8"> No Sales Found </td></tr>';
                     } else{
-                    foreach ($purchaces as $purchace) {
+                    foreach ($sales as $sale) {
                         ?>
-                        <tr id="<?php echo $purchace->id; ?>">
+                        <tr id="<?php echo $sale->id; ?>">
                             <td style="text-align: center;">
                                 <?php echo ++$i; ?>
                             </td>
                             <td>
-                                <?php echo $purchace->created_at; ?>
+                                <?php echo $sale->sale_at; ?>
                             </td>
                             <td>
-                                <?php echo $purchace->company_id; ?>
-                            </td>
-                            <td>
-                                <?php
-                                $vendor = new wendors();
-                                $vendor->id = $purchace->wendor_id;
-                                $vendor->getWendor();
-                                echo $vendor->wendor_name;
+                                <?php 
+                                $customer = new customer();
+                                $customer->id = $sale->customer_id;
+                                $customer->getCustomer();
+                                echo $customer->customer_name. ' ( ID : '.$customer->id.' )';
                                 ?>
                             </td>
                             <td>
-                                <?php
-                                $p_manager = new user();
-                                $p_manager->id = $purchace->purchace_manager_id;
-                                $p_manager->getUser();
-                                echo $p_manager->name;
-                                ?>
+                                <?php echo $sale->tax_amount; ?>
                             </td>
                             <td>
-        <?php echo $purchace->amount; ?>
+                                <?php echo $sale->net_amount; ?>
+                            </td>
+                            <td>
+                                <?php echo $sale->amount; ?>
                             </td>
                             <td id="ok_button" style="width: 20px;text-align: center; padding: 10px;">
                                 <img id="add_to_stock_button" style="width: 20px; height: 20px; cursor: pointer;"
@@ -125,29 +120,41 @@ function get_form_html($id) {
                                             RATE
                                         </td>
                                         <td>
+                                            NET. AMOUNT
+                                        </td>
+                                        <td>
+                                            TAX
+                                        </td>
+                                        <td>
                                             TOTAL
                                         </td>
                                     </tr>
                                     <?php
-                                    foreach ($purchace->getPurchaceItems() as $p_item) {
+                                    foreach ($sale->getSalesItems() as $s_item) {
                                         ?>
                                         <tr>
                                             <td>
                                                 <?php
                                                 $item = new item();
-                                                $item->id = $p_item->item_id;
+                                                $item->id = $s_item->item_id;
                                                 $item->getItem();
                                                 echo $item->item_name . ' - ' . $item->item_code .' (ID : '.$item->id.')';
                                                 ?>
                                             </td>
                                             <td>
-                                                <?php echo $p_item->quantity; ?>
+                                                <?php echo $s_item->quantity; ?>
                                             </td>
                                             <td>
-                                                <?php echo $p_item->rate; ?>
+                                                <?php echo $s_item->rate; ?>
+                                            </td>                                            
+                                            <td>
+                                                <?php echo (($s_item->quantity * $s_item->rate) - $s_item->rate); ?>
+                                            </td>                                            
+                                            <td>
+                                                <?php echo $s_item->tax; ?>
                                             </td>
                                             <td>
-                                        <?php echo ($p_item->quantity * $p_item->rate); ?>
+                                                <?php echo ($s_item->quantity * $s_item->rate); ?>
                                             </td>
                                         </tr>
                                         <?php
