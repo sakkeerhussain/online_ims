@@ -122,7 +122,10 @@ function get_form_html($id) {
                                             QUANTITY
                                         </td>
                                         <td>
-                                            RATE
+                                            PURCHACE RATE
+                                        </td>
+                                        <td>
+                                            MRP
                                         </td>
                                         <td>
                                             TOTAL
@@ -145,6 +148,9 @@ function get_form_html($id) {
                                             </td>
                                             <td>
                                                 <?php echo $p_item->rate; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $item->mrp; ?>
                                             </td>
                                             <td>
                                         <?php echo ($p_item->quantity * $p_item->rate); ?>
