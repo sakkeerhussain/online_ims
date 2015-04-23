@@ -94,7 +94,7 @@ class purchaces {
     }
 
     function getNotStockedPurchaces($company_id) {
-        $purchaces = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . " and stocked=0");
+        $purchaces = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . " and stocked=0 ORDER BY `id` DESC");
         foreach ($purchaces as $purchace) {
             $purchace_item = new purchace_items();
             $purchace->purchace_items = $purchace_item->getPurchace_items($purchace->id);

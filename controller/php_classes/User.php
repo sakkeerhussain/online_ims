@@ -36,7 +36,7 @@ class user {
         Log::i($this->tag, $description);
         $query = "SELECT `id` FROM `user` WHERE `user_name` = '" . $user_name. "'";
         $result = $this->db_handler->executeQuery($query);
-        if ($row = mysql_fetch_assoc($result)) {
+        if ($result and $row = mysql_fetch_assoc($result)) {
             $query = "SELECT `id` FROM `user` WHERE `user_name` = '" . $user_name.
                     "'  and `password_hashed` = '".md5($password)."'";
             $result = $this->db_handler->executeQuery($query);

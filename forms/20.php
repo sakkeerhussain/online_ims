@@ -58,7 +58,7 @@ function get_form_html($id) {
                     $inventries = $inventry->getInventryForSpecificCompany($user->company_id);
                     $i = 0;
                     if($inventries==NULL || sizeof($inventries)==0){
-                        echo '<tr><td colspan="8"> No Purchace Found </td></tr>';
+                        echo '<tr><td colspan="8"> No Stock Found </td></tr>';
                     } else{
                     foreach ($inventries as $inventry) {
                         ?>
@@ -69,9 +69,9 @@ function get_form_html($id) {
                             <td>
                                 <?php
                                 $item = new item();
-                                $item->id = $inventry->id;
+                                $item->id = $inventry->item_id;
                                 $item->getItem();
-                                echo $item->item_name;
+                                echo $item->item_name. ' ('.$item->item_code.')';
                                 ?>
                             </td>
                             <td>

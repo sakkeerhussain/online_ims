@@ -132,7 +132,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $responce = array('status' => 'success', 'error' => '',
                         'data' => array('message' => 'Item Added successfully'));
                 } else {
-                    Log::e($tag, "Item adding failed item : " . $item->to_string());
+                    Log::e($tag, "Item adding failed item : " . $item->to_string() . 'Error : '.  mysql_error());
                     $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
                 }
             } else {
