@@ -44,6 +44,6 @@ class item {
         return $this->db_handler->get_model($this,  $this->id);
     }
     function getItems(){
-        return $this->db_handler->get_model_list($this,  $this->id);
+        return $this->db_handler->get_model_list($this);
     }
 }

@@ -43,7 +43,7 @@ class bank {
         Log::i($this->tag, $description);
     }
     function getBank(){
-        return $this->db_handler->get_model(new Bank(),  $this->id);
+        return $this->db_handler->get_model($this,  $this->id);
     }
     
 }

@@ -41,7 +41,7 @@ class bank_deposits {
         Log::i($this->tag, $description);
     }
     function getBankDeposit(){
-        return $this->db_handler->get_model(new Bank_deposits(),  $this->id);
+        return $this->db_handler->get_model($this,  $this->id);
     }
 
 }
