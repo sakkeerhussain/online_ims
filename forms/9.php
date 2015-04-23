@@ -69,7 +69,7 @@ function get_form_html($id) {
                             <td>
                                 <?php
                                 $item = new item();
-                                $item->id = $inventry->id;
+                                $item->id = $inventry->item_id;
                                 $item->getItem();
                                 echo $item->item_name;
                                 ?>
