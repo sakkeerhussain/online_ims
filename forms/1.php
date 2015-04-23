@@ -228,11 +228,15 @@ function get_form_html($id) {
             var $total = $quantity * $rate;
             $total = $total.toFixed(2);
             if ($.isNumeric($total)) {
+                $parent.find('input#total').val($total);
                 var $tax_percentage = parseFloat($parent.find('input#rate').attr('tax'));
                 var $tax = $total * $tax_percentage / 100;
                 //$tax = $tax.toFixed(2);
-                $parent.find('input#total').val($total);
-                $parent.find('input#total').attr('tax', $tax);
+                if($.isNumeric($tax)){
+                    $parent.find('input#total').attr('tax', $tax);
+                }else{                    
+                    $parent.find('input#total').attr('tax', 0);
+                }
             } else {
                 $parent.find('input#total').val(0);
                 $parent.find('input#total').attr('tax', 0);
@@ -433,7 +437,7 @@ function get_form_html($id) {
                 html = html + "<tr><td>Tax</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.tax_amount + "</td></tr>";
                 html = html + "<tr style=\"font-size:18px;\"><td><b>Total</b></td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\"><b>" + data.total + "</b></td></tr>";
                 html = html + "</table></div>";
-                console.log("Creating bill : " + html);
+//                console.log("Creating bill : " + html);
                 $('div#print_container_body').html(html);
                 print();
             }
@@ -448,7 +452,21 @@ function get_form_html($id) {
 
 function get_form_tools_html($id){
     ob_start();
-    
+    ?>    
+    <img onclick="load_items_list()" src="../ui/images/list_icon.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer;">
+    <script>
+        function load_items_list(){
+            get_form(3,
+                function(html, tools) {
+                    $('div#form-body').html(html);
+                    $('div#content-body-action-tools').html(tools);
+                }, function(message) {
+                    $('font#section_heading').empty();
+                    alert(message);
+            });
+        }
+    </script>
+    <?php
     $tools = ob_get_clean();
     return $tools;
 }

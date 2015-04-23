@@ -38,9 +38,6 @@ function get_form_html($id) {
                         <td>
                             DATE
                         </td>
-                        <td>
-                            COMPANY
-                        </td>
                         <td style="">
                             PURCHACED FROM
                         </td>
@@ -77,9 +74,6 @@ function get_form_html($id) {
                             </td>
                             <td>
                                 <?php echo $purchace->created_at; ?>
-                            </td>
-                            <td>
-                                <?php echo $purchace->company_id; ?>
                             </td>
                             <td>
                                 <?php
