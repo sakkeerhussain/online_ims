@@ -38,9 +38,6 @@ function get_form_html($id) {
                         <td>
                             DATE
                         </td>
-                        <td>
-                            COMPANY
-                        </td>
                         <td style="">
                             PURCHACED FROM
                         </td>
@@ -48,10 +45,7 @@ function get_form_html($id) {
                             PURCHACED BY
                         </td>
                         <td style="">
-                            AMOUNT
-                        </td>
-                        <td style="">
-
+                            STOCKED
                         </td>
                         <td style="">
 
@@ -79,9 +73,6 @@ function get_form_html($id) {
                                 <?php echo $purchace->created_at; ?>
                             </td>
                             <td>
-                                <?php echo $purchace->company_id; ?>
-                            </td>
-                            <td>
                                 <?php
                                 $vendor = new wendors();
                                 $vendor->id = $purchace->wendor_id;
@@ -95,6 +86,15 @@ function get_form_html($id) {
                                 $p_manager->id = $purchace->purchace_manager_id;
                                 $p_manager->getUser();
                                 echo $p_manager->name;
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                if($purchace->stocked){
+                                    echo "YES";
+                                }else{
+                                    echo 'NO';
+                                }
                                 ?>
                             </td>
                             <td id="down_button" style="width: 20px;text-align: center; padding: 10px;">
