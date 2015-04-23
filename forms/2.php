@@ -137,34 +137,7 @@ function get_form_html($id) {
                                     }
                                     ?>  
                                 </datalist>
-                                <?php
-                                for ($i = 0; $i < 2; $i++) {
-                                    ?>
-                                    <tr  status="active" slno="<?php echo $i + 1; ?>">
-                                        <td style="text-align: center;">
-                                            <?php echo $i + 1; ?>
-                                        </td>
-                                        <td>
-                                            <input type="text" onchange="update_item_details(this)" onfocus="$(this).css('border', '0px')" autocomplete="off" list="items" id="item" required />
-                                        </td>
-                                        <td>
-                                            <input type="number" min="0" step="any" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>
-                                        </td>
-                                        <td>
-                                            <input type="text"  value="0" min="0" required disabled id="rate"/>
-                                        </td>
-                                        <td>
-                                            <input type="text" min="0" required  id="total" disabled/>
-                                        </td>
-                                        <td style="width: 20px; text-align: center; padding-right: 5px;">
-                                            <img id="delete_button" onclick="delete_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto;  margin-left: auto;" src="../ui/images/cross_button.png"/>
-                                            <img id="activate_button" onclick="enable_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto; margin-left: auto; display: none;" src="../ui/images/tick_button.png" />
-                                        </td>
-                                    </tr>
-                                    <?php
-                                }
-                                ?>
-                                </tbody>                               
+                              </tbody>                               
                             </table>
                         </div>
                     </td>
@@ -173,9 +146,27 @@ function get_form_html($id) {
                 <tr>
                     <td></td>
                     <td>
-                        <div style="background-color: #21ACD7; color: #fff; text-align: center; padding-right: 20px;">
+                        <div style="background-color: #21ACD7; color: #fff; text-align: right; padding-right: 20px;">
                             <span style="margin-right: 20px;">TOTAL </span>
                             <span id="total">0</span>
+                        </div> 
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <div style="background-color: #21ACD7; color: #fff; text-align: right; padding-right: 20px;">
+                            <span style="margin-right: 20px;">PAID </span>
+                            <span id="total_paid">0</span>
+                        </div> 
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <div style="background-color: #21ACD7; color: #fff; text-align: right; padding-right: 20px;">
+                            <span style="margin-right: 20px;">BALANCE</span>
+                            <span id="balance">0</span>
                         </div> 
                     </td>
                 </tr>
@@ -261,6 +252,11 @@ function get_form_html($id) {
             total_tax = total_tax.toFixed(2);
             $('span#total').html(total);
             $('span#total').attr('tax', total_tax);
+            var paid = $('span#total_paid').html();
+            paid = parseFloat(paid);
+            var balance = total - paid;
+            balance = balance.toFixed(2);
+            $('span#balance').html(balance);
         }
         function delete_this_row(delete_btn) {
             var row = $(delete_btn).closest('tr');

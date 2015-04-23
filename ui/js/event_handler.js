@@ -88,7 +88,7 @@ function setListenerForMenuItems() {
         get_form($(this).attr('id'),
                 function(html, tools) {
                     $('div#form-body').html(html);
-                    $('div#content-body-action-tools').html(tools);;
+                    $('div#content-body-action-tools').html(tools);
                 }, function(message) {
             $('font#section_heading').empty();
             alert(message);

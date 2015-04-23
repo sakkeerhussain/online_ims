@@ -143,7 +143,7 @@ function get_form_html($id) {
                                         $item->getItem();
                                         ?>
                                             <td id="item" item_name="<?php echo $item->item_name; ?>"><?php
-                                                echo $item->item_name . ' - ' . $item->item_code .' (ID : '.$item->id.')';
+                                                echo $item->item_name . ' - ' . $item->item_code .' ( ID : '.$item->id.' )';
                                             ?></td>
                                             <td id="quantity" val="<?php echo $s_item->quantity; ?>">
                                                 <?php echo $s_item->quantity; ?>
@@ -184,7 +184,7 @@ function get_form_html($id) {
             var items = new Array();
             var i = 0;
             sale_items.each(function() {
-                var item_name = $(this).find('td#item').attr('item_name');
+                var item_name = $(this).find('td#item').html();
                 var id = $(this).attr('id');
                 var quantity = $(this).find('td#quantity').attr('val');
                 var rate = $(this).find('td#rate').attr('val');
@@ -206,13 +206,31 @@ function get_form_html($id) {
              var total = selected_row.find('td#total').html();
              var total_tax = selected_row.find('td#tax').html();
              var net_total = selected_row.find('td#net_amount').html();
-             get_form(1,
-                function (html){
+             get_form(2,  ///sales return invoice
+                function (html, tools){
                     $('div#form-body').html(html);
+                    $('div#content-body-action-tools').html(tools);
                     var form = $('div#form-body').find('form.action_form');
                     form.attr('operation', 'update');
                     form.find('input#customer_id').val(c_name+' ( ID : '+c_id+' )');
                     form.find('input#customer_id').attr('disabled', 'disabled');
+                    $('table#items_table tbody').empty();
+                    for(var i = 0; i<items.length; i++){
+                        add_sale_item();
+                        var row = $('table#items_table tbody tr:last-child');
+                        var item = items[i];
+                        row.find('input#item').attr('disabled', 'disabled');
+                        row.find('input#item').val(item.item_name);
+                        row.find('input#quantity').val(item.quantity);
+                        row.find('input#quantity').attr('max', item.quantity);
+                        row.find('input#rate').val(item.rate);
+                        row.find('input#rate').attr('tax', (item.tax/item.total)*100);
+                        row.find('input#total').val(item.total);
+                        row.find('input#total').attr('tax', item.tax);
+                    } 
+                    form.find('span#total').html(total);
+                    form.find('span#total_paid').html(total);
+                    form.find('span#balance').html(0.00);
                 },
                 function (message){
                     $('font#section_heading').empty();
@@ -234,6 +252,8 @@ function get_form_html($id) {
                 var rate = $(this).find('td#rate').attr('val');
                 var tax = $(this).find('td#tax').attr('val');
                 var total = $(this).find('td#total').attr('val');
+                total = parseFloat(total);
+                total = total.toFixed(2);
                 var item = {
                      id: id,
                      quantity: quantity,
@@ -246,10 +266,19 @@ function get_form_html($id) {
              });
              var c_name = selected_row.find('td#customer').attr('c_name');
              var c_id = selected_row.find('td#customer').attr('c_id');
+             if(c_id == 0){
+                 c_name = 'Not Regd.';
+             }
              var sale_id = selected_row.attr('id');
              var total = selected_row.find('td#total').html();
+             total = parseFloat(total);
+             total = total.toFixed(2);
              var total_tax = selected_row.find('td#tax').html();
+             total_tax = parseFloat(total_tax);
+             total_tax = total_tax.toFixed(2);
              var net_total = selected_row.find('td#net_amount').html();
+             net_total = parseFloat(net_total);
+             net_total = net_total.toFixed(2);
              var data = {
                   customer_id: c_id,
                   total: total,
@@ -274,8 +303,12 @@ function get_form_html($id) {
                     hour = 12;
                 }else if(hour>12){                    
                     hour = parseInt(hour)-parseInt(12);
-                }                
-                var time = hour+":"+d.getMinutes()+" "+am_or_pm;
+                }              
+                var minut = d.getMinutes();
+                if(minut<10){
+                    minut = "0"+minut;
+                }
+                var time = hour+":"+minut+" "+am_or_pm;
                 html = html + "<div<!-- style=\"padding:10px 0;\"><table style=\"float:right;\">"
                         +"<tr><td>Date</td><td>:</td><td>" + date + "</td></tr>"
                         +"<tr><td>Time</td><td>:</td><td>" + time + "</td></tr></table>";

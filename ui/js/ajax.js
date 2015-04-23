@@ -7,13 +7,18 @@ function ajax(url, type, data, responceHandler) {
     $.ajax({
         url: url,
         type: type,
-        data: data
-
-    }).done(function(html) {
-        disable_spinner();
-        var responce = $.parseJSON(html);
-        console.dir(responce);
-        responceHandler(responce);
+        data: data,
+        success: function(html) {
+            disable_spinner();
+            var responce = $.parseJSON(html);
+            console.dir(responce);
+            responceHandler(responce);
+        },
+        error: function(html) {
+            disable_spinner();
+            console.log(html);
+            alert('Error occured');
+        }
     });
 }
 function is_loged_in(success_handler, failure_handler) {
@@ -76,6 +81,16 @@ function get_form(menu_item_id, success_handler, failure_handler){
 
 function add_form_data(data, success_handler, failure_handler){
     ajax('../controller/api/add_form_data.php', 'POST', data, function(responce) {
+        if (responce.status === 'success') {    
+            success_handler(responce.data.message, responce.data.id);
+        } else {
+            failure_handler(responce.error);
+        }
+    });
+}
+
+function update_form_data(data, success_handler, failure_handler){
+    ajax('../controller/api/update_form_data.php', 'POST', data, function(responce) {
         if (responce.status === 'success') {    
             success_handler(responce.data.message, responce.data.id);
         } else {
