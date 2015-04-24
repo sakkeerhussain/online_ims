@@ -21,12 +21,12 @@ if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){
     }  else if($user->user_type_id==1){  
         
         $menu_list = array(array('menu_item_name'=>'Sales Invoice','menu_item_id'=>'1'),
-            array('menu_item_name'=>'Sales Return','menu_item_id'=>'2'),
+            //array('menu_item_name'=>'Sales Return','menu_item_id'=>'2'),
             array('menu_item_name'=>'Todays Sales Report','menu_item_id'=>'3'),
             //array('menu_item_name'=>'Bank Deposit','menu_item_id'=>'4'),
             //array('menu_item_name'=>'Expence','menu_item_id'=>'5'),
             array('menu_item_name'=>'Customer','menu_item_id'=>'6'),
-            array('menu_item_name'=>'Add to stock','menu_item_id'=>'16'));
+            array('menu_item_name'=>'Stock','menu_item_id'=>'16'));
         
         $responce = array('status'=>'success','error'=>'','data'=> array('menu_list'=>$menu_list));
     }else if($user->user_type_id==2){  

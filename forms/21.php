@@ -44,6 +44,9 @@ function get_form_html($id) {
                         <td style="">
                             CONTACT NUMBER
                         </td>
+                        <td style="">
+                            TOTAL PURCHACE
+                        </td>
                     </tr>
                 </thead>
                 <tbody style="padding-left: 3px; text-align: center; ">
@@ -55,7 +58,7 @@ function get_form_html($id) {
                     $customers = $customer->getCustomers($user->company_id);
                     $i = 0;
                     if($customers==NULL || sizeof($customers)==0){
-                        echo '<tr><td colspan="8"> No Purchace Found </td></tr>';
+                        echo '<tr><td colspan="8"> No Customer Found </td></tr>';
                     } else{
                     foreach ($customers as $customer) {
                         ?>
@@ -71,6 +74,9 @@ function get_form_html($id) {
                             </td>
                             <td>
                                 <?php echo $customer->contact_number; ?>
+                            </td>
+                            <td>
+                                <?php echo $customer->total_purchace_amount; ?>
                             </td>
                         </tr>
                     <?php

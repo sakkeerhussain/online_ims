@@ -29,7 +29,7 @@ function get_form_html($id) {
 
     </div>
     <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
-        <form action="#" method="post" onsubmit="return false" class="action_form" operation="add" style="width:100%;">
+        <form action="#" method="post" onsubmit="return false" class="action_form" operation="update" style="width:100%;">
             <table style="width:100%;">
                 <tr>
                     <td class="field_name">                    
@@ -281,7 +281,7 @@ function get_form_html($id) {
         }
         function add_sale_item() {
             var row = '<tr  status="active" slno=""><td style="text-align: center;"></td><td>'
-                    + '<input type="text" onchange="update_item_details(this)" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
+                    + '<input type="text" onchange="update_item_details(this)"  oninput="update_item_details(this)" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
                     + '</td><td><input type="number" min="0" step="any" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>'
                     + '</td><td><input type="text"  value="0" min="0" required disabled onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>'
                     + '</td><td><input type="text" min="0" required  id="total" disabled/></td><td style="width: 20px; text-align: center; padding-right: 5px;">'
@@ -301,18 +301,6 @@ function get_form_html($id) {
         $(document).ready(function(e) {
             $('form.action_form').on('submit', function(e) {
                 e.preventDefault();
-                var customer_input = $('form input#customer_id');
-                var customer = customer_input.val();
-                var customer_option_obj = $('datalist#customers').find("option[value='" + customer + "']");
-                if (customer_option_obj.length == "0") {
-                    var customer_id = 0;
-                    var customer_name = 'Not Regd.';
-                } else {
-                    var customer_id = customer_option_obj.attr('id');
-                    var customer_name = customer_option_obj.attr('customer_name');
-                }
-
-
                 var items = new Array();
                 var i = 0;
                 var items_table = $('#items_table').find('tbody').children();
@@ -351,41 +339,26 @@ function get_form_html($id) {
                     return;
                 }
 
-                var form_id = 1;
+                var form_id = 2;
                 var operation = $(this).attr('operation');
                 var total = $('span#total').html();
                 var total_tax = $('span#total').attr('tax');
                 var net_total = parseFloat(total) - parseFloat(total_tax);
                 net_total = net_total.toFixed(2);
+                var total_paid = $('span#total_paid').html();
+                total_paid = parseFloat(total_paid);
+                total_paid = total_paid.toFixed(2);
+                var balance = $('span#balance').html();
+                balance = parseFloat(balance);
+                balance = balance.toFixed(2);
+                var sale_id = $(this).attr('sale_id');
+                var customer_name = $(this).attr('customer_name');
+                var customer_id = $(this).attr('customer_id');
 
-                if (operation == 'add') {
+                if (operation == 'update') {
                     var data = {
                         form_id: form_id,
-                        customer_id: customer_id,
-                        total: total,
-                        net_amount: net_total,
-                        tax_amount: total_tax,
-                        items: items
-                    }
-                        add_form_data(data, function(message, sale_id) {
-                            //$('form.action_form').get(0).reset();
-                            //alert(message);
-                            print_bill(data, customer_name, sale_id);
-                            get_form(1,
-                                function(html) {
-                                    $('div#form-body').html(html);
-                                }, function(message) {
-                                    $('font#section_heading').empty();
-                                    $('div#form-body').empty();
-                                    alert(message);
-                                });
-                        }, function(message) {
-                            alert(message);
-                        });
-                }else if (operation == 'update') {
-                    var data = {
-                        form_id: form_id,
-                        customer_id: customer_id,
+                        sale_id: sale_id,
                         total: total,
                         net_amount: net_total,
                         tax_amount: total_tax,
@@ -394,7 +367,7 @@ function get_form_html($id) {
                         update_form_data(data, function(message, sale_id) {
                             //$('form.action_form').get(0).reset();
                             //alert(message);
-                            print_bill(data, customer_name, sale_id);
+                            print_bill(data, customer_name, customer_id, sale_id, total_paid, balance);
                             get_form(1,
                                 function(html) {
                                     $('div#form-body').html(html);
@@ -410,7 +383,7 @@ function get_form_html($id) {
                     alert("Invalid Operation " + form_id + ' - ' + operation);
                 }
             });
-            function print_bill(data, customer_name, sale_id) {
+            function print_bill(data, customer_name, customer_id, sale_id, total_paid, balance) {
                 var html = '';
                 var d = new Date();
                 var date = d.getDate()+"/"+(parseInt(d.getMonth())+parseInt(1))+"/"+d.getFullYear();
@@ -433,7 +406,7 @@ function get_form_html($id) {
                 
                 html = html + "<table>"
                         +"<tr><td>Bill No.</td><td>:</td><td>" + sale_id + "</td></tr>"
-                        +"<tr><td>Cust. ID</td><td>:</td><td>" + data.customer_id + "</td></tr>"
+                        +"<tr><td>Cust. ID</td><td>:</td><td>" + customer_id + "</td></tr>"
                         +"<tr><td>Cust. Name</td><td>:</td><td>" + customer_name + "</td></tr></table></div>";
                 
                 html = html + "<div style=\"border-top:1px dashed #000; margin:10px auto 0 auto;padding:0 0 10px 0;\"><table style=\"width:100%;\"><tr style=\"border-bottom: 1px solid #000; border-top: 1px solid #000;\">"
@@ -458,7 +431,9 @@ function get_form_html($id) {
                 html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table style=\"margin-left: auto;\">";
                 html = html + "<tr><td>Net. Amount</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.net_amount + "</td></tr>";
                 html = html + "<tr><td>Tax</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.tax_amount + "</td></tr>";
-                html = html + "<tr style=\"font-size:18px;\"><td><b>Total</b></td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\"><b>" + data.total + "</b></td></tr>";
+                html = html + "<tr><td>Total</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.total + "</td></tr>";
+                html = html + "<tr><td>Paid</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + total_paid + "</td></tr>";
+                html = html + "<tr style=\"font-size:18px;\"><td><b>Balance</b></td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\"><b>" + balance + "</b></td></tr>";
                 html = html + "</table></div>";
 //                console.log("Creating bill : " + html);
                 $('div#print_container_body').html(html);

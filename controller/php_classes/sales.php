@@ -65,6 +65,21 @@ class sales {
         Log::i($this->tag, $description);
         return $sale_id;
     }
+    function updateSale($sale = null){
+        if($sale==null){
+            $sale = $this;
+        }
+        $sale_id = $this->id;
+        $this->db_handler->update_model($sale);
+        $sale_item_obj = new sales_items();
+        $sale_item_obj->clearSaleItems($sale_id);
+        foreach ($this->sales_items as $sales_item) {
+            $sales_item->sale_id = $sale_id;
+            $sales_item->addSaleItem();
+        }
+        $description = "Updating Sale (". $sale->to_string().")";
+        Log::i($this->tag, $description);
+    }
     function getSale(){
         $this->db_handler->get_model($this,  $this->id);
         $sale_item = new sales_items();

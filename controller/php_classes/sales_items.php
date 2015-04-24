@@ -50,4 +50,7 @@ class sales_items {
     function getSaleItems($sale_id){
         return $this->db_handler->get_model_list($this,  'sale_id = '.$sale_id);
     }
+    function clearSaleItems($sale_id){
+        return $this->db_handler->delete_model_list($this,  'sale_id = '.$sale_id);
+    }
 }

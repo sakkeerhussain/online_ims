@@ -133,5 +133,17 @@ class DBConnection {
             return FALSE;
         }
     }
+    
+    function delete_model_list($model, $conditions = null) {
+        $table_name = get_class($model);
+        $query = 'DELETE FROM :table_name';
+        $array = array();
+        $query = str_replace(':table_name', $table_name, $query);
+        if ($conditions != NULL) {
+            $query = $query . ' WHERE ' . $conditions;
+        }
+        $result = $this->executeQuery($query);
+        return $result;
+    }
 
 }

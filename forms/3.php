@@ -231,6 +231,9 @@ function get_form_html($id) {
                     form.find('span#total').html(total);
                     form.find('span#total_paid').html(total);
                     form.find('span#balance').html(0.00);
+                    form.attr('sale_id', sale_id);
+                    form.attr('customer_name', c_name);
+                    form.attr('customer_id', c_id);
                 },
                 function (message){
                     $('font#section_heading').empty();

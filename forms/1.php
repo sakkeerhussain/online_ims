@@ -145,7 +145,7 @@ function get_form_html($id) {
                                             <?php echo $i + 1; ?>
                                         </td>
                                         <td>
-                                            <input type="text" onchange="update_item_details(this)" onfocus="$(this).css('border', '0px')" autocomplete="off" list="items" id="item" required />
+                                            <input type="text" onchange="update_item_details(this)"  oninput="update_item_details(this)" onfocus="$(this).css('border', '0px')" autocomplete="off" list="items" id="item" required />
                                         </td>
                                         <td>
                                             <input type="number" min="0" step="any" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>
@@ -285,7 +285,7 @@ function get_form_html($id) {
         }
         function add_sale_item() {
             var row = '<tr  status="active" slno=""><td style="text-align: center;"></td><td>'
-                    + '<input type="text" onchange="update_item_details(this)" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
+                    + '<input type="text" onchange="update_item_details(this)"  oninput="update_item_details(this)" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
                     + '</td><td><input type="number" min="0" step="any" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>'
                     + '</td><td><input type="text"  value="0" min="0" required disabled onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>'
                     + '</td><td><input type="text" min="0" required  id="total" disabled/></td><td style="width: 20px; text-align: center; padding-right: 5px;">'
@@ -386,30 +386,6 @@ function get_form_html($id) {
                         }, function(message) {
                             alert(message);
                         });
-                }else if (operation == 'update') {
-                    var data = {
-                        form_id: form_id,
-                        customer_id: customer_id,
-                        total: total,
-                        net_amount: net_total,
-                        tax_amount: total_tax,
-                        items: items
-                    }
-                        update_form_data(data, function(message, sale_id) {
-                            //$('form.action_form').get(0).reset();
-                            //alert(message);
-                            print_bill(data, customer_name, sale_id);
-                            get_form(1,
-                                function(html) {
-                                    $('div#form-body').html(html);
-                                }, function(message) {
-                                    $('font#section_heading').empty();
-                                    $('div#form-body').empty();
-                                    alert(message);
-                                });
-                        }, function(message) {
-                            alert(message);
-                        });
                 } else {
                     alert("Invalid Operation " + form_id + ' - ' + operation);
                 }
@@ -430,7 +406,11 @@ function get_form_html($id) {
                 }else if(hour>12){                    
                     hour = parseInt(hour)-parseInt(12);
                 }                
-                var time = hour+":"+d.getMinutes()+" "+am_or_pm;
+                var minut = d.getMinutes();
+                if(minut<10){
+                    minut = "0"+minut;
+                }
+                var time = hour+":"+minut+" "+am_or_pm;
                 html = html + "<div<!-- style=\"padding:10px 0;\"><table style=\"float:right;\">"
                         +"<tr><td>Date</td><td>:</td><td>" + date + "</td></tr>"
                         +"<tr><td>Time</td><td>:</td><td>" + time + "</td></tr></table>";
