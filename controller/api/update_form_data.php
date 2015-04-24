@@ -46,6 +46,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         if($item_id == $sale_item_prev->item_id){
                             $new_item = false;
                             if($sale_item_new->quantity != $sale_item_prev->quantity ){
+                                //updating quantity changed items
                                 $diff = $sale_item_prev->quantity - $sale_item_new->quantity;
                                 $inv = new inventry();
                                 $inv->company_id = $sale->company_id;
@@ -59,7 +60,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                             }
                         }
                     }
-                    if($new_item){
+                    if($new_item){   ///updating stock with new items
                         $qty = $sale_item_new->quantity;
                         $inv = new inventry();
                         $inv->company_id = $sale->company_id;
@@ -69,6 +70,28 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         $inv->in_stock_count = $inv->in_stock_count - $qty; 
                         $inv->updateInventry();
                         $description = "Updating inventry (sales return - new item) diff : ".$qty.", inventry : ".$inv->to_string();
+                        Log::i($tag, $description);
+                    }
+                }
+                //checking for removed items
+                foreach ($sales_items_prev as $sale_item_prev) {
+                    $item_id = $sale_item_prev->item_id;
+                    $removed_item = true;
+                    foreach ($sales_items_new as $sale_item_new) {
+                        if($item_id == $sale_item_new->item_id){
+                            $removed_item = false;
+                        }
+                    }
+                    if($removed_item){
+                        $qty = $sale_item_prev->quantity;
+                        $inv = new inventry();
+                        $inv->company_id = $sale->company_id;
+                        $inv->item_id = $item_id;
+                        $invs = $inv->getInventryForSpecificCompanyAndItem();
+                        $inv = $invs[0];  
+                        $inv->in_stock_count = $inv->in_stock_count + $qty; 
+                        $inv->updateInventry();
+                        $description = "Updating inventry (sales return - remoed item) diff : ".$qty.", inventry : ".$inv->to_string();
                         Log::i($tag, $description);
                     }
                 }
