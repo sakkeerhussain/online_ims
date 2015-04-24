@@ -45,6 +45,11 @@ class customer {
     function getCustomer(){
         return $this->db_handler->get_model($this,  $this->id);
     }
+    function updateCustomer(){
+        return $this->db_handler->update_model($this);
+        $description = "Updating Customer (" . $customer->to_string() . ")";
+        Log::i($this->tag, $description);
+    }
     function getCustomers($company_id){
         return $this->db_handler->get_model_list($this,  'company_id = '.$company_id);
     }

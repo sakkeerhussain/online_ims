@@ -25,6 +25,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $sale = new sales();
                 $sale->id = $_POST['sale_id'];
                 $sale->getSale();
+                $balance = $_POST['total'] - $sale->amount;
                 $sale->amount = $_POST['total'];
                 $sale->net_amount = $_POST['net_amount'];
                 $sale->tax_amount = $_POST['tax_amount'];
@@ -74,6 +75,11 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 
                 $sale->setSalesItems($sales_items_new);
                 $sale->updateSale();
+                $customer = new customer();
+                $customer->id = $sale->customer_id;
+                $customer->getCustomer();
+                $customer->total_purchace_amount = $customer->total_purchace_amount + $balance;
+                $customer->updateCustomer();
                 $message = "Sale Updated Successfuly";
                 $responce = array('status' => 'success', 'error' => ''.$sale->to_string(), 'data' => array("message" => $message, "id"=>$sale->id));
             } else {

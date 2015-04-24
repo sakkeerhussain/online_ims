@@ -62,6 +62,13 @@ class sales {
             $inv->updateInventry();
         }
         $description = "Added new Sale (". $sale->to_string().")";
+        
+        $customer = new customer();
+        $customer->id = $sale->customer_id;
+        $customer->getCustomer();
+        $customer->total_purchace_amount = $customer->total_purchace_amount + $sale->amount;
+        $customer->updateCustomer();
+        
         Log::i($this->tag, $description);
         return $sale_id;
     }
