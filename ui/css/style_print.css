@@ -41,5 +41,6 @@ font#print_container_header_company_adderss{
     font-size: 12px;
 }
 img#logo_bill{
-    width: 100%
+    width: 90%;
+    margin: 0 auto;
 }
