@@ -36,6 +36,9 @@ function get_form_html($id) {
                             #
                         </td>
                         <td>
+                            ID
+                        </td>
+                        <td>
                             DATE
                         </td>
                         <td style="">
@@ -71,6 +74,9 @@ function get_form_html($id) {
                         <tr id="<?php echo $purchace->id; ?>">
                             <td style="text-align: center;">
                                 <?php echo ++$i; ?>
+                            </td>
+                            <td>
+                                <?php echo $purchace->id; ?>
                             </td>
                             <td>
                                 <?php echo $purchace->created_at; ?>
