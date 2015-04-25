@@ -38,9 +38,10 @@ font{
     color: #000;
 }
 font#print_container_header_company_adderss{
-    font-size: 12px;
+    font-size: 14px;
 }
 img#logo_bill{
-    width: 90%;
+    width: 200px;
+    height: 60px;
     margin: 0 auto;
 }

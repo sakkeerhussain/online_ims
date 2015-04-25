@@ -89,7 +89,7 @@ spl_autoload_register(function($class_name) {
         
         <div id="print_container">
             <div id="print_container_header"> 
-                <img id="logo_bill" src="images/nutiez.jpg"/>
+                <img id="logo_bill" src="images/nutiez.png"/>
                 <br/>
                 <font id="print_container_header_company_adderss">
                     Royal Piknik Traders LLP, 29/861
