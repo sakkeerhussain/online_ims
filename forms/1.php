@@ -230,7 +230,7 @@ function get_form_html($id) {
             if ($.isNumeric($total)) {
                 $parent.find('input#total').val($total);
                 var $tax_percentage = parseFloat($parent.find('input#rate').attr('tax'));
-                var $tax = $total * $tax_percentage / 100;
+                var $tax = ($total * $tax_percentage) / (100 + $tax_percentage);
                 //$tax = $tax.toFixed(2);
                 if($.isNumeric($tax)){
                     $parent.find('input#total').attr('tax', $tax);
