@@ -64,7 +64,7 @@ function get_form_html($id) {
                     $user = new user();
                     $user->id = $_SESSION['user_id'];
                     $user->getUser();
-                    $sales = $sale_obj->getTodaysSales($user->company_id);
+                    $sales = $sale_obj->getLastWeeksSales($user->company_id);
                     $i = 0;
                     if($sales==NULL || sizeof($sales)==0){
                         echo '<tr><td colspan="8"> No Sales Found </td></tr>';

@@ -109,6 +109,14 @@ class sales {
         }
         return $sales;
     }
+    function getLastWeeksSales($company_id){ 
+        $sales = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . ' and `sale_at` >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) ORDER BY `id` DESC');
+        foreach ($sales as $sale) {
+            $sale_item = new sales_items();
+            $sale->sales_items = $sale_item->getSaleItems($sale->id);
+        }
+        return $sales;
+    }
 }
 
 //$s = new sales();
