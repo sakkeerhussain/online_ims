@@ -100,6 +100,16 @@ function update_form_data(data, success_handler, failure_handler){
     });
 }
 
+function delete_form_data(data, success_handler, failure_handler){
+    ajax('../controller/api/delete_form_data.php', 'POST', data, function(responce) {
+        if (responce.status === 'success') {    
+            success_handler(responce.data.message);
+        } else {
+            failure_handler(responce.error);
+        }
+    });
+}
+
 function add_purchace_to_stock(data, success_handler, failure_handler){
     ajax('../controller/api/add_to_stock.php', 'POST', data, function(responce) {
         if (responce.status === 'success') {    

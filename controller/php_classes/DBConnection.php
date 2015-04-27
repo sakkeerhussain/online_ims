@@ -107,6 +107,21 @@ class DBConnection {
         }
     }
 
+    function delete_model($model, $id=null) {
+        if($id==NULL){
+            $id = $model->id;
+        }
+        $table_name = get_class($model);
+        $query = 'DELETE FROM :table_name WHERE `id` = ' . $id ;
+        $query = str_replace(':table_name', $table_name, $query);
+        $result = $this->executeQuery($query);
+        if ($result) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
     function get_model_list($model, $conditions = null) {
         $table_name = get_class($model);
         $query = 'SELECT * FROM :table_name';

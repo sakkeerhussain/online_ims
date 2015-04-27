@@ -62,6 +62,12 @@ class wendors {
         return $this->db_handler->get_model($this,  $this->id);
         
     }
+    function deleteWendor(){
+        $result = $this->db_handler->delete_model($this);
+        $description = "Vendor deleted, result : ".$result;
+        Log::i($this->tag, $description);
+        return $result;
+    }
     function getWendors(){
         $wendors = $this->db_handler->get_model_list($this);
         return $wendors;

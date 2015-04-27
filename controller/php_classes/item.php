@@ -55,6 +55,12 @@ class item {
     function getItem(){
         return $this->db_handler->get_model($this,  $this->id);
     }
+    function deleteItem(){
+        $result = $this->db_handler->delete_model($this);
+        $description = "Item deleted, result : ".$result;
+        Log::i($this->tag, $description);
+        return $result;
+    }
     function getItems(){
         return $this->db_handler->get_model_list($this);
     }
