@@ -46,6 +46,18 @@ class wendors {
             return FALSE;
         }
     }
+    function updateWendor($wendor = null) {
+        if ($wendor == null) {
+            $wendor = $this;
+        }
+        if($this->db_handler->update_model($wendor)){
+            $description = "updated Wendor (" . $wendor->to_string() . ")";
+            Log::i($this->tag, $description);
+            return True;
+        }else{
+            return FALSE;
+        }
+    }
     function getWendor(){
         return $this->db_handler->get_model($this,  $this->id);
         

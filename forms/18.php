@@ -36,10 +36,16 @@ function get_form_html($id) {
                             #
                         </td>
                         <td>
+                            ID
+                        </td>
+                        <td>
                             VENDOR NAME
                         </td>
                         <td>
                             CONTACT NUMBER
+                        </td>
+                        <td>
+                            TIN NUMBER
                         </td>
                         <td style="">
                             CONTACT ADDRESS
@@ -57,18 +63,12 @@ function get_form_html($id) {
                     foreach ($vendors as $vendor) {
                         ?>
                     <tr id="<?php echo $vendor->id; ?>" onclick="select_row(this)"  status="not_selected">
-                            <td style="text-align: center;">
-                                <?php echo ++$i; ?>
-                            </td>
-                            <td>
-                                <?php echo $vendor->wendor_name; ?>
-                            </td>
-                            <td>
-                                <?php echo $vendor->contact_no; ?>
-                            </td>
-                            <td>
-                                <?php echo $vendor->contact_address; ?>
-                            </td>
+                            <td style="text-align: center;"><?php echo ++$i; ?></td>
+                            <td><?php echo 'V-'.$vendor->id; ?></td>
+                            <td id="vendor_name"><?php echo $vendor->wendor_name; ?></td>
+                            <td id="contact_no"><?php echo $vendor->contact_no; ?></td>
+                            <td id="wendor_tin_number"><?php echo $vendor->wendor_tin_number; ?></td>
+                            <td id="contact_address"><?php echo $vendor->contact_address; ?></td>
                         </tr>
                         <?php
                     }
@@ -95,6 +95,33 @@ function get_form_html($id) {
                 $('img#edit_fade').css('display', 'none');
             }          
         }
+        function on_edit_clicked(){
+            var selected_row = $('tr[status="selected"]');
+            var vendor_name = selected_row.find('td#vendor_name').html();
+            var id = selected_row.attr('id');
+            var contact_number = selected_row.find('td#contact_no').html();
+            var tin_number = selected_row.find('td#wendor_tin_number').html();
+            var contact_address = selected_row.find('td#contact_address').html();
+            get_form(10,  ///vendor create form
+                function (html, tools){
+                    $('div#form-body').html(html);
+                    $('div#content-body-action-tools').html(tools);
+                    var form = $('div#form-body').find('form.action_form');
+                    form.attr('operation', 'update');
+                    form.attr('vendor_id', id);
+                    form.find('input#vendor_name').val(vendor_name);
+                    form.find('input#contact_number').val(contact_number);
+                    form.find('input#contact_address').val(contact_address);
+                    form.find('input#tin_number').val(tin_number);
+                    form.find('input[type=submit]').val('UPDATE');
+                },
+                function (message){
+                    $('font#section_heading').empty();
+                    $('div#form-body').empty();
+                    alert(message);
+                }
+             );
+        }
     </script>
 
     <?php
@@ -106,7 +133,7 @@ function get_form_tools_html($id){
     ob_start();
     ?>    
     <img id="edit_fade" src="../ui/images/edit_fade.png" height="40" width="40" style="margin: 15px auto 0px 12px;">
-    <img id="edit" onclick="" src="../ui/images/edit.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
+    <img onclick="on_edit_clicked()" id="edit" onclick="" src="../ui/images/edit.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
     <script>
         
     </script>

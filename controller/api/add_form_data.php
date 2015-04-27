@@ -99,11 +99,13 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
         } else if ($form_id == 10) { //vendor form
             if (isset($_POST['vendor_name']) and !empty($_POST['vendor_name']) 
                     and isset($_POST['contact_number']) and !empty($_POST['contact_number']) 
+                    and isset($_POST['tin_number']) and !empty($_POST['tin_number']) 
                     and isset($_POST['contact_address']) and !empty($_POST['contact_address'])) {
 
                 $vendor = new wendors();
                 $vendor->wendor_name = $_POST['vendor_name'];
                 $vendor->contact_no = $_POST['contact_number'];
+                $vendor->wendor_tin_number = $_POST['tin_number'];
                 $vendor->contact_address = $_POST['contact_address'];
                 if ($vendor->addWendor()) {
                     $responce = array('status' => 'success', 'error' => '',

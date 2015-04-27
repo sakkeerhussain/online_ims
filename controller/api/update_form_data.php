@@ -104,26 +104,44 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $customer->total_purchace_amount = $customer->total_purchace_amount + $balance;
                 $customer->updateCustomer();
                 $message = "Sale Updated Successfuly";
-                $responce = array('status' => 'success', 'error' => ''.$sale->to_string(), 'data' => array("message" => $message, "id"=>$sale->id));
+                $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$sale->id));
             } else {
                 ob_start();
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
+        }  else if ($form_id == 10) {   ///edit vendor
+            if (isset($_POST['vendor_id']) and !empty($_POST['vendor_id']) 
+                    and isset($_POST['vendor_name']) and !empty($_POST['vendor_name']) 
+                    and isset($_POST['contact_number']) and !empty($_POST['contact_number']) 
+                    and isset($_POST['tin_number']) and !empty($_POST['tin_number']) 
+                    and isset($_POST['contact_address']) and !empty($_POST['contact_address'])) {
+                $vendor = new wendors();
+                $vendor->id = $_POST['vendor_id'];
+                $vendor->getWendor();
+                $vendor->contact_address = $_POST['contact_address'];
+                $vendor->contact_no = $_POST['contact_number'];
+                $vendor->wendor_name = $_POST['vendor_name'];
+                $vendor->wendor_tin_number = $_POST['tin_number'];
+                if($vendor->updateWendor()){
+                    $message = "Vendor Updated Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$vendor->id)); 
+                }else{
+                    $description = "Vendor update failed vendor : ".$vendor->to_string();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                }               
+                
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
         } else {
             $responce = array('status' => 'failed', 'error' => 'Invalid Form', 'data' => array());
         }
-//    $user = new User();
-//    $user_name = $_POST['user_name'];
-//    $password = $_POST['password'];
-//    $result = $user->login($user_name, $password);
-//    if($result===FALSE){        
-//        $responce = array('status'=>'failed','error'=>'User does not exists','data'=> array());
-//    }  elseif ($result===TRUE) {        
-//        $responce = array('status'=>'failed','error'=>'Username or password is not correct','data'=> array());
-//    }  else {  
-//        $responce = array('status'=>'success','error'=>'','data'=> array('user'=>$user));
-//    }
     } else {
         $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
     }

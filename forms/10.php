@@ -58,6 +58,16 @@ function get_form_html($id) {
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <td class="field_name"> 
+                        <font>TIN NUMBER</font>
+                    </td>
+                    <td class="field"> 
+                        <div style="padding: 0px 0px;">
+                            <input type="text" id="tin_number" required />
+                        </div>
+                    </td>
+                </tr>
                 <tr></tr>
                 <tr>
                     <td></td>
@@ -89,10 +99,35 @@ function get_form_html($id) {
                     form_id: id,
                     vendor_name: $('form input#vendor_name').val(),
                     contact_number: $('form input#contact_number').val(),
+                    tin_number: $('form input#tin_number').val(),
                     contact_address: $('form input#contact_address').val()
                 }
                 add_form_data(data, function(message) {
-                    $('form.action_form').get(0).reset();
+                    get_form(10,
+                        function(html, tools) {
+                             $('div#form-body').html(html);
+                            $('div#content-body-action-tools').html(tools);
+                        }, function(message) {
+                             $('font#section_heading').empty();
+                             $('div#form-body').empty();
+                             alert(message);
+                        });
+                    alert(message);
+                }, function(message) {
+                    alert(message);
+                });
+            }else if (operation == 'update') {
+                var vendor_id = $(this).attr('vendor_id');
+                var data = {
+                    form_id: id,
+                    vendor_id: vendor_id,
+                    vendor_name: $('form input#vendor_name').val(),
+                    contact_number: $('form input#contact_number').val(),
+                    tin_number: $('form input#tin_number').val(),
+                    contact_address: $('form input#contact_address').val()
+                }
+                update_form_data(data, function(message) {
+                    load_vendors_list();
                     alert(message);
                 }, function(message) {
                     alert(message);
@@ -113,9 +148,9 @@ function get_form_html($id) {
 function get_form_tools_html($id){
     ob_start();
     ?>    
-    <img onclick="load_items_list()" src="../ui/images/list_icon.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer;">
+    <img onclick="load_vendors_list()" src="../ui/images/list_icon.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer;">
     <script>
-        function load_items_list(){
+        function load_vendors_list(){
             get_form(18,
                 function(html, tools) {
                     $('div#form-body').html(html);
