@@ -10,7 +10,7 @@ function ajax(url, type, data, responceHandler) {
         data: data,
         success: function(html) {
             disable_spinner();
-            console.log(html);
+            //console.log(html);
             var responce = $.parseJSON(html);
             console.dir(responce);
             responceHandler(responce);
@@ -18,7 +18,7 @@ function ajax(url, type, data, responceHandler) {
         error: function(html) {
             disable_spinner();
             console.log(html);
-            alert('Error occured');
+            alert('Can\'t connect to server now !');
         }
     });
 }

@@ -3,11 +3,11 @@
 function get_form_html($id) {
     ob_start();
     ?>
-    <div style="height: 150px; 
+    <div id="head_div" style="height: 150px; 
          width: 320px; background-color: #ECECEC; 
          border-radius: 5px;margin-left: auto;display: none; ">
 
-
+        
 
     </div>
     <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
@@ -34,6 +34,9 @@ function get_form_html($id) {
                     <tr status="not_selected">
                         <td>
                             #
+                        </td>
+                        <td>
+                            ID
                         </td>
                         <td>
                             ITEM NAME
@@ -64,6 +67,7 @@ function get_form_html($id) {
                         ?>
                     <tr id="<?php echo $item->id; ?>" onclick="select_row(this)">
                             <td style="text-align: center;"><?php echo ++$i; ?></td>
+                            <td id="item_id"><?php echo 'ITEM-'.$item->id; ?></td>
                             <td id="item_name"><?php echo $item->item_name; ?></td>
                             <td id="item_code"><?php echo $item->item_code; ?></td>
                             <td id="mrp"><?php echo $item->mrp; ?></td>
@@ -107,7 +111,7 @@ function get_form_html($id) {
             var item_code = selected_row.find('td#item_code').html();
             var mrp = selected_row.find('td#mrp').html();
             var purchace_rate = selected_row.find('td#purchace_rate').html();
-            var tax_category_id = selected_row.find('td#purchace_rate').html();
+            var tax_category_id = selected_row.find('td#tax_category').attr('tax_category_id');
             get_form(11,  ///item create form
                 function (html, tools){
                     $('div#form-body').html(html);
@@ -119,8 +123,10 @@ function get_form_html($id) {
                     form.find('input#item_code').val(item_code);
                     form.find('input#mrp').val(mrp);
                     form.find('input#purchace_rate').val(purchace_rate);
-                    form.find('select#tax_category').val(tax_category_id);
+                    form.find('select#tax_category').find('option#'+tax_category_id).prop('selected', true);
                     form.find('input[type=submit]').val('UPDATE');
+                    $('div#head_div').html('ID : ITEM-'+id);
+                    $('div#head_div').css('display', 'block');
                 },
                 function (message){
                     $('font#section_heading').empty();

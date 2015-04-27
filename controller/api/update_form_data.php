@@ -127,7 +127,38 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $message = "Vendor Updated Successfuly";
                     $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$vendor->id)); 
                 }else{
-                    $description = "Vendor update failed vendor : ".$vendor->to_string();
+                    $description = "Vendor update failed, vendor : ".$vendor->to_string();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                }               
+                
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
+        }else if ($form_id == 11) {   ///edit item
+            if (isset($_POST['item_id']) and !empty($_POST['item_id']) 
+                    and isset($_POST['item_name']) and !empty($_POST['item_name']) 
+                    and isset($_POST['item_code']) and !empty($_POST['item_code']) 
+                    and isset($_POST['mrp']) and !empty($_POST['mrp']) 
+                    and isset($_POST['tax_category_id']) and !empty($_POST['tax_category_id']) 
+                    and isset($_POST['purchace_rate']) and !empty($_POST['purchace_rate'])) {
+                $item = new item();
+                $item->id = $_POST['item_id'];
+                $item->getItem();
+                $item->item_code = $_POST['item_code'];
+                $item->item_name = $_POST['item_name'];
+                $item->mrp = $_POST['mrp'];
+                $item->purchace_rate = $_POST['purchace_rate'];
+                $item->tax_category_id = $_POST['tax_category_id'];
+                if($item->updateItem()){
+                    $message = "Item Updated Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$item->id)); 
+                }else{
+                    $description = "Item update failed, item : ".$item->to_string();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
                     $responce = array('status' => 'success', 'error' => $message, 'data' => array());

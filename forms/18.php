@@ -64,7 +64,7 @@ function get_form_html($id) {
                         ?>
                     <tr id="<?php echo $vendor->id; ?>" onclick="select_row(this)"  status="not_selected">
                             <td style="text-align: center;"><?php echo ++$i; ?></td>
-                            <td><?php echo 'V-'.$vendor->id; ?></td>
+                            <td><?php echo 'VENDOR-'.$vendor->id; ?></td>
                             <td id="vendor_name"><?php echo $vendor->wendor_name; ?></td>
                             <td id="contact_no"><?php echo $vendor->contact_no; ?></td>
                             <td id="wendor_tin_number"><?php echo $vendor->wendor_tin_number; ?></td>
@@ -114,6 +114,8 @@ function get_form_html($id) {
                     form.find('input#contact_address').val(contact_address);
                     form.find('input#tin_number').val(tin_number);
                     form.find('input[type=submit]').val('UPDATE');
+                    $('div#head_div').html('ID : VENDOR-'+id);
+                    $('div#head_div').css('display', 'block');
                 },
                 function (message){
                     $('font#section_heading').empty();

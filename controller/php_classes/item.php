@@ -40,6 +40,18 @@ class item {
             return FALSE;
         }
     }
+    function updateItem($item=null){
+        if($item==null){
+            $item = $this;
+        }
+        if($this->db_handler->update_model($item)){
+            $description = "Updated item (".  $item->to_string().")";
+            Log::i($this->tag, $description);
+            return True;
+        }else{
+            return FALSE;
+        }
+    }
     function getItem(){
         return $this->db_handler->get_model($this,  $this->id);
     }

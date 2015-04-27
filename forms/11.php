@@ -18,12 +18,8 @@ function get_form_html($id) {
             width: 100%;
         }
     </style>
-    <div style="height: 150px; 
-         width: 320px; background-color: #ECECEC; 
-         border-radius: 5px;margin-left: auto;display: none; ">
-
-
-
+    <div id="head_div" style="padding: 5px 0; background-color: #ECECEC;  color: #21ACD7;
+         border-radius: 5px;margin-left: auto;display: none; text-align: center; ">
     </div>
     <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
         <form action="#" method="post" class="action_form" operation="add" style="width:100%;" >
@@ -123,7 +119,32 @@ function get_form_html($id) {
                     tax_category_id: $('form select#tax_category').find('option:selected').attr('id')
                 }
                 add_form_data(data, function(message) {
-                    $('form.action_form').get(0).reset();
+                    get_form(11,
+                        function(html, tools) {
+                             $('div#form-body').html(html);
+                             $('div#content-body-action-tools').html(tools);
+                        }, function(message) {
+                             $('font#section_heading').empty();
+                             $('div#form-body').empty();
+                             alert(message);
+                        });
+                    alert(message);
+                }, function(message) {
+                    alert(message);
+                });
+            } else if (operation == 'update') {
+                var item_id = $('form.action_form').attr('item_id');
+                var data = {
+                    form_id: id,
+                    item_id: item_id,
+                    item_name: $('form input#item_name').val(),
+                    item_code: $('form input#item_code').val(),
+                    mrp: $('form input#mrp').val(),
+                    purchace_rate: $('form input#purchace_rate').val(),
+                    tax_category_id: $('form select#tax_category').find('option:selected').attr('id')
+                }
+                update_form_data(data, function(message) {
+                    load_items_list();
                     alert(message);
                 }, function(message) {
                     alert(message);

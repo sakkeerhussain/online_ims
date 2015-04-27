@@ -18,12 +18,8 @@ function get_form_html($id) {
             width: 100%;
         }
     </style>
-    <div style="height: 150px; 
-         width: 320px; background-color: #ECECEC; 
-         border-radius: 5px;margin-left: auto;display: none; ">
-
-
-
+    <div id="head_div" style="padding: 5px 0; background-color: #ECECEC;  color: #21ACD7;
+         border-radius: 5px;margin-left: auto;display: none; text-align: center; ">
     </div>
     <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
         <form action="#" method="post" class="action_form" operation="add" style="width:100%;" >
@@ -106,7 +102,7 @@ function get_form_html($id) {
                     get_form(10,
                         function(html, tools) {
                              $('div#form-body').html(html);
-                            $('div#content-body-action-tools').html(tools);
+                             $('div#content-body-action-tools').html(tools);
                         }, function(message) {
                              $('font#section_heading').empty();
                              $('div#form-body').empty();
