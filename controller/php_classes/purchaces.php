@@ -69,10 +69,15 @@ class purchaces {
     }
 
     function getPurchace() {
-        $this->db_handler->get_model($this, $this->id);
-        $purchace_item = new purchace_items();
-        $purchace_items = $purchace_item->getPurchace_items($this->id);
-        $this->purchace_items = $purchace_items;
+        $result = $this->db_handler->get_model($this, $this->id);
+        if($result){
+            $purchace_item = new purchace_items();
+            $purchace_items = $purchace_item->getPurchace_items($this->id);
+            $this->purchace_items = $purchace_items;
+            return TRUE;
+        }else{
+            return FALSE;
+        }
     }
 
     function getPurchaces($company_id) {
