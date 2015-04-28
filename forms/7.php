@@ -116,8 +116,8 @@ function get_form_html($id) {
                                     foreach ($items as $item) {
                                         echo '<option id="' . $item->id .'"'
                                         . 'purchace_rate="' . $item->purchace_rate .'"'        
-                                        . ' value="' . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ')" >'
-                                        . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ')'
+                                        . ' value="' . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ' )" >'
+                                        . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ' )'
                                         . '</option>';
                                     }
                                     ?>  
@@ -130,7 +130,7 @@ function get_form_html($id) {
                                             <?php echo $i + 1; ?>
                                         </td>
                                         <td>
-                                            <input type="text" onchange="update_item_details(this)" onfocus="$(this).css('border', '0px')" autocomplete="off" list="items" id="item" required />
+                                            <input type="text" oninput="update_item_details(this)" onchange="update_item_details(this)" onfocus="$(this).css('border', '0px')" autocomplete="off" list="items" id="item" required />
                                         </td>
                                         <td>
                                             <input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>

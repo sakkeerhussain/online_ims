@@ -46,6 +46,8 @@ class purchace_items {
     function getPurchace_items($purchace_id){
         $purchace_items = $this->db_handler->get_model_list($this,  'purchace_id = '.$purchace_id);
         return $purchace_items;
+    }    
+    function clearPurchaceItems($purchace_id){
+        return $this->db_handler->delete_model_list($this,  'purchace_id = '.$purchace_id);
     }
-
 }

@@ -47,6 +47,9 @@ function get_form_html($id) {
                         <td style="">
                             PURCHACED BY
                         </td>
+                        <td>
+                            AMOUNT
+                        </td>
                         <td style="">
                             STOCKED
                         </td>
@@ -93,6 +96,9 @@ function get_form_html($id) {
                                 $p_manager->getUser();
                                 echo $p_manager->name;
                                 ?>
+                            </td>
+                            <td>
+                                <?php echo $purchace->amount; ?>
                             </td>
                             <td>
                                 <?php

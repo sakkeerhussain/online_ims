@@ -36,13 +36,13 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                             $item = new item();
                             $item->id = $p_item->item_id;
                             $item->getItem();
-                            $p_item_array=array("item_name"=>$item->item_name.' ( '.$item->item_code.' ) ' , "quantity"=>$p_item->quantity, "rate"=>$p_item->rate);
+                            $p_item_array=array("item_name"=>$item->item_name.' - '.$item->item_code.' ( ID : '.$item->id.' )' , "quantity"=>$p_item->quantity, "rate"=>$p_item->rate);
                             array_push($items, $p_item_array);
                         }
-                        $purchace_array = array("wendor"=>$vendor_name, "stocked"=>$purchace->stocked, "amount"=>$purchace->amount, "items"=>$items);
+                        $purchace_array = array("id"=>$purchace->id,"wendor"=>$vendor_name, "stocked"=>$purchace->stocked, "amount"=>$purchace->amount, "items"=>$items);
                         $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "data"=>$purchace_array));
                     } else {
-                        $responce = array('status' => 'failed', 'error' => 'Invalid Purchace ID', 'data' => array());
+                        $responce = array('status' => 'failed', 'error' => 'The Purchace is of another shop', 'data' => array());
                     }
                 } else {
                     $responce = array('status' => 'failed', 'error' => 'Invalid Purchace ID', 'data' => array());

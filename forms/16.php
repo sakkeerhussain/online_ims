@@ -98,7 +98,7 @@ function get_form_html($id) {
                                 ?>
                             </td>
                             <td>
-        <?php echo $purchace->amount; ?>
+                                <?php echo $purchace->amount; ?>
                             </td>
                             <td id="ok_button" style="width: 20px;text-align: center; padding: 10px;">
                                 <img id="add_to_stock_button" style="width: 20px; height: 20px; cursor: pointer;"
