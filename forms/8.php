@@ -21,15 +21,12 @@ function get_form_html($id) {
             width: 100%;
         }
     </style>
-    <div style="height: 150px; 
-         width: 320px; background-color: #ECECEC; 
-         border-radius: 5px;margin-left: auto;display: none; ">
-
-
-
+    <div id="head_div" style="padding: 5px 0; background-color: #ECECEC;  color: #21ACD7;
+         border-radius: 5px;margin-left: auto; text-align: center; ">
+        ID : PURCHACE-<input style="padding: 0 0 0 5px;" onchange="load_purchace()" type="number" id="purchace_id" />
     </div>
     <div style="margin-top: 30px; background-color:transparent;padding-bottom: 100px;">
-        <form action="#" method="post" onsubmit="return false" class="action_form" operation="add" >
+        <form action="#" method="post" onsubmit="return false" class="action_form" operation="update" >
             <table style="width:100%;">
                 <tr>
                     <td class="field_name">                    
@@ -37,20 +34,7 @@ function get_form_html($id) {
                     </td>
                     <td class="field"> 
                         <div class="parent">
-                            <input id="wendor_id" onfocus="$(this).css('border', '0px')" required list="wendors" autocomplete="off" style="border: 0;" />
-                            <datalist id="wendors">
-                                <?php
-                                $wendor = new wendors();
-                                $wendors = array();
-                                $wendors = $wendor->getWendors();
-                                foreach ($wendors as $wendor) {
-                                    echo '<option id="' . $wendor->id
-                                    . '" value="' . $wendor->wendor_name . ' ( ID : ' . $wendor->id . ')" >'
-                                    . $wendor->wendor_name . ' ( ID : ' . $wendor->id . ')'
-                                    . '</option>';
-                                }
-                                ?>    
-                            </datalist>
+                            <input id="wendor_id" required disabled="true" autocomplete="off" style="border: 0;" />
                         </div>
                     </td>
                 </tr>
@@ -173,13 +157,13 @@ function get_form_html($id) {
                                  background-color: #0d92bb; border-radius: 5px; float: left;">
 
                                 <div style="width: 33.33%; float: right;  ">
-                                    <input style="width: 100%;" type="submit" value="ADD" />
+                                    <input style="width: 100%;" disabled="true" type="submit" value="ADD" />
                                 </div>
                                 <div style="width: 33.33%;  float: right;  ">
-                                    <input style="width: 100%;" type="reset" value="CANCEL" /> 
+                                    <input style="width: 100%;" disabled="true" type="reset" value="CANCEL" /> 
                                 </div>
                                 <div style="width: 33.33%;">
-                                    <input style="width: 100%;" onclick="add_purchace_item()" type="button" value="ADD ITEM" /> 
+                                    <input style="width: 100%;" disabled="true" onclick="add_purchace_item()" type="button" value="ADD ITEM" /> 
                                 </div>
                             </div>
                         </div>
@@ -250,7 +234,7 @@ function get_form_html($id) {
         }
         function add_purchace_item() {
             var row = '<tr  status="active" slno=""><td style="text-align: center;"></td><td>'
-                    +'<input type="text" onchange="update_item_details(this)" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
+                    +'<input type="text" oninput="update_item_details(this)" onchange="update_item_details(this)" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
                     +'</td><td><input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>'
                     +'</td><td><input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>'
                     +'</td><td><input type="text" min="0" required  id="total" disabled/></td><td style="width: 20px; text-align: center; padding-right: 5px;">'
@@ -258,27 +242,60 @@ function get_form_html($id) {
                     +'<img id="activate_button" onclick="enable_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto; margin-left: auto; display: none;" src="../ui/images/tick_button.png" />'
                     +'</td></tr>';
             var lastcount = $('table#items_table tbody tr:last-child').attr('slno');
+            if(!($.isNumeric(lastcount))){
+                lastcount = 0;
+            }
             $('table#items_table tbody').append(row);
             lastcount = parseInt(lastcount) + 1;
             $('table#items_table tbody tr:last-child').attr('slno', lastcount);
             $('table#items_table tbody tr:last-child td:first-child').html(lastcount);
         }
+        function load_purchace(){
+            var purchace_id = $('input#purchace_id').val();
+            var data = {
+                        form_id: 8,
+                        purchace_id: purchace_id
+            }
+            get_form_data(data,
+                   function(message, purchace) {
+                       //alert(message);
+                       var form = $('form.action_form');
+                       form.find('input#wendor_id').val(purchace.wendor);
+                       form.attr('purchace_id', purchace.id);
+                       form.find('span#total').html(purchace.amount);
+                       var items = purchace.items;
+                       $('table#items_table tbody').empty();
+                       for(var i = 0; i<items.length; i++){
+                            add_purchace_item();
+                            var row = $('table#items_table tbody tr:last-child');
+                            var item = items[i];
+                            row.find('input#item').attr('disabled', 'true');
+                            row.find('input#item').val(item.item_name);
+                            row.find('input#quantity').val(item.quantity);
+                            //row.find('input#quantity').attr('max', item.quantity);
+                            row.find('input#rate').val(item.rate);
+                            row.find('input#total').val(item.rate * item.quantity);
+                       } 
+                       //alert(purchace.stocked);
+                       if(purchace.stocked==1){
+                           form.find('input').prop('disabled', 'true');
+                           alert("Purchace already stocked. Can't return now");
+                       }else{                           
+                           form.find('input[type="button"]').prop('disabled', null);
+                           form.find('input[type="submit"]').prop('disabled', null);
+                           form.find('input[type="reset"]').prop('disabled', null);
+                           form.find('input[type="number"]').prop('disabled', null);
+                       }
+                   }, function(message) {
+                       var form = $('form.action_form');
+                       form.find('input').prop('disabled', 'true');
+                       alert(message);
+                   });
+            }
 
         $(document).ready(function(e) {
             $('form.action_form').on('submit', function(e) {
                 e.preventDefault();
-                var wendor_input = $('form input#wendor_id');
-                var wendor = wendor_input.val();
-                var wendor_id = 0;
-                var wendor_option_obj = $('datalist#wendors').find("option[value='" + wendor + "']");
-                if (wendor_option_obj.length == "0") {
-                    wendor_input.css('border', '1px solid #f00');
-                    alert("Invalid Wendor");
-                    return;
-                }else{
-                    wendor_id = wendor_option_obj.attr('id');
-                }
-                
                 var items = new Array();
                 var i = 0;
                 var items_table = $('#items_table').find('tbody').children();
@@ -296,10 +313,12 @@ function get_form_html($id) {
                             var id = item_option_obj.attr('id');
                             var quantity = $(this).find('input#quantity').val();
                             var rate = $(this).find('input#rate').val();
+                            var total = $(this).find('input#total').val();
                             var item = {
                                 id:id,
                                 quantity:quantity,
-                                rate:rate
+                                rate:rate,
+                                total:total
                             }
                             items[i++] = item;
                         }
@@ -311,23 +330,26 @@ function get_form_html($id) {
                     return;
                 }
                 
-                var id = 7;
+                var id = 8;
                 var operation = $(this).attr('operation');
+                var purchace_id = $(this).attr('purchace_id');
                 var total = $('span#total').html();
                 
-                if (operation == 'add') {
+                if (operation == 'update') {
                     var data = {
                         form_id: id,
-                        wendor_id: wendor_id,
+                        purchace_id: purchace_id,
                         total: total,
                         items: items
                     }
-                    add_form_data(data, function(message) {
-                        //$('form.action_form').get(0).reset();
-                        get_form(7,function(html) {
+                    update_form_data(data, 
+                        function(message) {
+                            get_form(8,function(html, tools) {
                                     $('div#form-body').html(html);
+                                    $('div#content-body-action-tools').html(tools);
                                 }, function(message) {
                                     $('font#section_heading').empty();
+                                    $('div#content-body-action-tools').empty();
                                     $('div#form-body').empty();
                                     alert(message);
                                 });

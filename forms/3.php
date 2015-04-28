@@ -220,7 +220,7 @@ function get_form_html($id) {
                     var form = $('div#form-body').find('form.action_form');
                     form.attr('operation', 'update');
                     form.find('input#customer_id').val(c_name+' ( ID : '+c_id+' )');
-                    form.find('input#customer_id').attr('disabled', 'disabled');
+                    form.find('input#customer_id').attr('disabled', 'true');
                     $('table#items_table tbody').empty();
                     for(var i = 0; i<items.length; i++){
                         add_sale_item();

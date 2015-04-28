@@ -110,7 +110,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
-        }  else if ($form_id == 6) {   ///edit customer
+        } else if ($form_id == 6) {   ///edit customer
             if (isset($_POST['customer_id']) and !empty($_POST['customer_id']) 
                     and isset($_POST['customer_name']) and !empty($_POST['customer_name']) 
                     and isset($_POST['contact_number']) and !empty($_POST['contact_number'])) {
@@ -124,6 +124,40 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$customer->id)); 
                 }else{
                     $description = "Customer update failed, vendor : ".$customer->to_string();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                }               
+                
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
+        } else if ($form_id == 8) {   ///edit : purchace return
+            if (isset($_POST['purchace_id']) and !empty($_POST['purchace_id']) 
+                    and isset($_POST['total']) and !empty($_POST['total']) 
+                    and isset($_POST['items']) and !empty($_POST['items'])) {
+                $purchace = new purchaces();
+                $purchace->id = $_POST['purchace_id'];
+                $purchace->getPurchace();
+                $purchace_items_prev = $purchace->getPurchaceItems();
+                $purchace_items_new = array();
+                foreach ($_POST['items'] as $purchace_array_item) {
+                    $purchace_item = new purchace_items();
+                    $purchace_item->item_id = $purchace_array_item['id'];
+                    $purchace_item->quantity = $purchace_array_item['quantity'];
+                    $purchace_item->rate = $purchace_array_item['rate'];
+                    array_push($purchace_items_new, $purchace_item);
+                }
+                $purchace->setPurchaceItems($purchace_items_new);
+                
+                if($purchace->updatePurchace()){
+                    $message = "Purchace Updated Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$purchace->id)); 
+                }else{
+                    $description = "Purchace update failed, vendor : ".$purchace->to_string();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
                     $responce = array('status' => 'success', 'error' => $message, 'data' => array());

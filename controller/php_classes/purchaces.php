@@ -49,6 +49,27 @@ class purchaces {
     public function getPurchaceItems() {
         return $this->purchace_items;
     }
+    
+    function updatePurchace($purchace = null){
+        if($purchace==null){
+            $purchace = $this;
+        }
+        $purchace_id = $this->id;
+        $result = $this->db_handler->update_model($purchace);
+        if($result){
+            $purchace_item_obj = new purchace_items();
+            $purchace_item_obj->clearPurchaceItems($purchace_id);
+            foreach ($this->purchace_items as $purchace_item) {
+                $purchace_item->purchace_id = $purchace_id;
+                $purchace_item->addPurchaceItem();
+            }
+            $description = "Updating Purchace (". $purchace->to_string().")";
+            Log::i($this->tag, $description);
+            return TRUE;        
+        }else{
+            return FALSE;
+        }
+    }
 
     function addPurchace($purchace = null) {
         if ($purchace == null) {
@@ -69,10 +90,15 @@ class purchaces {
     }
 
     function getPurchace() {
-        $this->db_handler->get_model($this, $this->id);
-        $purchace_item = new purchace_items();
-        $purchace_items = $purchace_item->getPurchace_items($this->id);
-        $this->purchace_items = $purchace_items;
+        $result = $this->db_handler->get_model($this, $this->id);
+        if($result){
+            $purchace_item = new purchace_items();
+            $purchace_items = $purchace_item->getPurchace_items($this->id);
+            $this->purchace_items = $purchace_items;
+            return TRUE;
+        }else{
+            return FALSE;
+        }
     }
 
     function getPurchaces($company_id) {
