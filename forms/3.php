@@ -293,6 +293,11 @@ function get_form_html($id) {
         }
         function print_bill(data, customer_name, sale_id) {
                 var html = '';
+                html ='<img id="logo_bill" src="images/nutiez.png"/><br/><font id="print_container_header_company_adderss">Royal Piknik Traders LLP, 29/861</font>'
+                        +'<br/><font id="print_container_header_company_adderss">Parayancheri, Calicut</font><br/><font id="print_container_header_company_adderss">'
+                        +'Phone : 0495 2741095,+91 9388627725</font><br/><font id="print_container_header_company_adderss">The kerala value added tax rules 2005/ form no. 8</font>';
+                $('div#print_container_header').html(html);
+                html = '';
                 var d = new Date();
                 var date = d.getDate()+"/"+(parseInt(d.getMonth())+parseInt(1))+"/"+d.getFullYear();
                 var hour = d.getHours();
@@ -347,7 +352,13 @@ function get_form_html($id) {
                 html = html + "</table></div>";
 //                console.log("Creating bill : " + html);
                 $('div#print_container_body').html(html);
+                html = '';
+                html = '<font>Thank you for shoping</font><br/><font>Visit again...</font> ';
+                $('div#print_container_footer').html(html);
                 print();
+                $('div#print_container_header').empty();
+                $('div#print_container_body').empty();
+                $('div#print_container_footer').empty();
             }
         function select_row(row) {
             var j_row = $(row);

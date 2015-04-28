@@ -52,6 +52,7 @@ class sales {
         $sale_id = $this->db_handler->add_model($sale);
         foreach ($this->sales_items as $sales_item) {
             $sales_item->sale_id = $sale_id;
+            $sales_item->company_id = $sale->company_id;
             $sales_item->addSaleItem();
             $inv = new inventry();
             $inv->company_id = $sale->company_id;
