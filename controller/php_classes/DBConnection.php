@@ -148,6 +148,27 @@ class DBConnection {
             return FALSE;
         }
     }
+
+    function get_model_list_from_query($query, $table_name) {
+        $array = array();
+        $result = $this->executeQuery($query);
+        if ($result) {
+            while ($row = mysql_fetch_assoc($result)) {
+                $obj = new $table_name;
+                foreach ($row as $key => $value) {
+                    $obj->{$key} = $value;
+                }
+                array_push($array, $obj);
+            }
+            if (empty($array)) {
+                return FALSE;
+            } else {
+                return $array;
+            }
+        } else {
+            return FALSE;
+        }
+    }
     
     function delete_model_list($model, $conditions = null) {
         $table_name = get_class($model);

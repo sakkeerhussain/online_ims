@@ -1,4 +1,4 @@
-function ajax(url, type, data, responceHandler) {
+ function ajax(url, type, data, responceHandler) {
     enable_spinner();    
         console.log("Loadin URL : " + url);
         if(type=='POST'){

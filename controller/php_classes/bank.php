@@ -17,6 +17,7 @@ class bank {
     public $bank_name;
     public $branch;
     public $ifsc_code;
+    public $account_number;
     public $created_at;
     public $last_edited;    
     
@@ -38,12 +39,33 @@ class bank {
         if($bank==null){
             $bank = $this;
         }
-        $this->db_handler->add_model($bank);
+        $result = $this->db_handler->add_model($bank);
         $description = "Added new Bank (". $bank->to_string().")";
         Log::i($this->tag, $description);
+        return $result;
     }
     function getBank(){
         return $this->db_handler->get_model($this,  $this->id);
     }
-    
+    function getBanks(){
+        return $this->db_handler->get_model_list($this);
+    }
+    function deleteBank(){
+        $result = $this->db_handler->delete_model($this);
+        $description = "Bank deleted, result : ".$result;
+        Log::i($this->tag, $description);
+        return $result;
+    }
+    function updateBank($bank=null){
+        if($bank==null){
+            $bank = $this;
+        }
+        if($this->db_handler->update_model($bank)){
+            $description = "Updated bank (".  $bank->to_string().")";
+            Log::i($this->tag, $description);
+            return True;
+        }else{
+            return FALSE;
+        }
+    }    
 }

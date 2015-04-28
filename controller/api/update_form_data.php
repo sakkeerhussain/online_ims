@@ -110,7 +110,32 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
-        }  else if ($form_id == 10) {   ///edit vendor
+        }  else if ($form_id == 6) {   ///edit customer
+            if (isset($_POST['customer_id']) and !empty($_POST['customer_id']) 
+                    and isset($_POST['customer_name']) and !empty($_POST['customer_name']) 
+                    and isset($_POST['contact_number']) and !empty($_POST['contact_number'])) {
+                $customer = new customer();
+                $customer->id = $_POST['customer_id'];
+                $customer->getCustomer();
+                $customer->customer_name = $_POST['customer_name'];
+                $customer->contact_number = $_POST['contact_number'];
+                if($customer->updateCustomer()){
+                    $message = "Customer Updated Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$customer->id)); 
+                }else{
+                    $description = "Customer update failed, vendor : ".$customer->to_string();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                }               
+                
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
+        }else if ($form_id == 10) {   ///edit vendor
             if (isset($_POST['vendor_id']) and !empty($_POST['vendor_id']) 
                     and isset($_POST['vendor_name']) and !empty($_POST['vendor_name']) 
                     and isset($_POST['contact_number']) and !empty($_POST['contact_number']) 
@@ -159,6 +184,35 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$item->id)); 
                 }else{
                     $description = "Item update failed, item : ".$item->to_string();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                }               
+                
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
+        } else if ($form_id == 22) {   ///edit bank
+            if (isset($_POST['bank_id']) and !empty($_POST['bank_id']) 
+                    and isset($_POST['bank_name']) and !empty($_POST['bank_name']) 
+                    and isset($_POST['branch']) and !empty($_POST['branch']) 
+                    and isset($_POST['ifsc_code']) and !empty($_POST['ifsc_code']) 
+                    and isset($_POST['account_number']) and !empty($_POST['account_number'])) {
+                $bank = new bank();
+                $bank->id = $_POST['bank_id'];
+                $bank->getBank();
+                $bank->bank_name = $_POST['bank_name'];
+                $bank->branch = $_POST['branch'];
+                $bank->ifsc_code = $_POST['ifsc_code'];
+                $bank->account_number = $_POST['account_number'];
+                if($bank->updateBank()){
+                    $message = "Bank Updated Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$bank->id)); 
+                }else{
+                    $description = "Bank update failed, item : ".$bank->to_string();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
                     $responce = array('status' => 'success', 'error' => $message, 'data' => array());

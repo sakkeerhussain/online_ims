@@ -50,6 +50,12 @@ class customer {
         $description = "Updating Customer (" . $customer->to_string() . ")";
         Log::i($this->tag, $description);
     }
+    function deleteCustomer(){
+        $result = $this->db_handler->delete_model($this);
+        $description = "Customer deleted, result : ".$result;
+        Log::i($this->tag, $description);
+        return $result;
+    }
     function getCustomers($company_id){
         return $this->db_handler->get_model_list($this,  'company_id = '.$company_id);
     }

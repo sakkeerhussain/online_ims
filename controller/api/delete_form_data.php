@@ -54,7 +54,45 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }            
-        }else {
+        }else if ($form_id == 21) {   ///customer delete
+            if (isset($_POST['customer_id']) and !empty($_POST['customer_id'])) {
+                $customer = new customer();
+                $customer->id = $_POST['customer_id'];
+                if($customer->deleteCustomer()){
+                    $message = "Customer deleted Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$customer->id)); 
+                }else{
+                    $description = "Customer delete failed, item : ".$customer->to_string();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                }                    
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
+        }else if ($form_id == 23) {   ///bank delete
+            if (isset($_POST['bank_id']) and !empty($_POST['bank_id'])) {
+                $bank = new bank();
+                $bank->id = $_POST['bank_id'];
+                if($bank->deleteBank()){
+                    $message = "Bank deleted Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$bank->id)); 
+                }else{
+                    $description = "Bank delete failed, item : ".$item->to_string()." Error : ".  mysql_error();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                }                    
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
+        } else {
             $responce = array('status' => 'failed', 'error' => 'Invalid Form', 'data' => array());
         }
     } else {

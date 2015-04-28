@@ -140,21 +140,31 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
             } else {
                 $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
             }
+        } else if ($form_id == 22) { //bank form
+            if (isset($_POST['bank_name']) and !empty($_POST['bank_name']) 
+                    and isset($_POST['branch']) and !empty($_POST['branch']) 
+                    and isset($_POST['ifsc_code']) and !empty($_POST['ifsc_code']) 
+                    and isset($_POST['account_number']) and !empty($_POST['account_number'])) {
+
+                $bank = new bank();
+                $bank->bank_name = $_POST['bank_name'];
+                $bank->branch = $_POST['branch'];
+                $bank->ifsc_code = $_POST['ifsc_code'];
+                $bank->account_number = $_POST['account_number'];
+                if ($bank->addBank()) {
+                    $responce = array('status' => 'success', 'error' => '',
+                        'data' => array('message' => 'Bank Added successfully'));
+                } else {
+                    Log::e($tag, "Bank adding failed item : " . $bank->to_string() . 'Error : '.  mysql_error());
+                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                }
+            } else {
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
+            }
         } else {
             $responce = array('status' => 'failed', 'error' => 'Invalid Form', 'data' => array());
         }
-//    $user = new User();
-//    $user_name = $_POST['user_name'];
-//    $password = $_POST['password'];
-//    $result = $user->login($user_name, $password);
-//    if($result===FALSE){        
-//        $responce = array('status'=>'failed','error'=>'User does not exists','data'=> array());
-//    }  elseif ($result===TRUE) {        
-//        $responce = array('status'=>'failed','error'=>'Username or password is not correct','data'=> array());
-//    }  else {  
-//        $responce = array('status'=>'success','error'=>'','data'=> array('user'=>$user));
-//    }
-    } else {
+   } else {
         $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
     }
 } else {

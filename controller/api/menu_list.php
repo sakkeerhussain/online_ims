@@ -22,7 +22,8 @@ if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){
         
         $menu_list = array(array('menu_item_name'=>'Sales Invoice','menu_item_id'=>'1'),
             //array('menu_item_name'=>'Sales Return','menu_item_id'=>'2'),
-            array('menu_item_name'=>'Todays Sales Report','menu_item_id'=>'3'),
+            array('menu_item_name'=>'Sales Report','menu_item_id'=>'3'),
+            array('menu_item_name'=>'Todays Sales Report','menu_item_id'=>'24'),
             //array('menu_item_name'=>'Bank Deposit','menu_item_id'=>'4'),
             //array('menu_item_name'=>'Expence','menu_item_id'=>'5'),
             array('menu_item_name'=>'Customer','menu_item_id'=>'6'),
@@ -49,7 +50,8 @@ if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){
         
         $menu_list = array(array('menu_item_name'=>'Items','menu_item_id'=>'11'),
             //array('menu_item_name'=>'Company','menu_item_id'=>'12'),
-            array('menu_item_name'=>'Vendor','menu_item_id'=>'10'));
+            array('menu_item_name'=>'Vendor','menu_item_id'=>'10'),
+            array('menu_item_name'=>'Bank','menu_item_id'=>'22'));
          
         $responce = array('status'=>'success','error'=>'','data'=> array('menu_list'=>$menu_list));
     }else {  

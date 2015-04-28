@@ -3,11 +3,11 @@
 function get_form_html($id) {
     ob_start();
     ?>
-    <div style="height: 150px; 
+    <div id="head_div" style="height: 150px; 
          width: 320px; background-color: #ECECEC; 
          border-radius: 5px;margin-left: auto;display: none; ">
 
-
+        
 
     </div>
     <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
@@ -31,7 +31,7 @@ function get_form_html($id) {
             <table id="items_table" style="border-collapse: collapse; width: 100%; 
                    background-color: #fff; border-radius: 10px;  color: #21ACD7;">
                 <thead style="text-align: center;">
-                    <tr  status="not_selected">
+                    <tr status="not_selected">
                         <td>
                             #
                         </td>
@@ -39,43 +39,38 @@ function get_form_html($id) {
                             ID
                         </td>
                         <td>
-                            CUSTOMER NAME
+                            BANK NAME
+                        </td>
+                        <td>
+                            BRANCH
                         </td>
                         <td style="">
-                            CONTACT NUMBER
+                            IFSC CODE
                         </td>
                         <td style="">
-                            TOTAL PURCHACE
+                            ACCOUNT NUMBER
                         </td>
                     </tr>
                 </thead>
                 <tbody style="padding-left: 3px; text-align: center; ">
                     <?php
-                    $customer = new customer();
-                    $user = new user();
-                    $user->id = $_SESSION['user_id'];
-                    $user->getUser();
-                    $customers = $customer->getCustomers($user->company_id);
+                    $bank = new bank();
+                    $banks = $bank->getBanks();
                     $i = 0;
-                    if($customers==NULL || sizeof($customers)==0){
-                        echo '<tr><td colspan="8"> No Customer Found </td></tr>';
+                    if($banks==NULL || sizeof($banks)==0){
+                        echo '<tr><td colspan="8"> No Bank Found </td></tr>';
                     } else{
-                    foreach ($customers as $customer) {
+                    foreach ($banks as $bank) {
                         ?>
-                        <tr id="<?php echo $customer->id; ?>"  onclick="select_row(this)" status="not_selected">
-                            <td style="text-align: center;">
-                                <?php echo ++$i; ?>
-                            </td>
-                            <td>
-                                <?php echo $customer->id; ?>
-                            </td>
-                            <td id="customer_name"><?php echo $customer->customer_name; ?></td>
-                            <td id="contact_number"><?php echo $customer->contact_number; ?></td>
-                            <td>
-                                <?php echo $customer->total_purchace_amount; ?>
-                            </td>
+                        <tr id="<?php echo $bank->id; ?>" onclick="select_row(this)">
+                            <td style="text-align: center;"><?php echo ++$i; ?></td>
+                            <td id="bank_id"><?php echo 'BANK-'.$bank->id; ?></td>
+                            <td id="bank_name"><?php echo $bank->bank_name; ?></td>
+                            <td id="branch"><?php echo $bank->branch; ?></td>
+                            <td id="ifsc_code"><?php echo $bank->ifsc_code; ?></td>
+                            <td id="account_number"><?php echo $bank->account_number; ?></td>
                         </tr>
-                    <?php
+                        <?php
                     }
                 }
                     ?>
@@ -106,20 +101,24 @@ function get_form_html($id) {
         }
         function on_edit_clicked(){
             var selected_row = $('tr[status="selected"]');
-            var customer_name = selected_row.find('td#customer_name').html();
+            var bank_name = selected_row.find('td#bank_name').html();
             var id = selected_row.attr('id');
-            var contact_number = selected_row.find('td#contact_number').html();
-            get_form(6,  ///customer create form
+            var branch = selected_row.find('td#branch').html();
+            var ifsc_code = selected_row.find('td#ifsc_code').html();
+            var account_number = selected_row.find('td#account_number').html();
+            get_form(22,  ///bank create form
                 function (html, tools){
                     $('div#form-body').html(html);
                     $('div#content-body-action-tools').html(tools);
                     var form = $('div#form-body').find('form.action_form');
                     form.attr('operation', 'update');
-                    form.attr('customer_id', id);
-                    form.find('input#customer_name').val(customer_name);
-                    form.find('input#contact_number').val(contact_number);
+                    form.attr('bank_id', id);
+                    form.find('input#bank_name').val(bank_name);
+                    form.find('input#branch').val(branch);
+                    form.find('input#ifsc_code').val(ifsc_code);
+                    form.find('input#account_number').val(account_number);
                     form.find('input[type=submit]').val('UPDATE');
-                    $('div#head_div').html('ID : CUSTOMER-'+id);
+                    $('div#head_div').html('ID : BANK-'+id);
                     $('div#head_div').css('display', 'block');
                 },
                 function (message){
@@ -132,13 +131,13 @@ function get_form_html($id) {
         function on_delete_clicked(){            
             var selected_row = $('tr[status="selected"]');
             var id = selected_row.attr('id');
-            if(confirm('Are you sure you want to delete CUSTOMER-'+id+' ?' )){
+            if(confirm('Are you sure you want to delete BANK-'+id+' ?' )){
                 var data = {
-                    form_id : 21,
-                    customer_id : id
+                    form_id : 23,
+                    bank_id : id
                 }
                 delete_form_data(data, function(message) {
-                    get_form(21,
+                    get_form(23,
                         function(html, tools) {
                              $('div#form-body').html(html);
                              $('div#content-body-action-tools').html(tools);
@@ -164,7 +163,7 @@ function get_form_tools_html($id){
     ob_start();
     ?>    
     <img id="edit_fade" src="../ui/images/edit_fade.png" height="40" width="40" style="margin: 15px auto 0px 12px;">
-    <img id="edit" onclick="on_edit_clicked()" src="../ui/images/edit.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
+    <img onclick="on_edit_clicked()" id="edit" onclick="" src="../ui/images/edit.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
     <img id="delete_fade" src="../ui/images/delete_fade.png" height="40" width="40" style="margin: 15px auto 0px 12px;">
     <img onclick="on_delete_clicked()" id="delete" onclick="" src="../ui/images/delete.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
     <script>
