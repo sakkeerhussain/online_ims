@@ -142,6 +142,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $purchace = new purchaces();
                 $purchace->id = $_POST['purchace_id'];
                 $purchace->getPurchace();
+                $purchace->amount = $_POST['total'];
                 $purchace_items_prev = $purchace->getPurchaceItems();
                 $purchace_items_new = array();
                 foreach ($_POST['items'] as $purchace_array_item) {
