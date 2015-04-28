@@ -153,8 +153,13 @@ function get_form_html($id) {
                                             </td>                                            
                                             <td>
                                                 <?php echo (($s_item->quantity * $s_item->rate) - $s_item->tax); ?>
-                                            </td>                                            
-                                            <td id="tax" val="<?php echo $s_item->tax; ?>">
+                                            </td>    
+                                            <?php 
+                                                $tax_category = new tax_category();
+                                                $tax_category->id = $item->tax_category_id;
+                                                $tax_category->getTaxCategory();
+                                            ?>
+                                            <td id="tax" val="<?php echo $s_item->tax; ?>" tax_rate="<?php echo $tax_category->tax_percentage; ?>">
                                                 <?php echo $s_item->tax; ?>
                                             </td>
                                             <td id="total" val="<?php echo ($s_item->quantity * $s_item->rate); ?>">
@@ -189,6 +194,7 @@ function get_form_html($id) {
                 var quantity = $(this).find('td#quantity').attr('val');
                 var rate = $(this).find('td#rate').attr('val');
                 var tax = $(this).find('td#tax').attr('val');
+                var tax_rate = $(this).find('td#tax').attr('tax_rate');
                 var total = $(this).find('td#total').attr('val');
                 var item = {
                      id: id,
@@ -196,6 +202,7 @@ function get_form_html($id) {
                      rate: rate,
                      item_name: item_name,
                      total: total,
+                     tax_rate: tax_rate,
                      tax: tax
                 }
                 items[i++] = item;
@@ -224,7 +231,7 @@ function get_form_html($id) {
                         row.find('input#quantity').val(item.quantity);
                         row.find('input#quantity').attr('max', item.quantity);
                         row.find('input#rate').val(item.rate);
-                        row.find('input#rate').attr('tax', (item.tax/item.total)*100);
+                        row.find('input#rate').attr('tax', item.tax_rate);
                         row.find('input#total').val(item.total);
                         row.find('input#total').attr('tax', item.tax);
                     } 
