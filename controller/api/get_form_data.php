@@ -16,7 +16,50 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
     if (isset($_POST['form_id']) and !empty($_POST['form_id'])) {
         $form_id = $_POST['form_id'];
         $tag = "GET_FORM_DATA";
-        if ($form_id == 8) {
+        if ($form_id == 2) {
+            if (isset($_POST['sale_id']) and !empty($_POST['sale_id'])) {
+                $sale = new sales();
+                $sale->id = $_POST['sale_id'];
+                $result = $sale->getSale();
+                if($result){
+                    $user = new user();
+                    $user->id = $_SESSION['user_id'];
+                    $user->getUser();
+                    if($sale->company_id == $user->company_id){
+                        $message = "Sale Fetched successfuly";
+                        $customer = new customer();
+                        $customer->id = $sale->customer_id;
+                        $customer->getCustomer();
+                        $customer_name = $customer->customer_name.' ( '.$customer->id.' ) ';
+                        $items = array();
+                        if(!empty($sale->getSalesItems())){
+                            foreach ($sale->getSalesItems() as $s_item) {
+                                $item = new item();
+                                $item->id = $s_item->item_id;
+                                $item->getItem();
+                                
+                                $tax_category = new tax_category();
+                                $tax_category->id = $item->tax_category_id;
+                                $tax_category->getTaxCategory();
+                                
+                                $s_item_array=array("item_name"=>$item->item_name.' - '.$item->item_code.' ( ID : '.$item->id.' )' , "quantity"=>$s_item->quantity, "rate"=>$s_item->rate, "tax"=>$s_item->tax, "tax_rate"=>$tax_category->tax_percentage, "total"=>($s_item->rate*$s_item->quantity));
+                                array_push($items, $s_item_array);
+                            }
+                        }
+                        $sales_array = array("id"=>$sale->id,"customer"=>$customer_name,"c_name"=>$customer->customer_name,"c_id"=>$customer->id, "amount"=>$sale->amount, "items"=>$items);
+                        $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "data"=>$sales_array));
+                    } else {
+                        $responce = array('status' => 'failed', 'error' => 'The Purchace is of another shop', 'data' => array());
+                    }
+                } else {
+                    $responce = array('status' => 'failed', 'error' => 'Invalid Purchace ID', 'data' => array());
+                }                    
+           } else {
+                ob_start();
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }
+        } else if ($form_id == 8) {
             if (isset($_POST['purchace_id']) and !empty($_POST['purchace_id'])) {
                 $purchace = new purchaces();
                 $purchace->id = $_POST['purchace_id'];
@@ -32,12 +75,14 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         $vendor->getWendor();
                         $vendor_name = $vendor->wendor_name.' ( '.$vendor->id.' ) ';
                         $items = array();
-                        foreach ($purchace->getPurchaceItems() as $p_item) {
-                            $item = new item();
-                            $item->id = $p_item->item_id;
-                            $item->getItem();
-                            $p_item_array=array("item_name"=>$item->item_name.' - '.$item->item_code.' ( ID : '.$item->id.' )' , "quantity"=>$p_item->quantity, "rate"=>$p_item->rate);
-                            array_push($items, $p_item_array);
+                        if(!empty($purchace->getPurchaceItems())){
+                            foreach ($purchace->getPurchaceItems() as $p_item) {
+                                $item = new item();
+                                $item->id = $p_item->item_id;
+                                $item->getItem();
+                                $p_item_array=array("item_name"=>$item->item_name.' - '.$item->item_code.' ( ID : '.$item->id.' )' , "quantity"=>$p_item->quantity, "rate"=>$p_item->rate);
+                                array_push($items, $p_item_array);
+                            }
                         }
                         $purchace_array = array("id"=>$purchace->id,"wendor"=>$vendor_name, "stocked"=>$purchace->stocked, "amount"=>$purchace->amount, "items"=>$items);
                         $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "data"=>$purchace_array));

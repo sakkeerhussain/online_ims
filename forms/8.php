@@ -23,7 +23,7 @@ function get_form_html($id) {
     </style>
     <div id="head_div" style="padding: 5px 0; background-color: #ECECEC;  color: #21ACD7;
          border-radius: 5px;margin-left: auto; text-align: center; ">
-        ID : PURCHACE-<input style="padding: 0 0 0 5px;" onchange="load_purchace()" type="number" id="purchace_id" />
+        ID : PURCHACE - <input style="padding: 0 0 0 5px;" onchange="load_purchace()" type="number" id="purchace_id" />
     </div>
     <div style="margin-top: 30px; background-color:transparent;padding-bottom: 100px;">
         <form action="#" method="post" onsubmit="return false" class="action_form" operation="update" >
@@ -157,7 +157,7 @@ function get_form_html($id) {
                                  background-color: #0d92bb; border-radius: 5px; float: left;">
 
                                 <div style="width: 33.33%; float: right;  ">
-                                    <input style="width: 100%;" disabled="true" type="submit" value="ADD" />
+                                    <input style="width: 100%;" disabled="true" type="submit" value="UPDATE" />
                                 </div>
                                 <div style="width: 33.33%;  float: right;  ">
                                     <input style="width: 100%;" disabled="true" type="reset" value="CANCEL" /> 
@@ -334,7 +334,9 @@ function get_form_html($id) {
                 var operation = $(this).attr('operation');
                 var purchace_id = $(this).attr('purchace_id');
                 var total = $('span#total').html();
-                
+                if(items.length == 0){
+                    items = 'no_items';
+                }
                 if (operation == 'update') {
                     var data = {
                         form_id: id,

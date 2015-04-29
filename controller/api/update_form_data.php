@@ -137,7 +137,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
             }            
         } else if ($form_id == 8) {   ///edit : purchace return
             if (isset($_POST['purchace_id']) and !empty($_POST['purchace_id']) 
-                    and isset($_POST['total']) and !empty($_POST['total']) 
+                    and isset($_POST['total']) //and !empty($_POST['total']) 
                     and isset($_POST['items']) and !empty($_POST['items'])) {
                 $purchace = new purchaces();
                 $purchace->id = $_POST['purchace_id'];
@@ -145,12 +145,14 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $purchace->amount = $_POST['total'];
                 $purchace_items_prev = $purchace->getPurchaceItems();
                 $purchace_items_new = array();
-                foreach ($_POST['items'] as $purchace_array_item) {
-                    $purchace_item = new purchace_items();
-                    $purchace_item->item_id = $purchace_array_item['id'];
-                    $purchace_item->quantity = $purchace_array_item['quantity'];
-                    $purchace_item->rate = $purchace_array_item['rate'];
-                    array_push($purchace_items_new, $purchace_item);
+                if(!($_POST['items'] == 'no_items')){
+                    foreach ($_POST['items'] as $purchace_array_item) {
+                        $purchace_item = new purchace_items();
+                        $purchace_item->item_id = $purchace_array_item['id'];
+                        $purchace_item->quantity = $purchace_array_item['quantity'];
+                        $purchace_item->rate = $purchace_array_item['rate'];
+                        array_push($purchace_items_new, $purchace_item);
+                    }
                 }
                 $purchace->setPurchaceItems($purchace_items_new);
                 
