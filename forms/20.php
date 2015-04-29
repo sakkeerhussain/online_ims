@@ -66,28 +66,20 @@ function get_form_html($id) {
                             <td style="text-align: center;">
                                 <?php echo ++$i; ?>
                             </td>
-                            <td>
-                                <?php
+                            <td id="item_name"><?php
                                 $item = new item();
                                 $item->id = $inventry->item_id;
                                 $item->getItem();
                                 echo $item->item_name. ' ('.$item->item_code.')';
-                                ?>
-                            </td>
-                            <td>
-                                <?php echo $inventry->in_stock_count; ?>
-                            </td>
-                            <td>
-                                <?php echo $inventry->selling_prize; ?>
-                            </td>
-                            <td>
-                                <?php
+                            ?></td>
+                            <td id="in_stock_count"><?php echo $inventry->in_stock_count; ?></td>
+                            <td id="mrp"><?php echo $inventry->selling_prize; ?></td>
+                            <td id="tax_category" tax_category_id="<?php echo $inventry->tax_category_id; ?>"><?php
                                 $tax = new tax_category();
                                 $tax->id = $inventry->tax_category_id;
                                 $tax->getTaxCategory();
                                 echo $tax->tax_category_name;
-                                ?>
-                            </td>
+                            ?></td>
                         </tr>
                     <?php
                     }
@@ -105,6 +97,8 @@ function get_form_html($id) {
                 $('table#items_table tr').css('background-color', '#FFF');
                 $('img#edit').css('display', 'none');
                 $('img#edit_fade').css('display', 'block');
+                $('img#delete').css('display', 'none');
+                $('img#delete_fade').css('display', 'block');
             }else{            
                 $('table#items_table tr').attr('status', 'not_selected');
                 $('table#items_table tr').css('background-color', '#FFF');
@@ -112,7 +106,67 @@ function get_form_html($id) {
                 j_row.css('background-color', '#C0EFFD');
                 $('img#edit').css('display', 'block');
                 $('img#edit_fade').css('display', 'none');
+                $('img#delete').css('display', 'block');
+                $('img#delete_fade').css('display', 'none');
             }          
+        }
+        function on_edit_clicked(){
+            var selected_row = $('tr[status="selected"]');
+            var item_name = selected_row.find('td#item_name').html();
+            var id = selected_row.attr('id');
+            var instock_count = selected_row.find('td#in_stock_count').html();
+            var mrp = selected_row.find('td#mrp').html();
+            var tax_category_id = selected_row.find('td#tax_category').attr('tax_category_id');
+            get_form(25,  ///inventry edit form
+                function (html, tools){
+                    $('div#form-body').html(html);
+                    $('div#content-body-action-tools').html(tools);
+                    var form = $('div#form-body').find('form.action_form');
+                    form.attr('operation', 'update');
+                    form.attr('inventry_id', id);
+                    form.find('input#item_name').val(item_name);
+                    form.find('input#in_stock_count').val(instock_count);
+                    form.find('input#in_stock_count').prop('disabled', null);
+                    form.find('input#mrp').val(mrp);
+                    form.find('input#mrp').prop('disabled', null);
+                    form.find('select#tax_category').find('option#'+tax_category_id).prop('selected', true);
+                    form.find('select#tax_category').prop('disabled', null);
+                    form.find('input[type=submit]').val('UPDATE');
+                    form.find('input[type=submit]').prop('disabled', null);
+                    form.find('input[type=reset]').prop('disabled', null);
+                    $('div#head_div').html('ID : INVENTRY-'+id);
+                    $('div#head_div').css('display', 'block');
+                },
+                function (message){
+                    $('font#section_heading').empty();
+                    $('div#form-body').empty();
+                    alert(message);
+                }
+             );
+        }
+        function on_delete_clicked(){            
+            var selected_row = $('tr[status="selected"]');
+            var id = selected_row.attr('id');
+            if(confirm('Are you sure you want to delete INVENTRY-'+id+' ?' )){
+                var data = {
+                    form_id : 20,
+                    inventry_id : id
+                }
+                delete_form_data(data, function(message) {
+                    get_form(20,
+                        function(html, tools) {
+                             $('div#form-body').html(html);
+                             $('div#content-body-action-tools').html(tools);
+                        }, function(message) {
+                             $('font#section_heading').empty();
+                             $('div#form-body').empty();
+                             alert(message);
+                        });
+                    alert(message);
+                }, function(message) {
+                    alert(message);
+                });
+            }
         }
     </script>
 
@@ -125,7 +179,9 @@ function get_form_tools_html($id){
     ob_start();
     ?>    
     <img id="edit_fade" src="../ui/images/edit_fade.png" height="40" width="40" style="margin: 15px auto 0px 12px;">
-    <img id="edit" onclick="" src="../ui/images/edit.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
+    <img onclick="on_edit_clicked()" id="edit" onclick="" src="../ui/images/edit.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
+    <img id="delete_fade" src="../ui/images/delete_fade.png" height="40" width="40" style="margin: 15px auto 0px 12px;">
+    <img onclick="on_delete_clicked()" id="delete" onclick="" src="../ui/images/delete.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
     <script>
         
     </script>

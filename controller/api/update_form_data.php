@@ -31,13 +31,15 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $sale->tax_amount = $_POST['tax_amount'];
                 $sales_items_prev = $sale->getSalesItems();
                 $sales_items_new = array();
-                foreach ($_POST['items'] as $sales_array_item) {
-                    $sales_item = new sales_items();
-                    $sales_item->item_id = $sales_array_item['id'];
-                    $sales_item->quantity = $sales_array_item['quantity'];
-                    $sales_item->rate = $sales_array_item['rate'];
-                    $sales_item->tax = $sales_array_item['tax'];
-                    array_push($sales_items_new, $sales_item);
+                if(!($_POST['items'] == 'no_items')){
+                    foreach ($_POST['items'] as $sales_array_item) {
+                        $sales_item = new sales_items();
+                        $sales_item->item_id = $sales_array_item['id'];
+                        $sales_item->quantity = $sales_array_item['quantity'];
+                        $sales_item->rate = $sales_array_item['rate'];
+                        $sales_item->tax = $sales_array_item['tax'];
+                        array_push($sales_items_new, $sales_item);
+                    }
                 }
                 foreach ($sales_items_new as $sale_item_new) {
                     $item_id = $sale_item_new->item_id;
@@ -137,7 +139,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
             }            
         } else if ($form_id == 8) {   ///edit : purchace return
             if (isset($_POST['purchace_id']) and !empty($_POST['purchace_id']) 
-                    and isset($_POST['total']) and !empty($_POST['total']) 
+                    and isset($_POST['total']) //and !empty($_POST['total']) 
                     and isset($_POST['items']) and !empty($_POST['items'])) {
                 $purchace = new purchaces();
                 $purchace->id = $_POST['purchace_id'];
@@ -145,12 +147,14 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $purchace->amount = $_POST['total'];
                 $purchace_items_prev = $purchace->getPurchaceItems();
                 $purchace_items_new = array();
-                foreach ($_POST['items'] as $purchace_array_item) {
-                    $purchace_item = new purchace_items();
-                    $purchace_item->item_id = $purchace_array_item['id'];
-                    $purchace_item->quantity = $purchace_array_item['quantity'];
-                    $purchace_item->rate = $purchace_array_item['rate'];
-                    array_push($purchace_items_new, $purchace_item);
+                if(!($_POST['items'] == 'no_items')){
+                    foreach ($_POST['items'] as $purchace_array_item) {
+                        $purchace_item = new purchace_items();
+                        $purchace_item->item_id = $purchace_array_item['id'];
+                        $purchace_item->quantity = $purchace_array_item['quantity'];
+                        $purchace_item->rate = $purchace_array_item['rate'];
+                        array_push($purchace_items_new, $purchace_item);
+                    }
                 }
                 $purchace->setPurchaceItems($purchace_items_new);
                 
@@ -248,6 +252,34 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$bank->id)); 
                 }else{
                     $description = "Bank update failed, item : ".$bank->to_string();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                }               
+                
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
+        } else if ($form_id == 25) {   ///edit inventry
+            if (isset($_POST['inventry_id']) and !empty($_POST['inventry_id']) 
+                    and isset($_POST['in_stock_count']) and !empty($_POST['in_stock_count']) 
+                    and isset($_POST['mrp']) and !empty($_POST['mrp']) 
+                    and isset($_POST['tax_category_id']) and !empty($_POST['tax_category_id'])) {
+                
+                $inv = new inventry();
+                $inv->id = $_POST['inventry_id'];
+                $inv->getInventry();
+                $inv->in_stock_count = $_POST['in_stock_count'];
+                $inv->selling_prize = $_POST['mrp'];
+                $inv->tax_category_id = $_POST['tax_category_id'];
+                if($inv->updateInventry()){
+                    $message = "Stock Updated Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$inv->id)); 
+                }else{
+                    $description = "Stock update failed, item : ".$inv->to_string();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
                     $responce = array('status' => 'success', 'error' => $message, 'data' => array());

@@ -21,12 +21,9 @@ function get_form_html($id) {
             width: 100%;
         }
     </style>
-    <div style="height: 150px; 
-         width: 320px; background-color: #ECECEC; 
-         border-radius: 5px;margin-left: auto;display: none; ">
-
-
-
+    <div id="head_div" style="padding: 5px 0; background-color: #ECECEC;  color: #21ACD7;
+         border-radius: 5px;margin-left: auto; text-align: center; ">
+        ID : SALE - <input style="padding: 0 0 0 5px;" onchange="load_sale()" type="number" id="sale_id" />
     </div>
     <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
         <form action="#" method="post" onsubmit="return false" class="action_form" operation="update" style="width:100%;">
@@ -137,6 +134,44 @@ function get_form_html($id) {
                                     }
                                     ?>  
                                 </datalist>
+                                <tr  status="active" slno="">
+                                    <td style="text-align: center;"></td><td>
+                                        <input type="text" onchange="update_item_details(this)"  oninput="update_item_details(this)" onfocus="$(this).css('border', '0px')" autocomplete="off" list="items" id="item" required />
+                                    </td>
+                                    <td>
+                                        <input type="number" min="0" step="any" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"  value="0" min="0" required disabled onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>
+                                    </td>
+                                    <td>
+                                        <input type="text" min="0" required  id="total" disabled/>
+                                    </td>
+                                    <td style="width: 20px; text-align: center; padding-right: 5px;">
+                                        <img id="delete_button" onclick="delete_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto;  margin-left: auto;" src="../ui/images/cross_button.png"/>
+                                        <img id="activate_button" onclick="enable_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto; margin-left: auto; display: none;" src="../ui/images/tick_button.png" />
+                                    </td>
+                                </tr>
+                                <tr  status="active" slno="">
+                                    <td style="text-align: center;"></td><td>
+                                        <input type="text" onchange="update_item_details(this)"  oninput="update_item_details(this)" onfocus="$(this).css('border', '0px')" autocomplete="off" list="items" id="item" required />
+                                    </td>
+                                    <td>
+                                        <input type="number" min="0" step="any" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"  value="0" min="0" required disabled onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>
+                                    </td>
+                                    <td>
+                                        <input type="text" min="0" required  id="total" disabled/>
+                                    </td>
+                                    <td style="width: 20px; text-align: center; padding-right: 5px;">
+                                        <img id="delete_button" onclick="delete_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto;  margin-left: auto;" src="../ui/images/cross_button.png"/>
+                                        <img id="activate_button" onclick="enable_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto; margin-left: auto; display: none;" src="../ui/images/tick_button.png" />
+                                    </td>
+                                </tr>
+                                
+                                
                               </tbody>                               
                             </table>
                         </div>
@@ -297,7 +332,50 @@ function get_form_html($id) {
             $('table#items_table tbody tr:last-child').attr('slno', lastcount);
             $('table#items_table tbody tr:last-child td:first-child').html(lastcount);
         }
-
+        function load_sale(){
+            var sale_id = $('input#sale_id').val();
+            var data = {
+                   form_id: 2,
+                   sale_id: sale_id
+            }
+            get_form_data(data,
+                   function(message, sale) {
+                       //alert(message);
+                       var form = $('form.action_form');
+                       form.find('input#customer_id').val(sale.customer);
+                       form.find('input#customer_id').attr('disabled', 'true');
+                       $('table#items_table tbody').empty();
+                       var items = sale.items;
+                       for(var i = 0; i<items.length; i++){
+                            add_sale_item();
+                            var row = $('table#items_table tbody tr:last-child');
+                            var item = items[i];
+                            row.find('input#item').attr('disabled', 'disabled');
+                            row.find('input#item').val(item.item_name);
+                            row.find('input#quantity').val(item.quantity);
+                            row.find('input#quantity').attr('max', item.quantity);
+                            row.find('input#rate').val(item.rate);
+                            row.find('input#rate').attr('tax', item.tax_rate);
+                            row.find('input#total').val(item.total);
+                            row.find('input#total').attr('tax', item.tax);
+                    } 
+                    form.find('span#total').html(sale.amount);
+                    form.find('span#total_paid').html(sale.amount);
+                    form.find('span#balance').html(0.00);
+                    form.attr('sale_id', sale.id);
+                    form.attr('customer_name', sale.c_name);
+                    form.attr('customer_id', sale.c_id);   
+                    form.find('input[type="button"]').prop('disabled', null);
+                    form.find('input[type="submit"]').prop('disabled', null);
+                    form.find('input[type="reset"]').prop('disabled', null);
+                    form.find('input[type="number"]').prop('disabled', null);
+                   
+                }, function(message) {
+                       var form = $('form.action_form');
+                       form.find('input').prop('disabled', 'true');
+                       alert(message);
+                   });
+            }
         $(document).ready(function(e) {
             $('form.action_form').on('submit', function(e) {
                 e.preventDefault();
@@ -355,6 +433,9 @@ function get_form_html($id) {
                 var customer_name = $(this).attr('customer_name');
                 var customer_id = $(this).attr('customer_id');
 
+                if(items.length == 0){
+                    items = 'no_items';
+                }
                 if (operation == 'update') {
                     var data = {
                         form_id: form_id,
@@ -368,7 +449,7 @@ function get_form_html($id) {
                             //$('form.action_form').get(0).reset();
                             //alert(message);
                             print_bill(data, customer_name, customer_id, sale_id, total_paid, balance);
-                            get_form(1,
+                            get_form(2,
                                 function(html) {
                                     $('div#form-body').html(html);
                                 }, function(message) {
@@ -422,15 +503,19 @@ function get_form_html($id) {
                         // + "<td style=\"width:10%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Tax</td>"
                         + "<td style=\"width:21%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Total</td></tr>";
                 var i = 0;
-                for (var key in data.items) {
-                    var item = data.items[key];
-                    html = html + "<tr><td>" + item.item_name + "</td>"
-                            +"<td style=\"text-align:right;\">" + item.quantity + "</td>"
-                            +"<td style=\"text-align:right;\">" + item.rate + "</td>"
-                            //+"<td style=\"text-align:right;\">" + (parseFloat(item.total) - parseFloat(item.tax)) + "</td>"
-//                            +"<td style=\"text-align:right;\">" + item.tax + "</td>"
-                            +"<td style=\"text-align:right;\">" + item.total + "</td>"
-                            +"</tr>";
+                if(data.items == 'no_items'){
+                    html = html + "<tr><td> No item</td></tr>";
+                }else{
+                    for (var key in data.items) {
+                        var item = data.items[key];
+                        html = html + "<tr><td>" + item.item_name + "</td>"
+                                +"<td style=\"text-align:right;\">" + item.quantity + "</td>"
+                                +"<td style=\"text-align:right;\">" + item.rate + "</td>"
+                                //+"<td style=\"text-align:right;\">" + (parseFloat(item.total) - parseFloat(item.tax)) + "</td>"
+    //                            +"<td style=\"text-align:right;\">" + item.tax + "</td>"
+                                +"<td style=\"text-align:right;\">" + item.total + "</td>"
+                                +"</tr>";
+                    }
                 }
                 html = html + "</table></div>";
                 html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table style=\"margin-left: auto;\">";
