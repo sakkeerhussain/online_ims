@@ -433,6 +433,9 @@ function get_form_html($id) {
                 var customer_name = $(this).attr('customer_name');
                 var customer_id = $(this).attr('customer_id');
 
+                if(items.length == 0){
+                    items = 'no_items';
+                }
                 if (operation == 'update') {
                     var data = {
                         form_id: form_id,
@@ -500,15 +503,19 @@ function get_form_html($id) {
                         // + "<td style=\"width:10%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Tax</td>"
                         + "<td style=\"width:21%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Total</td></tr>";
                 var i = 0;
-                for (var key in data.items) {
-                    var item = data.items[key];
-                    html = html + "<tr><td>" + item.item_name + "</td>"
-                            +"<td style=\"text-align:right;\">" + item.quantity + "</td>"
-                            +"<td style=\"text-align:right;\">" + item.rate + "</td>"
-                            //+"<td style=\"text-align:right;\">" + (parseFloat(item.total) - parseFloat(item.tax)) + "</td>"
-//                            +"<td style=\"text-align:right;\">" + item.tax + "</td>"
-                            +"<td style=\"text-align:right;\">" + item.total + "</td>"
-                            +"</tr>";
+                if(data.items == 'no_items'){
+                    html = html + "<tr><td> No item</td></tr>";
+                }else{
+                    for (var key in data.items) {
+                        var item = data.items[key];
+                        html = html + "<tr><td>" + item.item_name + "</td>"
+                                +"<td style=\"text-align:right;\">" + item.quantity + "</td>"
+                                +"<td style=\"text-align:right;\">" + item.rate + "</td>"
+                                //+"<td style=\"text-align:right;\">" + (parseFloat(item.total) - parseFloat(item.tax)) + "</td>"
+    //                            +"<td style=\"text-align:right;\">" + item.tax + "</td>"
+                                +"<td style=\"text-align:right;\">" + item.total + "</td>"
+                                +"</tr>";
+                    }
                 }
                 html = html + "</table></div>";
                 html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table style=\"margin-left: auto;\">";

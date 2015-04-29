@@ -31,13 +31,15 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $sale->tax_amount = $_POST['tax_amount'];
                 $sales_items_prev = $sale->getSalesItems();
                 $sales_items_new = array();
-                foreach ($_POST['items'] as $sales_array_item) {
-                    $sales_item = new sales_items();
-                    $sales_item->item_id = $sales_array_item['id'];
-                    $sales_item->quantity = $sales_array_item['quantity'];
-                    $sales_item->rate = $sales_array_item['rate'];
-                    $sales_item->tax = $sales_array_item['tax'];
-                    array_push($sales_items_new, $sales_item);
+                if(!($_POST['items'] == 'no_items')){
+                    foreach ($_POST['items'] as $sales_array_item) {
+                        $sales_item = new sales_items();
+                        $sales_item->item_id = $sales_array_item['id'];
+                        $sales_item->quantity = $sales_array_item['quantity'];
+                        $sales_item->rate = $sales_array_item['rate'];
+                        $sales_item->tax = $sales_array_item['tax'];
+                        array_push($sales_items_new, $sales_item);
+                    }
                 }
                 foreach ($sales_items_new as $sale_item_new) {
                     $item_id = $sale_item_new->item_id;
