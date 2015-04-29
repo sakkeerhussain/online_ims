@@ -16,7 +16,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
     if (isset($_POST['form_id']) and !empty($_POST['form_id'])) {
         $form_id = $_POST['form_id'];
         $tag = "GET_FORM_DATA";
-        if ($form_id == 2) {
+        if ($form_id == 2) { // sales
             if (isset($_POST['sale_id']) and !empty($_POST['sale_id'])) {
                 $sale = new sales();
                 $sale->id = $_POST['sale_id'];
@@ -49,7 +49,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         $sales_array = array("id"=>$sale->id,"customer"=>$customer_name,"c_name"=>$customer->customer_name,"c_id"=>$customer->id, "amount"=>$sale->amount, "items"=>$items);
                         $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "data"=>$sales_array));
                     } else {
-                        $responce = array('status' => 'failed', 'error' => 'The Purchace is of another shop', 'data' => array());
+                        $responce = array('status' => 'failed', 'error' => 'The Sale is of another shop', 'data' => array());
                     }
                 } else {
                     $responce = array('status' => 'failed', 'error' => 'Invalid Purchace ID', 'data' => array());
@@ -59,7 +59,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
-        } else if ($form_id == 8) {
+        } else if ($form_id == 8) { //purchace
             if (isset($_POST['purchace_id']) and !empty($_POST['purchace_id'])) {
                 $purchace = new purchaces();
                 $purchace->id = $_POST['purchace_id'];

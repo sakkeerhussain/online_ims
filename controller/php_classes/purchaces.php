@@ -111,7 +111,7 @@ class purchaces {
     }
 
     function getPurchacesDESC($company_id) {
-        $purchaces = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . ' ORDER BY `id` DESC');
+        $purchaces = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . ' ORDER BY `id` DESC LIMIT 50');
         foreach ($purchaces as $purchace) {
             $purchace_item = new purchace_items();
             $purchace->purchace_items = $purchace_item->getPurchace_items($purchace->id);

@@ -3,12 +3,9 @@
 function get_form_html($id) {
     ob_start();
     ?>
-    <div style="height: 150px; 
-         width: 320px; background-color: #ECECEC; 
-         border-radius: 5px;margin-left: auto;display: none; ">
-
-
-
+    <div id="head_div" style="padding: 5px 0; background-color: #ECECEC;  color: #21ACD7;
+         border-radius: 5px;margin-left: auto; text-align: center; ">
+        LAST 50 PURCHACES
     </div>
     <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
         <style>
