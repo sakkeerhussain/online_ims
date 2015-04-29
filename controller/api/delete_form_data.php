@@ -54,6 +54,25 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }            
+        }else if ($form_id == 20) {   ///stock: (inventry) delete
+            if (isset($_POST['inventry_id']) and !empty($_POST['inventry_id'])) {
+                $inventry = new inventry();
+                $inventry->id = $_POST['inventry_id'];
+                if($inventry->deleteInventry()){
+                    $message = "Inventry deleted Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$inventry->id)); 
+                }else{
+                    $description = "Inventry delete failed, item : ".$inventry->to_string();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                }                    
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
         }else if ($form_id == 21) {   ///customer delete
             if (isset($_POST['customer_id']) and !empty($_POST['customer_id'])) {
                 $customer = new customer();

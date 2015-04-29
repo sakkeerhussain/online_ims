@@ -44,9 +44,16 @@ class inventry {
         if($inventry==null){
             $inventry = $this;
         }
-        $this->db_handler->update_model($inventry);
+        $result = $this->db_handler->update_model($inventry);
         $description = "Updated Inventry(Stock) (". $inventry->to_string().")";
         Log::i($this->tag, $description);
+        return $result;
+    }    
+    function deleteInventry(){
+        $result = $this->db_handler->delete_model($this);
+        $description = "Inventry deleted, result : ".$result;
+        Log::i($this->tag, $description);
+        return $result;
     }
     function getInventry(){
         return $this->db_handler->get_model($this,  $this->id);

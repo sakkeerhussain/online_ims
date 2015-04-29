@@ -22,7 +22,7 @@ function get_form_html($id) {
          border-radius: 5px;margin-left: auto;display: none; text-align: center; ">
     </div>
     <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
-        <form action="#" method="post" class="action_form" operation="add" style="width:100%;" >
+        <form action="#" method="post" class="action_form" operation="update" style="width:100%;" >
             <table style="width:100%;">
                 <tr>
                     <td class="field_name">                    
@@ -30,37 +30,27 @@ function get_form_html($id) {
                     </td>
                     <td class="field"> 
                         <div  class="parent">
-                            <input type="text" id="item_name" required />
+                            <input type="text" id="item_name" required disabled="disabled" />
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td class="field_name"> 
-                        <font>ITEM CODE </font>
+                        <font>IN STOCK COUNT</font>
                     </td>
                     <td class="field"> 
                         <div class="parent">
-                            <input type="text" id="item_code" required />
+                            <input type="number" id="in_stock_count" required disabled="disabled" />
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td class="field_name"> 
-                        <font>ITEM MRP </font>
+                        <font>MRP</font>
                     </td>
                     <td class="field"> 
                         <div style="padding: 0px 0px;">
-                            <input type="number" id="mrp" required />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="field_name"> 
-                        <font>PURCHACE RATE</font>
-                    </td>
-                    <td class="field"> 
-                        <div class="parent">
-                            <input type="number" id="purchace_rate" required />
+                            <input type="number" id="mrp" required disabled="disabled"  />
                         </div>
                     </td>
                 </tr>
@@ -70,7 +60,7 @@ function get_form_html($id) {
                     </td>
                     <td class="field"> 
                         <div class="parent">
-                            <select id="tax_category" required >
+                            <select id="tax_category" required disabled="disabled" >
                                 <option value=""></option>
                                 <?php
                                 $tax_category = new tax_category();
@@ -91,10 +81,10 @@ function get_form_html($id) {
                             <div style="width: 100%; margin-left: -12px; padding: 12px; 
                                  background-color: #0d92bb; border-radius: 5px; float: left;">
                                 <div style="width: 50%; float: right;  ">
-                                     <input style="width: 100%;" type="submit" value="ADD" />
+                                    <input style="width: 100%;" disabled="disabled" type="submit" value="UPDATE" />
                                 </div>
                                 <div style="width: 50%;">
-                                    <input style="width: 100%;" type="reset" value="CANCEL" />
+                                    <input style="width: 100%;" disabled="disabled" type="reset" value="CANCEL" />
                                 </div>
                             </div>
                         </div>
@@ -107,44 +97,26 @@ function get_form_html($id) {
         function setFormActionListener(){ 
         $('form.action_form').on('submit', function(e) {
             e.preventDefault();
-            var id = 11;
+            var id = 25;
             var operation = $(this).attr('operation');
-            if (operation == 'add') {
+            if (operation == 'update') {
+                var inventry_id = $('form.action_form').attr('inventry_id');
                 var data = {
                     form_id: id,
-                    item_name: $('form input#item_name').val(),
-                    item_code: $('form input#item_code').val(),
+                    inventry_id: inventry_id,
+                    in_stock_count: $('form input#in_stock_count').val(),
                     mrp: $('form input#mrp').val(),
-                    purchace_rate: $('form input#purchace_rate').val(),
-                    tax_category_id: $('form select#tax_category').find('option:selected').attr('id')
-                }
-                add_form_data(data, function(message) {
-                    get_form(11,
-                        function(html, tools) {
-                             $('div#form-body').html(html);
-                             $('div#content-body-action-tools').html(tools);
-                        }, function(message) {
-                             $('font#section_heading').empty();
-                             $('div#form-body').empty();
-                             alert(message);
-                        });
-                    alert(message);
-                }, function(message) {
-                    alert(message);
-                });
-            } else if (operation == 'update') {
-                var item_id = $('form.action_form').attr('item_id');
-                var data = {
-                    form_id: id,
-                    item_id: item_id,
-                    item_name: $('form input#item_name').val(),
-                    item_code: $('form input#item_code').val(),
-                    mrp: $('form input#mrp').val(),
-                    purchace_rate: $('form input#purchace_rate').val(),
                     tax_category_id: $('form select#tax_category').find('option:selected').attr('id')
                 }
                 update_form_data(data, function(message) {
-                    load_items_list();
+                    get_form(20,
+                        function(html, tools) {
+                            $('div#form-body').html(html);
+                            $('div#content-body-action-tools').html(tools);
+                        }, function(message) {
+                            $('font#section_heading').empty();
+                            alert(message);
+                        });
                     alert(message);
                 }, function(message) {
                     alert(message);
@@ -173,9 +145,9 @@ function get_form_tools_html($id){
                     $('div#form-body').html(html);
                     $('div#content-body-action-tools').html(tools);
                 }, function(message) {
-                    $('font#section_heading').empty();
-                    alert(message);
-                });
+            $('font#section_heading').empty();
+            alert(message);
+        });
         }
     </script>
     <?php
