@@ -278,8 +278,14 @@ function get_form_html($id) {
                        } 
                        //alert(purchace.stocked);
                        if(purchace.stocked==1){
-                           form.find('input').prop('disabled', 'true');
-                           alert("Purchace already stocked. Can't return now");
+                           //form.find('input').prop('disabled', 'true');
+                           form.find('input#quantity').prop('disabled', 'disabled');
+                           form.find('img#delete_button').prop('onclick', false);
+                           form.find('img#activate_button').prop('onclick', false);
+                           form.find('input[type="button"]').prop('disabled', null);
+                           form.find('input[type="submit"]').prop('disabled', null);
+                           form.find('input[type="reset"]').prop('disabled', null);
+                           alert("Purchace already stocked. Can't edit quantity now");
                        }else{                           
                            form.find('input[type="button"]').prop('disabled', null);
                            form.find('input[type="submit"]').prop('disabled', null);
