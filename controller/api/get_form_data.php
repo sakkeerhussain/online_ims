@@ -32,7 +32,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         $customer->getCustomer();
                         $customer_name = $customer->customer_name.' ( '.$customer->id.' ) ';
                         $items = array();
-                        if(!empty($sale->getSalesItems())){
+                        if(is_array($sale->getSalesItems()) and count($sale->getSalesItems())){
                             foreach ($sale->getSalesItems() as $s_item) {
                                 $item = new item();
                                 $item->id = $s_item->item_id;
@@ -75,7 +75,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         $vendor->getWendor();
                         $vendor_name = $vendor->wendor_name.' ( '.$vendor->id.' ) ';
                         $items = array();
-                        if(!empty($purchace->getPurchaceItems())){
+                        if(is_array($purchace->getPurchaceItems()) and count($purchace->getPurchaceItems())){
                             foreach ($purchace->getPurchaceItems() as $p_item) {
                                 $item = new item();
                                 $item->id = $p_item->item_id;
