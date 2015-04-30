@@ -42,9 +42,15 @@ class sales_items {
         if ($sale_item == null){
             $sale_item = $this;
         }
-        $this->db_handler->add_model($sale_item);
-        $description = "Added new Sale Item (" . $sale_item->to_string() . ")";
-        Log::i($this->tag, $description);
+        $result = $this->db_handler->add_model($sale_item);
+        if($result){
+            $description = "Added new Sale Item (" . $sale_item->to_string() . ")";
+            Log::i($this->tag, $description);
+        }else{
+            $description = "Adding new Sale Item failed (" . $sale_item->to_string() . ")";
+            $description = $description . mysql_error();
+            Log::i($this->tag, $description);
+        }
     }
     function getSaleItem(){
         return $this->db_handler->get_model($this,  $this->id);

@@ -134,6 +134,7 @@ function get_form_html($id) {
                                 </thead>
                                     <tbody>
                                     <?php
+                                    if (is_array($sale->getSalesItems()) and count($sale->getSalesItems()) ) {
                                     foreach ($sale->getSalesItems() as $s_item) {
                                         ?>
                                     <tr id="<?php echo $s_item->id; ?>">
@@ -167,6 +168,9 @@ function get_form_html($id) {
                                             </td>
                                         </tr>
                                         <?php
+                                    }
+                                    }else{
+                                        echo '<tr><td colspan="6">No item found</td></tr>';
                                     }
                                     ?>
                                         </tbody>
