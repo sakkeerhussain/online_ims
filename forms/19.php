@@ -83,8 +83,7 @@ function get_form_html($id) {
                                 $vendor->id = $purchace->wendor_id;
                                 $vendor->getWendor();
                             ?>
-                            <td id="vendor" vendor_address="<?php echo $vendor->contact_address; ?>"
-                                 vendor_tin="<?php echo $vendor->wendor_tin_number; ?>"><?php 
+                            <td id="vendor"><?php 
                                 echo $vendor->wendor_name; ?></td>
                             <td>
                                 <?php
@@ -210,8 +209,8 @@ function get_form_html($id) {
                 var tax_rate = item_row.find('td#rate').attr('tax_rate');
                 var total = parseFloat(rate) * parseFloat(quantity);
                 total = total.toFixed(2);
-                var tax = (total * tax_rate) / (100 + tax_rate);
-                tax_amount = tax_amount + tax;
+                var tax = (total * tax_rate) / (100);
+                tax_amount = parseFloat(tax_amount) + parseFloat(tax);
                 var item = {
                     item_name : item_name,
                     quantity : quantity,
@@ -224,27 +223,33 @@ function get_form_html($id) {
             });
             tax_amount = tax_amount.toFixed(2);
             var vendor_name = selected_row.find('td#vendor').html();
-            var vendor_address = selected_row.find('td#vendor').attr('vendor_address');
-            var vendor_tin = selected_row.find('td#vendor').attr('vendor_tin');
             var amount = selected_row.find('td#amount').html();
+            amount = parseFloat(amount).toFixed(2);
             var id = selected_row.attr('id');
+            var grand_total = (parseFloat(amount)+parseFloat(tax_amount));
+            grand_total = grand_total.toFixed(2);
+            var rounded_grand_total = Math.round(grand_total);
+            rounded_grand_total = rounded_grand_total.toFixed(2);
+            var round_off = grand_total - rounded_grand_total;
+            round_off = round_off.toFixed(2);
             var data = {
                 id : id,
                 vendor_name : vendor_name,
-                vendor_address : vendor_address,
-                vendor_tin : vendor_tin,
                 amount : amount,
                 less_discount : '0.00',
                 tax_amount : tax_amount,
+                grand_total : grand_total,
+                rounded_grand_total : rounded_grand_total,
+                round_off : round_off,
                 items : items
             }
             print_purchace_invoice(data);
         }
         function print_purchace_invoice(data) {
                 var html = '';
-                html ='<font style="font-size:30px;">'+data.vendor_name+'</font><br/>'
-                        +'<font>'+data.vendor_address+'</font><br/>'
-                        +'<font>Tin No. &nbsp; &nbsp; '+data.vendor_tin+'</font><br/>'
+                html ='<font style="font-size:30px;">ROYALE PIKNIK TRADERS LLP</font><br/>'
+                        +'<font>29/861, PARAYANCHERI, CALICUT - 673006</font><br/>'
+                        +'<font>Tin No. &nbsp; &nbsp; 32110855402</font><br/>'
                         +'<font>PURCHACE BILL</font><br/><br/>';
                 $('div#print_container_header').html(html);
                 html = '';
@@ -255,7 +260,7 @@ function get_form_html($id) {
                 
                 html = html + "<table>"
                         +"<tr><td>Bill No. </td><td>:</td><td>" + data.id + "</td></tr>"
-                        +"<tr><td>Name </td><td>:</td><td>" + "" + "</td></tr></table></div>";
+                        +"<tr><td>Name </td><td>:</td><td>" +data.vendor_name+ "</td></tr></table></div>";
                 
                 html = html + "<div style=\"border-top:1px dashed #000; margin:10px auto 0 auto;padding:0 0 10px 0;\"><table style=\"width:100%;\"><tr style=\"border-bottom: 1px dashed #000; border-top: 1px dashed #000;\">"
                         + "<td style=\"width:5%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px;\">SNo</td>"
@@ -280,17 +285,16 @@ function get_form_html($id) {
                 }
                 html = html + "</table></div>";
                 html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table style=\"margin-left: auto;\">";
-                html = html + "<tr><td>Amount</td><td style=\"margin:0 30;\"></td><td style=\"text-align:right;\">" + data.amount + "</td></tr>";
-                html = html + "<tr><td>Less Discount</td><td style=\"margin:0 30;\"></td><td style=\"text-align:right;\">" + data.less_discount + "</td></tr>";
-                html = html + "<tr><td>VAT</td><td style=\"margin:0 30;\"></td><td style=\"text-align:right;\">" + data.tax_amount + "</td></tr>";
-                html = html + "<tr><td>Round off</td><td style=\"margin:0 30;\"></td><td style=\"text-align:right;\">" + '0.00' + "</td></tr>";
-                var grand_total = (parseFloat(data.amount)+parseFloat(data.tax_amount));
-                html = html + "<tr style=\"font-size:18px;\"><td><b>GRAND TOTAL</b></td><td style=\"margin:0 30;\"></td><td style=\"text-align:right;\"><b>" + grand_total + "</b></td></tr>";
+                html = html + "<tr><td>Amount</td><td style=\"margin:0 30px;\"></td><td style=\"text-align:right;\">" + data.amount + "</td></tr>";
+                html = html + "<tr><td>Less Discount</td><td style=\"margin:0 30px;\"></td><td style=\"text-align:right;\">" + data.less_discount + "</td></tr>";
+                html = html + "<tr><td>VAT</td><td style=\"margin:0 30px;\"></td><td style=\"text-align:right;\">" + data.tax_amount + "</td></tr>";
+                html = html + "<tr><td>Round off</td><td style=\"margin:0 30px;\"></td><td style=\"text-align:right;\">" + data.round_off + "</td></tr>";
+                html = html + "<tr style=\"font-size:18px;\"><td><b>GRAND TOTAL</b></td><td style=\"margin:0 30px;\"></td><td style=\"text-align:right;\"><b>" + data.rounded_grand_total + "</b></td></tr>";
                 html = html + "</table></div>";
 //                console.log("Creating bill : " + html);
                 $('div#print_container_body').html(html);
                 html = '';
-                html = '<div style="width:100%;border-bottom:1px dashed #000;text-align:left;"><font>Rupees: '+toWords(grand_total)+'</font></div>';
+                html = '<div style="width:100%;border-bottom:1px dashed #000;text-align:left;"><font>Rupees: '+toWords(parseInt(data.rounded_grand_total))+' Only. </font></div>';
                 $('div#print_container_footer').html(html);
                 print();
                 $('div#print_container_header').empty();
@@ -298,13 +302,13 @@ function get_form_html($id) {
                 $('div#print_container_footer').empty();
             }
        // American Numbering System
-        var th = ['', 'thousand', 'million', 'billion', 'trillion'];
+        var th = ['', 'Thousand', 'Million', 'Billion', 'Trillion'];
 
-        var dg = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+        var dg = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
 
-        var tn = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+        var tn = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
 
-        var tw = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+        var tw = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
 
         function toWords(s) {
             s = s.toString();
