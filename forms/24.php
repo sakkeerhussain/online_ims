@@ -76,11 +76,11 @@ function get_form_html($id) {
                                 <?php echo $item->item_name.' ( '. $item->item_code .' )'; ?>
                             </td>
                             <td>
-                                <?php echo $sales_item->quantity; ?>
+                                <?php echo number_format($sales_item->quantity, 2); ?>
                             </td>
                             
                             <td id="tax">
-                                <?php echo $sales_item->total; ?>
+                                <?php echo number_format($sales_item->total, 2);  ?>
                             </td>
                         </tr>
                         <?php
@@ -90,8 +90,8 @@ function get_form_html($id) {
                         <tr>
                             <td></td>
                             <td style="text-align: right;"> TOTAL </td>
-                            <td><?php echo $total_count; ?></td>
-                            <td><?php echo $grand_total; ?></td>
+                            <td><?php echo number_format($total_count, 2); ?></td>
+                            <td><?php echo number_format($grand_total, 2); ?></td>
                         </tr>
                 </tbody>                               
             </table>
