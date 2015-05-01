@@ -5,19 +5,16 @@
  *
  * @author Sakkeer Hussain
  */
-class customer {
+class company {
     
     public $id;
-    public $customer_name;
-    public $total_purchace_amount;
-    public $contact_number;
-    public $company_id;
-    public $purchace_amount_to_avail_redeem;
+    public $company_name;
+    public $company_code;
     public $created_at;
     public $last_edited;
     
     private $db_handler;
-    private $tag = 'CUSTOMER CONTROLLER';
+    private $tag = 'COMPANY CONTROLLER';
 
     function __construct() {
         $this->db_handler = new DBConnection();
@@ -25,38 +22,35 @@ class customer {
 
     public function to_string() {
         return 'id : ' . $this->id . ' - '
-                . 'customer_name : ' . $this->customer_name . ' - '
-                . 'total_purchace_amount : ' . $this->total_purchace_amount . ' - '
-                . 'purchace_amount_to_avail_redeem : ' . $this->purchace_amount_to_avail_redeem . ' - '
-                . 'contact_number : ' . $this->contact_number . ' - '
-                . 'company_id : ' . $this->company_id . ' - '
+                . 'company_name : ' . $this->company_name . ' - '
+                . 'company_code : ' . $this->company_code . ' - '
                 . 'created_at : ' . $this->created_at . ' - '
                 . 'last_edited : ' . $this->last_edited;
     }
 
-    function addCustomer($customer = null) {
-        if ($customer == null){
-            $customer = $this;
+    function addCompany($company = null) {
+        if ($company == null){
+            $company = $this;
         }
-        $this->db_handler->add_model($customer);
-        $description = "Added new Customer (" . $customer->to_string() . ")";
+        $this->db_handler->add_model($company);
+        $description = "Added new Company (" . $company->to_string() . ")";
         Log::i($this->tag, $description);
     }
-    function getCustomer(){
+    function getCompany(){
         return $this->db_handler->get_model($this,  $this->id);
     }
-    function updateCustomer(){
+    function updateCompany(){
         return $this->db_handler->update_model($this);
-        $description = "Updating Customer (" . $customer->to_string() . ")";
+        $description = "Updating Company (" . $company->to_string() . ")";
         Log::i($this->tag, $description);
     }
-    function deleteCustomer(){
+    function deleteCompany(){
         $result = $this->db_handler->delete_model($this);
-        $description = "Customer deleted, result : ".$result;
+        $description = "Company deleted, result : ".$result;
         Log::i($this->tag, $description);
         return $result;
     }
-    function getCustomers($company_id){
-        return $this->db_handler->get_model_list($this,  'company_id = '.$company_id);
+    function getCompanies(){
+        return $this->db_handler->get_model_list($this);
     }
 }

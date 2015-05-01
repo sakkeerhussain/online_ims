@@ -39,36 +39,28 @@ function get_form_html($id) {
                             ID
                         </td>
                         <td>
-                            BANK NAME
-                        </td>
-                        <td>
-                            BRANCH
+                            SHOP NAME
                         </td>
                         <td style="">
-                            IFSC CODE
-                        </td>
-                        <td style="">
-                            ACCOUNT NUMBER
+                            SHOP CODE
                         </td>
                     </tr>
                 </thead>
                 <tbody style="padding-left: 3px; text-align: center; ">
                     <?php
-                    $bank = new bank();
-                    $banks = $bank->getBanks();
+                    $company = new company();
+                    $companies = $company->getCompanies();
                     $i = 0;
-                    if($banks==NULL || sizeof($banks)==0){
-                        echo '<tr><td colspan="8"> No Bank Found </td></tr>';
+                    if($companies==NULL || sizeof($companies)==0){
+                        echo '<tr><td colspan="8"> No Shop Found </td></tr>';
                     } else{
-                    foreach ($banks as $bank) {
+                    foreach ($companies as $company) {
                         ?>
-                        <tr id="<?php echo $bank->id; ?>" onclick="select_row(this)">
+                        <tr id="<?php echo $company->id; ?>" onclick="select_row(this)">
                             <td style="text-align: center;"><?php echo ++$i; ?></td>
-                            <td id="bank_id"><?php echo 'BANK-'.$bank->id; ?></td>
-                            <td id="bank_name"><?php echo $bank->bank_name; ?></td>
-                            <td id="branch"><?php echo $bank->branch; ?></td>
-                            <td id="ifsc_code"><?php echo $bank->ifsc_code; ?></td>
-                            <td id="account_number"><?php echo $bank->account_number; ?></td>
+                            <td id="bank_id"><?php echo 'SHOP-'.$company->id; ?></td>
+                            <td id="bank_name"><?php echo $company->company_name; ?></td>
+                            <td id="branch"><?php echo $company->company_code; ?></td>
                         </tr>
                         <?php
                     }
