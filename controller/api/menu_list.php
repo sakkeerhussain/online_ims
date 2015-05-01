@@ -53,7 +53,8 @@ if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){
         $menu_list = array(array('menu_item_name'=>'Items','menu_item_id'=>'11'),
             //array('menu_item_name'=>'Company','menu_item_id'=>'12'),
             array('menu_item_name'=>'Vendor','menu_item_id'=>'10'),
-            array('menu_item_name'=>'Bank','menu_item_id'=>'22'));
+            array('menu_item_name'=>'Bank','menu_item_id'=>'22'),
+            array('menu_item_name'=>'Shops','menu_item_id'=>'26'));
          
         $responce = array('status'=>'success','error'=>'','data'=> array('menu_list'=>$menu_list));
     }else {  
