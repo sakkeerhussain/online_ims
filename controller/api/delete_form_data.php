@@ -27,7 +27,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $description = "Item delete failed, item : ".$item->to_string();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
-                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
                 }                    
             }else {
                 ob_start();
@@ -43,10 +43,10 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $message = "Vendor deleted Successfuly";
                     $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$vendor->id)); 
                 }else{
-                    $description = "Vendor delete failed, item : ".$item->to_string();
+                    $description = "Vendor delete failed, item : ".$vendor->to_string();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
-                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
                 }                    
             }else {
                 ob_start();
@@ -65,7 +65,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $description = "Inventry delete failed, item : ".$inventry->to_string();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
-                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
                 }                    
             }else {
                 ob_start();
@@ -84,7 +84,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $description = "Customer delete failed, item : ".$customer->to_string();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
-                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
                 }                    
             }else {
                 ob_start();
@@ -100,10 +100,29 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $message = "Bank deleted Successfuly";
                     $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$bank->id)); 
                 }else{
-                    $description = "Bank delete failed, item : ".$item->to_string()." Error : ".  mysql_error();
+                    $description = "Bank delete failed, item : ".$bank->to_string()." Error : ".  mysql_error();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
-                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                }                    
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
+        } else if ($form_id == 26) {   ///shop delete
+            if (isset($_POST['company_id']) and !empty($_POST['company_id'])) {
+                $company = new company();
+                $company->id = $_POST['company_id'];
+                if($company->deleteCompany()){
+                    $message = "Company deleted Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$company->id)); 
+                }else{
+                    $description = "Company delete failed, item : ".$company->to_string()." Error : ".  mysql_error();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
                 }                    
             }else {
                 ob_start();

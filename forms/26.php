@@ -58,9 +58,9 @@ function get_form_html($id) {
                         ?>
                         <tr id="<?php echo $company->id; ?>" onclick="select_row(this)">
                             <td style="text-align: center;"><?php echo ++$i; ?></td>
-                            <td id="bank_id"><?php echo 'SHOP-'.$company->id; ?></td>
-                            <td id="bank_name"><?php echo $company->company_name; ?></td>
-                            <td id="branch"><?php echo $company->company_code; ?></td>
+                            <td id="company_id"><?php echo 'SHOP-'.$company->id; ?></td>
+                            <td id="company_name"><?php echo $company->company_name; ?></td>
+                            <td id="company_code"><?php echo $company->company_code; ?></td>
                         </tr>
                         <?php
                     }
@@ -98,7 +98,7 @@ function get_form_html($id) {
             var branch = selected_row.find('td#branch').html();
             var ifsc_code = selected_row.find('td#ifsc_code').html();
             var account_number = selected_row.find('td#account_number').html();
-            get_form(22,  ///bank create form
+            get_form(27,  ///shop create form
                 function (html, tools){
                     $('div#form-body').html(html);
                     $('div#content-body-action-tools').html(tools);
@@ -123,13 +123,13 @@ function get_form_html($id) {
         function on_delete_clicked(){            
             var selected_row = $('tr[status="selected"]');
             var id = selected_row.attr('id');
-            if(confirm('Are you sure you want to delete BANK-'+id+' ?' )){
+            if(confirm('Are you sure you want to delete SHOP-'+id+' ?' )){
                 var data = {
-                    form_id : 23,
-                    bank_id : id
+                    form_id : 26,
+                    company_id : id
                 }
                 delete_form_data(data, function(message) {
-                    get_form(23,
+                    get_form(26,
                         function(html, tools) {
                              $('div#form-body').html(html);
                              $('div#content-body-action-tools').html(tools);
