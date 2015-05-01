@@ -1,10 +1,7 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//include './Log.php';
+//include './Constants.php';
 
 /**
  * Description of mail
@@ -12,9 +9,10 @@
  * @author Sakkeer Hussain
  */
 class mail {
-    public $to = 'cgtsoft@gmail.com,sakkeerhussainp@gmail.com,piknikdates@gmail.com';
+    public $to = 'cgtsoft@gmail.com, sakkeerhussainp@gmail.com, piknikdates@gmail.com';
     public $subject = 'Error Reporting from Pik Nik IMS';
     public $header = 'From: webmaster@piknikindia.in';
+    public $tag = "MAIL CONTROLLER";
     public function send_error_mail($query, $error){
         $message = '
             <html>
@@ -37,6 +35,11 @@ class mail {
         $headers  = $this->header;
         $headers .= 'MIME-Version: 1.0' . "\r\n";
         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-        mail($this->to, $this->subject, $message, $headers);
+        $result = mail($this->to, $this->subject, $message, $headers);
+        $description = "mail sent, query : $query, error : $error, result : $result ";
+        Log::i($this->tag, $description);
     }
 }
+
+//$mail = new mail();
+//$mail->send_error_mail("fhdh", "fdhdh");
