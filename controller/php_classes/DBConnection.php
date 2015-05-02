@@ -35,7 +35,13 @@ class DBConnection {
     }
 
     function executeQuery($query) {
-        return mysql_query($query, $this->handler);
+        $result = mysql_query($query, $this->handler);
+        if(!($result)){
+            $mail = new mail();
+            $error = mysql_error();            
+            $mail->send_error_mail($query, $error);
+        }
+        return $result;
     }
 
     function add_model($model) {

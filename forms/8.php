@@ -1,6 +1,6 @@
 <?php
 
-function get_form_html($id) {
+function get_form_html($form_id, $id) {
     ob_start();
     ?>
     <style>
@@ -25,9 +25,9 @@ function get_form_html($id) {
          border-radius: 5px;margin-left: auto; text-align: center; ">
         ID : PURCHACE - <input style="padding: 0 0 0 5px;" onchange="load_purchace()" type="number" id="purchace_id" />
     </div>
-    <div style="margin-top: 30px; background-color:transparent;padding-bottom: 100px;">
-    <form action="#" method="post" onsubmit="return false" class="action_form" operation="update" >
-           <table style="width:100%;">
+    <div style="margin-top: 10px; background-color:transparent;padding-bottom: 100px;">
+        <form action="#" method="post" onsubmit="return false" class="action_form" operation="update" >
+            <table style="width:100%;">
                 <tr>
                     <td class="field_name">                    
                         <font>VENDOR</font>
@@ -269,7 +269,7 @@ function get_form_html($id) {
                             add_purchace_item();
                             var row = $('table#items_table tbody tr:last-child');
                             var item = items[i];
-                            row.find('input#item').attr('disabled', 'true');
+                            row.find('input#item').attr('disabled', 'disabled');
                             row.find('input#item').val(item.item_name);
                             row.find('input#quantity').val(item.quantity);
                             //row.find('input#quantity').attr('max', item.quantity);
@@ -278,8 +278,15 @@ function get_form_html($id) {
                        } 
                        //alert(purchace.stocked);
                        if(purchace.stocked==1){
-                           form.find('input').prop('disabled', 'true');
-                           alert("Purchace already stocked. Can't return now");
+                           //form.find('input').prop('disabled', 'true');
+                           form.find('input#quantity').prop('disabled', 'disabled');
+                           form.find('input#rate').prop('disabled', null);
+                           form.find('img#delete_button').prop('onclick', false);
+                           form.find('img#activate_button').prop('onclick', false);
+                           form.find('input[type="button"]').prop('disabled', 'disabled');
+                           form.find('input[type="submit"]').prop('disabled', null);
+                           form.find('input[type="reset"]').prop('disabled', 'disabled');
+                           alert("Purchace already stocked. Can't edit quantity now");
                        }else{                           
                            form.find('input[type="button"]').prop('disabled', null);
                            form.find('input[type="submit"]').prop('disabled', null);

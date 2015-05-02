@@ -12,8 +12,8 @@ spl_autoload_register(function($class_name) {
 
 $user = new user();
 if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){    
-    $id = $_SESSION['user_id'];
-    $user->id = $id;
+    $form_id = $_SESSION['user_id'];
+    $user->id = $form_id;
     $user->getUser();
     if($user==NULL){        
         $responce = array('status'=>'failed','error'=>'User does not exists','data'=> array());

@@ -39,49 +39,56 @@ function get_form_html($form_id, $id) {
                             ID
                         </td>
                         <td>
-                            ITEM NAME
-                        </td>
-                        <td>
-                            ITEM CODE
+                            NAME
                         </td>
                         <td style="">
-                            MRP
+                            USER NAME
                         </td>
                         <td style="">
-                            PURCHACE RATE
+                            SHOP
                         </td>
                         <td style="">
-                            TAX
+                            TYPE   
                         </td>
                     </tr>
                 </thead>
                 <tbody style="padding-left: 3px; text-align: center; ">
                     <?php
-                    $item = new item();
-                    $items = $item->getItems();
+                    $user = new user();
+                    $users = $user->getUsers();
                     $i = 0;
-                    if($items==NULL || sizeof($items)==0){
-                        echo '<tr><td colspan="8"> No Item Found </td></tr>';
-                    } else{
-                    foreach ($items as $item) {
-                        ?>
-                    <tr id="<?php echo $item->id; ?>" onclick="select_row(this)">
-                            <td style="text-align: center;"><?php echo ++$i; ?></td>
-                            <td id="item_id"><?php echo 'ITEM-'.$item->id; ?></td>
-                            <td id="item_name"><?php echo $item->item_name; ?></td>
-                            <td id="item_code"><?php echo $item->item_code; ?></td>
-                            <td id="mrp"><?php echo $item->mrp; ?></td>
-                            <td id="purchace_rate"><?php echo $item->purchace_rate; ?></td>
-                            <?php 
-                            $tax_category = new tax_category();
-                            $tax_category->id = $item->tax_category_id;
-                            $tax_category->getTaxCategory();
-                            ?>
-                            <td id="tax_category" tax_category_id="<?php echo $tax_category->id; ?>" ><?php echo $tax_category->tax_category_name; ?></td>
-                        </tr>
-                        <?php
+                    if(is_array($users) and count($users)!=0){
+                       foreach ($users as $user) {
+                           ?>
+                           <tr id="<?php echo $user->id; ?>" <?php if($user->id!=1){echo ' onclick="select_row(this)"';} ?>>
+                               <td style="text-align: center;"><?php echo ++$i; ?></td>
+                               <td id="user_id"><?php echo 'USER-'.$user->id; ?></td>
+                               <td id="name"><?php echo $user->name; ?></td>
+                               <td id="user_name"><?php echo $user->user_name; ?></td>
+                               <?php if($user->user_type_id == 4){
+                                   echo '<td>NA</td>';
+                               }else{ ?>
+                               <td id="company_id" value="<?php echo $user->company_id; ?>"><?php 
+                                    $company = new company();
+                                    $company->id = $user->company_id; 
+                                    $company->getCompany();
+                                    echo $company->company_name . ' - ' . $company->company_code;
+                               ?></td>
+                               <?php 
+                               } 
+                               ?>
+                               <td id="user_type_id" value="<?php echo $user->user_type_id; ?>"><?php 
+                                    $user_type = new user_type();
+                                    $user_type->id = $user->user_type_id; 
+                                    $user_type->getUserType();
+                                    echo $user_type->user_type_name;
+                               ?></td>
+                           </tr>
+                           <?php
+                       }
+                    }else{
+                        echo '<tr><td colspan="8"> No User Found </td></tr>';
                     }
-                }
                     ?>
                 </tbody>                               
             </table>
@@ -110,27 +117,31 @@ function get_form_html($form_id, $id) {
         }
         function on_edit_clicked(){
             var selected_row = $('tr[status="selected"]');
-            var item_name = selected_row.find('td#item_name').html();
             var id = selected_row.attr('id');
-            var item_code = selected_row.find('td#item_code').html();
-            var mrp = selected_row.find('td#mrp').html();
-            var purchace_rate = selected_row.find('td#purchace_rate').html();
-            var tax_category_id = selected_row.find('td#tax_category').attr('tax_category_id');
-            get_form(11,  ///item create form
+            get_form(29,  ///user create form
                 function (html, tools){
                     $('div#form-body').html(html);
                     $('div#content-body-action-tools').html(tools);
                     var form = $('div#form-body').find('form.action_form');
                     form.attr('operation', 'update');
-                    form.attr('item_id', id);
-                    form.find('input#item_name').val(item_name);
-                    form.find('input#item_code').val(item_code);
-                    form.find('input#mrp').val(mrp);
-                    form.find('input#purchace_rate').val(purchace_rate);
-                    form.find('select#tax_category').find('option#'+tax_category_id).prop('selected', true);
+                    form.attr('user_id', id);
                     form.find('input[type=submit]').val('UPDATE');
-                    $('div#head_div').html('ID : ITEM-'+id);
+                    $('div#head_div').html('ID : SHOP - '+id);
                     $('div#head_div').css('display', 'block');
+                },
+                function (message){
+                    $('font#section_heading').empty();
+                    $('div#form-body').empty();
+                    alert(message);
+                },
+                id
+             );
+        }
+        function on_add_clicked(){
+            get_form(29,  ///user create form
+                function (html, tools){
+                    $('div#form-body').html(html);
+                    $('div#content-body-action-tools').html(tools);
                 },
                 function (message){
                     $('font#section_heading').empty();
@@ -142,13 +153,13 @@ function get_form_html($form_id, $id) {
         function on_delete_clicked(){            
             var selected_row = $('tr[status="selected"]');
             var id = selected_row.attr('id');
-            if(confirm('Are you sure you want to delete ITEM-'+id+' ?' )){
+            if(confirm('Are you sure you want to delete USER-'+id+' ?' )){
                 var data = {
-                    form_id : 17,
-                    item_id : id
+                    form_id : 28,
+                    user_id : id
                 }
                 delete_form_data(data, function(message) {
-                    get_form(17,
+                    get_form(28,
                         function(html, tools) {
                              $('div#form-body').html(html);
                              $('div#content-body-action-tools').html(tools);
@@ -162,20 +173,6 @@ function get_form_html($form_id, $id) {
                     alert(message);
                 });
             }
-        }
-        
-        function on_add_clicked(){
-            get_form(11,  ///item create form
-                function (html, tools){
-                    $('div#form-body').html(html);
-                    $('div#content-body-action-tools').html(tools);
-                },
-                function (message){
-                    $('font#section_heading').empty();
-                    $('div#form-body').empty();
-                    alert(message);
-                }
-             );
         }
     </script>
 
@@ -191,7 +188,7 @@ function get_form_tools_html($id){
     <img id="edit_fade" src="../ui/images/edit_fade.png" height="40" width="40" style="margin: 15px auto 0px 12px;">
     <img onclick="on_edit_clicked()" id="edit" onclick="" src="../ui/images/edit.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
     <img id="delete_fade" src="../ui/images/delete_fade.png" height="40" width="40" style="margin: 15px auto 0px 12px;">
-    <img onclick="on_delete_clicked()" id="delete" onclick="" src="../ui/images/delete.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
+    <img onclick="on_delete_clicked()" id="delete" src="../ui/images/delete.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
     <script>
         
     </script>

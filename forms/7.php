@@ -1,6 +1,6 @@
 <?php
 
-function get_form_html($id) {
+function get_form_html($form_id, $id) {
     ob_start();
     ?>
     <style>
@@ -28,7 +28,7 @@ function get_form_html($id) {
 
 
     </div>
-    <div style="margin-top: 30px; background-color:transparent;padding-bottom: 100px;">
+    <div style="margin-top: 10px; background-color:transparent;padding-bottom: 100px;">
         <form action="#" method="post" onsubmit="return false" class="action_form" operation="add" >
             <table style="width:100%;">
                 <tr>

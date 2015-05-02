@@ -42,9 +42,15 @@ class sales_items {
         if ($sale_item == null){
             $sale_item = $this;
         }
-        $this->db_handler->add_model($sale_item);
-        $description = "Added new Sale Item (" . $sale_item->to_string() . ")";
-        Log::i($this->tag, $description);
+        $result = $this->db_handler->add_model($sale_item);
+        if($result){
+            $description = "Added new Sale Item (" . $sale_item->to_string() . ")";
+            Log::i($this->tag, $description);
+        }else{
+            $description = "Adding new Sale Item failed (" . $sale_item->to_string() . ")";
+            $description = $description . mysql_error();
+            Log::i($this->tag, $description);
+        }
     }
     function getSaleItem(){
         return $this->db_handler->get_model($this,  $this->id);
@@ -54,6 +60,10 @@ class sales_items {
     }
     function getTodaysSaleItems($company_id){
         $query = "SELECT `item_id` , SUM(`quantity`) as `quantity`, SUM(`rate` * `quantity`) as `total` FROM `sales_items` WHERE DATE(`created_at`) = DATE(NOW()) and `company_id` = $company_id GROUP BY (`item_id`)";
+        return $this->db_handler->get_model_list_from_query($query,  'sales_items');
+    }
+    function getOneDaysSaleItems($company_id,$date){
+        $query = "SELECT `item_id` , SUM(`quantity`) as `quantity`, SUM(`rate` * `quantity`) as `total` FROM `sales_items` WHERE DATE(`created_at`) = '".$date."' and `company_id` = $company_id GROUP BY (`item_id`)";
         return $this->db_handler->get_model_list_from_query($query,  'sales_items');
     }
     function clearSaleItems($sale_id){

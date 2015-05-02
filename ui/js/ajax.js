@@ -67,9 +67,13 @@ function get_menu_items(success_handler, failure_handler){
     });
 }
 
-function get_form(menu_item_id, success_handler, failure_handler){
+function get_form(menu_item_id, success_handler, failure_handler, id){
+    if(typeof id === 'undefined' || id === null){
+        id = 0;
+    }
     var data = {
-        menu_item_id:menu_item_id
+        menu_item_id:menu_item_id,
+        id:id
     }
     ajax('../controller/api/get_form.php', 'POST', data, function(responce) {
         if (responce.status === 'success') {    

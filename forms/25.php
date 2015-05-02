@@ -1,6 +1,6 @@
 <?php
 
-function get_form_html($id) {
+function get_form_html($form_id, $id) {
     ob_start();
     ?>
     <style>
@@ -21,7 +21,7 @@ function get_form_html($id) {
     <div id="head_div" style="padding: 5px 0; background-color: #ECECEC;  color: #21ACD7;
          border-radius: 5px;margin-left: auto;display: none; text-align: center; ">
     </div>
-    <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
+    <div style="margin-top: 10px; background-color:transparent;padding-bottom: 30px;">
         <form action="#" method="post" class="action_form" operation="update" style="width:100%;" >
             <table style="width:100%;">
                 <tr>

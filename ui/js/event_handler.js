@@ -29,10 +29,10 @@ $(document).ready(function(e) {
         });
     });
 
-    $('a#reset_password').on('click', function(e) {
-        e.preventDefault();
-        //TODO	
-    });
+//    $('a#reset_password').on('click', function(e) {
+//        e.preventDefault();
+//        //TODO	
+//    });
 
     function load_login_page() {
         console.log('loading log in page');

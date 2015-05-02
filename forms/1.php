@@ -1,6 +1,6 @@
 <?php
 
-function get_form_html($id) {
+function get_form_html($form_id, $id) {
     ob_start();
     ?>
     <style>
@@ -28,7 +28,7 @@ function get_form_html($id) {
 
 
     </div>
-    <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
+    <div style="margin-top: 10px; background-color:transparent;padding-bottom: 30px;">
         <form action="#" method="post" onsubmit="return false" class="action_form" operation="add" style="width:100%;">
             <table style="width:100%;">
                 <tr>
@@ -417,8 +417,8 @@ function get_form_html($id) {
                 }
                 var time = hour+":"+minut+" "+am_or_pm;
                 html = html + "<div<!-- style=\"padding:10px 0;\"><table style=\"float:right;\">"
-                        +"<tr><td>Date</td><td>:</td><td>" + date + "</td></tr>"
-                        +"<tr><td>Time</td><td>:</td><td>" + time + "</td></tr></table>";
+                        +"<tr><td>Date</td><td>:</td><td style=\"text-align:right;\">" + date + "</td></tr>"
+                        +"<tr><td>Time</td><td>:</td><td style=\"text-align:right;\">" + time + "</td></tr></table>";
                 
                 html = html + "<table>"
                         +"<tr><td>Bill No.</td><td>:</td><td>" + sale_id + "</td></tr>"
