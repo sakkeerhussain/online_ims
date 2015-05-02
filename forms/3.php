@@ -329,8 +329,8 @@ function get_form_html($form_id, $id) {
                 }
                 var time = hour+":"+minut+" "+am_or_pm;
                 html = html + "<div<!-- style=\"padding:10px 0;\"><table style=\"float:right;\">"
-                        +"<tr><td>Date</td><td>:</td><td>" + date + "</td></tr>"
-                        +"<tr><td>Time</td><td>:</td><td>" + time + "</td></tr></table>";
+                        +"<tr><td>Date</td><td>:</td><td style=\"text-align:right;\">" + date + "</td></tr>"
+                        +"<tr><td>Time</td><td>:</td><td style=\"text-align:right;\">" + time + "</td></tr></table>";
                 
                 html = html + "<table>"
                         +"<tr><td>Bill No.</td><td>:</td><td>" + sale_id + "</td></tr>"
