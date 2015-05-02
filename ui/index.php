@@ -14,10 +14,12 @@ spl_autoload_register(function($class_name) {
 <html>
     <head>
         <meta charset="utf-8">
-        <title>PikNik</title>
+        <title>Pik Nik</title>
         <link rel="stylesheet" type="text/css" media="screen" href="css/style_screen.css" />
         <link rel="stylesheet" type="text/css" media="print" href="css/style_print.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.datepick.css" />
         <script type="application/javascript" src="js/jquery-1.11.1.min.js"></script>
+        <script type="application/javascript" src="js/jquery.datepick.js"></script>
         <script type="application/javascript" src="js/ajax.js" ></script>
         <script type="application/javascript" src="js/event_handler.js" ></script>
     </head>
@@ -44,7 +46,7 @@ spl_autoload_register(function($class_name) {
                 </form>
                 <div id="forgot-passeword">
                     <font class="centre-text" style="color: #7D7D7D;">
-                    Forgot your password? <a href="#" id="reset_password">Click&nbsp;here</a>&nbsp;to&nbsp;reset&nbsp;it.
+                    Forgot your password? <a href="password_reset.html" id="reset_password">Click&nbsp;here</a>&nbsp;to&nbsp;reset&nbsp;it.
                     </font>
                 </div>
             </div>

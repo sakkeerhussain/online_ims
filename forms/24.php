@@ -1,16 +1,19 @@
 <?php
 
-function get_form_html($form_id, $id) {
+function get_form_html($form_id, $date) {
     ob_start();
     ?>
-    <div style="height: 150px; 
-         width: 320px; background-color: #ECECEC; 
-         border-radius: 5px;margin-left: auto;display: none; ">
-
-
-
+    <div id="head_div" style="padding: 5px 0; background-color: #ECECEC;  color: #21ACD7;
+         border-radius: 5px;margin-left: auto; text-align: center; ">
+        DAY END REPORT OF 
+        <input id="date_field" value="<?php 
+            if($date == 0 ){ 
+                $date = date('d/m/Y',time());
+            }
+            echo $date;
+        ?>" />
     </div>
-    <div id="sales_items_table" style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
+    <div id="sales_items_table" style="margin-top: 10px; background-color:transparent;padding-bottom: 30px;">
         <style>
             div#purchace_items td{
                 border: 1px solid #21ACD7;
@@ -32,16 +35,16 @@ function get_form_html($form_id, $id) {
                    background-color: #fff; border-radius: 10px;  color: #21ACD7;">
                 <thead style="text-align: center;">
                     <tr>
-                        <td>
+                        <td style="width: 5%;">
                             #
                         </td>
                         <td>
                             ITEM
                         </td>
-                        <td>
+                        <td style="width: 15%;">
                             COUNT
                         </td>
-                        <td style="">
+                        <td style="width: 15%;">
                             TOTAL
                         </td>
                     </tr>
@@ -54,7 +57,9 @@ function get_form_html($form_id, $id) {
                     $user = new user();
                     $user->id = $_SESSION['user_id'];
                     $user->getUser();
-                    $sales_items = $sale_item->getTodaysSaleItems($user->company_id);
+                    $date = str_replace('/', '-', $date);
+                    $date = date('Y-m-d', strtotime($date));
+                    $sales_items = $sale_item->getOneDaysSaleItems($user->company_id, $date);
                     $i = 0;
                     if($sales_items==NULL || sizeof($sales_items)==0){
                         echo '<tr><td colspan="8"> No Sales Items Found </td></tr>';
@@ -93,21 +98,84 @@ function get_form_html($form_id, $id) {
                             <td><?php echo number_format($total_count, 2); ?></td>
                             <td><?php echo number_format($grand_total, 2); ?></td>
                         </tr>
+                  </tbody>                               
+            </table>
+            <table id="sales_statistics_table" style="border-collapse: collapse; width: 100%; 
+                   background-color: #fff; border-radius: 10px;  color: #21ACD7; margin-top: 20px;">
+                <thead style="text-align: center;">
+                    <tr>
+                            <td style="width: 5%;">
+                                #
+                            </td>
+                            <td>
+                                STATISTICS
+                            </td>
+                            <td style="width: 15%;">
+                                COUNT
+                            </td>
+                            <td style="width: 15%;">
+                                TOTAL TAX
+                            </td>
+                            <td style="width: 15%;">
+                                TOTAL NET. AMOUNT
+                            </td>
+                            <td style="width: 15%;">
+                                TOTAL AMOUNT
+                            </td>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;">
+                    <tr style="margin-top: 20px;">
+                        <?php
+                        $sale = new sales();
+                        $vals = $sale->getOneDaysSaleStatistics($user->company_id, $date);
+                        ?>
+                            <td>1</td>
+                            <td style="text-align: left;">SALES</td>
+                            <td><?php echo $vals['count']; ?></td>
+                            <td><?php echo number_format($vals['tax_amount'], 2); ?></td>
+                            <td><?php echo number_format($vals['net_amount'], 2); ?></td>
+                            <td><?php echo number_format($vals['amount'], 2); ?></td>
+                    </tr>
                 </tbody>                               
             </table>
         </div>
     </div>
     <script type="text/javascript">
+        function load_day_end_report(){
+            var date = $('input#date_field').val();
+            get_form(24,
+                        function(html, tools) {
+                             $('div#form-body').html(html);
+                             $('div#content-body-action-tools').html(tools);
+                        }, function(message) {
+                             $('font#section_heading').empty();
+                             $('div#form-body').empty();
+                             alert(message);
+                        },
+                        date);
+        }
         function on_print_clicked() {
-            $('div#print_container_header').html('<h1 style="color:#21ACD7;">Day-End Report</h1>');
+            var date = $('input#date_field').val();
+            $('div#print_container_header')
+                    .html('<font style="color:#21ACD7; font-size:20px; ">DAY END REPORT OF '+date+'</font>');
             var html = $('div#sales_items_table').html();
-            $('div#print_container_body').html(html);
+            $('div#print_container_body').html(html);  
             print();
             $('div#print_container_header').empty();
             $('div#print_container_body').empty();
             $('div#print_container_footer').empty();
         }
-       
+       $(document).ready(function (){
+           $('input#date_field').datepick({
+               minDate:'26/04/2015', 
+               dateFormat:'dd/mm/yyyy',
+               maxDate:'0',
+               onSelect:function(){
+                    load_day_end_report();
+                }
+           });
+       });
     </script>
 
     <?php

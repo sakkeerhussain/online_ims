@@ -62,6 +62,10 @@ class sales_items {
         $query = "SELECT `item_id` , SUM(`quantity`) as `quantity`, SUM(`rate` * `quantity`) as `total` FROM `sales_items` WHERE DATE(`created_at`) = DATE(NOW()) and `company_id` = $company_id GROUP BY (`item_id`)";
         return $this->db_handler->get_model_list_from_query($query,  'sales_items');
     }
+    function getOneDaysSaleItems($company_id,$date){
+        $query = "SELECT `item_id` , SUM(`quantity`) as `quantity`, SUM(`rate` * `quantity`) as `total` FROM `sales_items` WHERE DATE(`created_at`) = '".$date."' and `company_id` = $company_id GROUP BY (`item_id`)";
+        return $this->db_handler->get_model_list_from_query($query,  'sales_items');
+    }
     function clearSaleItems($sale_id){
         return $this->db_handler->delete_model_list($this,  'sale_id = '.$sale_id);
     }

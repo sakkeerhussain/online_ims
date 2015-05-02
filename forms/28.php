@@ -10,7 +10,7 @@ function get_form_html($form_id, $id) {
         
 
     </div>
-    <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
+    <div style="margin-top: 10px; background-color:transparent;padding-bottom: 30px;">
         <style>
             div#purchace_items td{
                 border: 1px solid #21ACD7;

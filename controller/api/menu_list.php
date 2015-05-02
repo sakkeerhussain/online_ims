@@ -23,7 +23,7 @@ if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){
         $menu_list = array(array('menu_item_name'=>'Sales Invoice','menu_item_id'=>'1'),
             array('menu_item_name'=>'Sales Return','menu_item_id'=>'2'),
             array('menu_item_name'=>'Sales Report','menu_item_id'=>'3'),
-            array('menu_item_name'=>'Todays Sales Report','menu_item_id'=>'24'),
+            array('menu_item_name'=>'Day End Report','menu_item_id'=>'24'),
             //array('menu_item_name'=>'Bank Deposit','menu_item_id'=>'4'),
             //array('menu_item_name'=>'Expence','menu_item_id'=>'5'),
             array('menu_item_name'=>'Customer','menu_item_id'=>'6'),
@@ -44,7 +44,7 @@ if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){
         $menu_list = array(//array('menu_item_name'=>'User Management','menu_item_id'=>'13'),
             //array('menu_item_name'=>'Redeem','menu_item_id'=>'14'),
             array('menu_item_name'=>'Stock Report','menu_item_id'=>'20'),
-            array('menu_item_name'=>'Todays Sales Report','menu_item_id'=>'24'),
+            array('menu_item_name'=>'Day End Report','menu_item_id'=>'24'),
             array('menu_item_name'=>'Sales Report','menu_item_id'=>'15'));
         
         $responce = array('status'=>'success','error'=>'','data'=> array('menu_list'=>$menu_list));

@@ -25,7 +25,7 @@ function get_form_html($form_id, $id) {
          border-radius: 5px;margin-left: auto; text-align: center; ">
         ID : SALE - <input style="padding: 0 0 0 5px;" onchange="load_sale()" type="number" id="sale_id" />
     </div>
-    <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
+    <div style="margin-top: 10px; background-color:transparent;padding-bottom: 30px;">
         <form action="#" method="post" onsubmit="return false" class="action_form" operation="update" style="width:100%;">
             <table style="width:100%;">
                 <tr>

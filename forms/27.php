@@ -28,7 +28,7 @@ function get_form_html($form_id, $id) {
       $companny->getCompany();
     }
     ?>
-    <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
+    <div style="margin-top: 10px; background-color:transparent;padding-bottom: 30px;">
         <form action="#" method="post" class="action_form" operation="add" style="width:100%;" >
             <table style="width:100%;">
                 <tr>
