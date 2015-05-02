@@ -125,7 +125,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $message = "Customer Updated Successfuly";
                     $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$customer->id)); 
                 }else{
-                    $description = "Customer update failed, vendor : ".$customer->to_string();
+                    $description = "Customer update failed, Customer : ".$customer->to_string();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
                     $responce = array('status' => 'success', 'error' => $message, 'data' => array());
@@ -162,7 +162,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $message = "Purchace Updated Successfuly";
                     $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$purchace->id)); 
                 }else{
-                    $description = "Purchace update failed, vendor : ".$purchace->to_string();
+                    $description = "Purchace update failed, Purchace : ".$purchace->to_string();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
                     $responce = array('status' => 'success', 'error' => $message, 'data' => array());
@@ -251,7 +251,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $message = "Bank Updated Successfuly";
                     $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$bank->id)); 
                 }else{
-                    $description = "Bank update failed, item : ".$bank->to_string();
+                    $description = "Bank update failed, Bank : ".$bank->to_string();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
                     $responce = array('status' => 'success', 'error' => $message, 'data' => array());
@@ -279,7 +279,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $message = "Stock Updated Successfuly";
                     $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$inv->id)); 
                 }else{
-                    $description = "Stock update failed, item : ".$inv->to_string();
+                    $description = "Stock update failed, Stock : ".$inv->to_string();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
                     $responce = array('status' => 'success', 'error' => $message, 'data' => array());
@@ -304,7 +304,35 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $message = "Shop Updated Successfuly";
                     $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$company->id)); 
                 }else{
-                    $description = "Shop update failed, item : ".$company->to_string();
+                    $description = "Shop update failed, Shop : ".$company->to_string();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                } 
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }
+        } else if ($form_id == 29) {   ///edit user
+            if (isset($_POST['user_id']) and !empty($_POST['user_id']) 
+                    and isset($_POST['name']) and !empty($_POST['name']) 
+                    and isset($_POST['username']) and !empty($_POST['username'])) {
+
+                $user = new user();
+                $user->id = $_POST['user_id'];
+                $user->getUser();
+                $user->name = $_POST['name'];
+                $user->user_name = $_POST['username'];
+                if(isset($_POST['password']) and !empty($_POST['password'])){
+                    $user->password_hashed = md5($_POST['password']);                    
+                }
+                if($user->updateUser()){
+                    $message = "User Updated Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$user->id)); 
+                }else{
+                    $description = "User update failed, user : ".$user->to_string();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
                     $responce = array('status' => 'success', 'error' => $message, 'data' => array());

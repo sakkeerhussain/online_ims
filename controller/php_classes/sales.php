@@ -86,6 +86,7 @@ class sales {
         if(is_array($this->sales_items) and count($this->sales_items)!=0){
             foreach ($this->sales_items as $sales_item) {
                 $sales_item->sale_id = $sale_id;
+                $sales_item->company_id = $sale->company_id;
                 $sales_item->addSaleItem();
             }
         }

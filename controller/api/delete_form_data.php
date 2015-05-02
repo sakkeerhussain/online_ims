@@ -130,6 +130,25 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }            
+        } else if ($form_id == 28) {   ///user delete
+            if (isset($_POST['user_id']) and !empty($_POST['user_id'])) {
+                $user = new user();
+                $user->id = $_POST['user_id'];
+                if($user->deleteUser()){
+                    $message = "User deleted Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$user->id)); 
+                }else{
+                    $description = "User delete failed, User : ".$user->to_string()." Error : ".  mysql_error();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                }                    
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
         } else {
             $responce = array('status' => 'failed', 'error' => 'Invalid Form', 'data' => array());
         }

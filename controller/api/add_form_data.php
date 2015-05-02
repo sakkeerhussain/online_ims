@@ -178,6 +178,29 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
             } else {
                 $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
             }
+        } else if ($form_id == 29) { //user form
+            if (isset($_POST['name']) and !empty($_POST['name']) 
+                    and isset($_POST['username']) and !empty($_POST['username'])
+                    and isset($_POST['shop']) and !empty($_POST['shop'])
+                    and isset($_POST['type']) and !empty($_POST['type'])
+                    and isset($_POST['password']) and !empty($_POST['password'])) {
+
+                $user = new user();
+                $user->name = $_POST['name'];
+                $user->user_name = $_POST['username'];
+                $user->company_id = $_POST['shop'];
+                $user->user_type_id = $_POST['type'];
+                $user->password_hashed = md5($_POST['password']);
+                if ($user->addUser()) {
+                    $responce = array('status' => 'success', 'error' => '',
+                        'data' => array('message' => 'User Added successfully'));
+                } else {
+                    Log::e($tag, "User adding failed item : " . $user->to_string() . 'Error : '.  mysql_error());
+                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                }
+            } else {
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
+            }
         } else {
             $responce = array('status' => 'failed', 'error' => 'Invalid Form', 'data' => array());
         }

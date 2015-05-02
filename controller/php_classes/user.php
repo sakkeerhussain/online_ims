@@ -23,7 +23,6 @@ class user {
     public $created_at;
     public $last_edited;
     public $password_hashed;
-    public $login_error;
     private $db_handler;
     private $tag = 'USER CONTROLLER';
 
@@ -73,13 +72,38 @@ class user {
         if ($user == null) {
             $user = $this;
         }
-        $this->db_handler->add_model($user);
-        $description = "Added new user (" . $user->to_string() . ")";
-        Log::i($this->tag, $description);
+        $result = $this->db_handler->add_model($user);
+        if($result){
+            $description = "Added new user (" . $user->to_string() . ")";
+            Log::i($this->tag, $description);
+        }
+        return $result;
+    }
+
+    function updateUser() {
+        $result = $this->db_handler->update_model($this);
+        if($result){
+            $description = "Updating user (" . $this->to_string() . ")";
+            Log::i($this->tag, $description);
+        }
+        return $result;
     }
 
     function getUser() {
         return $this->db_handler->get_model($this);
+    }
+
+    function deleteUser() {
+        $result = $this->db_handler->delete_model($this);
+        if($result){
+            $description = "Customer deleted, Customer ID : ".$this->id;
+            Log::i($this->tag, $description);
+        }
+        return $result;
+    }
+
+    function getUsers() {
+        return $this->db_handler->get_model_list($this);
     }
 
 }
