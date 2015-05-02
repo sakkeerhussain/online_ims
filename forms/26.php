@@ -1,6 +1,6 @@
 <?php
 
-function get_form_html($id) {
+function get_form_html($form_id, $id) {
     ob_start();
     ?>
     <div id="head_div" style="height: 150px; 
@@ -93,25 +93,31 @@ function get_form_html($id) {
         }
         function on_edit_clicked(){
             var selected_row = $('tr[status="selected"]');
-            var bank_name = selected_row.find('td#bank_name').html();
             var id = selected_row.attr('id');
-            var branch = selected_row.find('td#branch').html();
-            var ifsc_code = selected_row.find('td#ifsc_code').html();
-            var account_number = selected_row.find('td#account_number').html();
             get_form(27,  ///shop create form
                 function (html, tools){
                     $('div#form-body').html(html);
                     $('div#content-body-action-tools').html(tools);
                     var form = $('div#form-body').find('form.action_form');
                     form.attr('operation', 'update');
-                    form.attr('bank_id', id);
-                    form.find('input#bank_name').val(bank_name);
-                    form.find('input#branch').val(branch);
-                    form.find('input#ifsc_code').val(ifsc_code);
-                    form.find('input#account_number').val(account_number);
+                    form.attr('company_id', id);
                     form.find('input[type=submit]').val('UPDATE');
-                    $('div#head_div').html('ID : BANK-'+id);
+                    $('div#head_div').html('ID : SHOP - '+id);
                     $('div#head_div').css('display', 'block');
+                },
+                function (message){
+                    $('font#section_heading').empty();
+                    $('div#form-body').empty();
+                    alert(message);
+                },
+                id
+             );
+        }
+        function on_add_clicked(){
+            get_form(27,  ///shop create form
+                function (html, tools){
+                    $('div#form-body').html(html);
+                    $('div#content-body-action-tools').html(tools);
                 },
                 function (message){
                     $('font#section_heading').empty();
@@ -154,10 +160,11 @@ function get_form_html($id) {
 function get_form_tools_html($id){
     ob_start();
     ?>    
+    <img onclick="on_add_clicked()" id="add" src="../ui/images/add.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer;">
     <img id="edit_fade" src="../ui/images/edit_fade.png" height="40" width="40" style="margin: 15px auto 0px 12px;">
     <img onclick="on_edit_clicked()" id="edit" onclick="" src="../ui/images/edit.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
     <img id="delete_fade" src="../ui/images/delete_fade.png" height="40" width="40" style="margin: 15px auto 0px 12px;">
-    <img onclick="on_delete_clicked()" id="delete" onclick="" src="../ui/images/delete.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
+    <img onclick="on_delete_clicked()" id="delete" src="../ui/images/delete.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
     <script>
         
     </script>

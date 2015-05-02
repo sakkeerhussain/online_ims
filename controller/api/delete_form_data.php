@@ -116,10 +116,10 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $company = new company();
                 $company->id = $_POST['company_id'];
                 if($company->deleteCompany()){
-                    $message = "Company deleted Successfuly";
+                    $message = "Shop deleted Successfuly";
                     $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$company->id)); 
                 }else{
-                    $description = "Company delete failed, item : ".$company->to_string()." Error : ".  mysql_error();
+                    $description = "Shop delete failed, item : ".$company->to_string()." Error : ".  mysql_error();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
                     $responce = array('status' => 'failed', 'error' => $message, 'data' => array());

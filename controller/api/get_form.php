@@ -14,12 +14,13 @@ spl_autoload_register(function($class_name) {
 session_start();
 if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
     if (isset($_POST['menu_item_id']) and !empty($_POST['menu_item_id'])) {
-        $id = $_POST['menu_item_id'];
-        $file_name = "../../forms/" . $id . ".php";
+        $form_id = $_POST['menu_item_id'];
+        $id = $_POST['id'];
+        $file_name = "../../forms/" . $form_id . ".php";
         if (file_exists($file_name)) {
             include $file_name;
-            $data = get_form_html($id);
-            $tools = get_form_tools_html($id);
+            $data = get_form_html($form_id, $id);
+            $tools = get_form_tools_html($form_id);
             $responce = array('status' => 'success', 'error' => '', 'data' => array('form' => $data, 'tools'=>$tools));
         } else {
             $responce = array('status' => 'failed',

@@ -1,6 +1,6 @@
 <?php
 
-function get_form_html($id) {
+function get_form_html($form_id, $id) {
     ob_start();
     ?>
     <div id="head_div" style="height: 150px; 
@@ -163,6 +163,20 @@ function get_form_html($id) {
                 });
             }
         }
+        
+        function on_add_clicked(){
+            get_form(11,  ///item create form
+                function (html, tools){
+                    $('div#form-body').html(html);
+                    $('div#content-body-action-tools').html(tools);
+                },
+                function (message){
+                    $('font#section_heading').empty();
+                    $('div#form-body').empty();
+                    alert(message);
+                }
+             );
+        }
     </script>
 
     <?php
@@ -173,6 +187,7 @@ function get_form_html($id) {
 function get_form_tools_html($id){
     ob_start();
     ?>    
+    <img onclick="on_add_clicked()" id="add" src="../ui/images/add.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer;">
     <img id="edit_fade" src="../ui/images/edit_fade.png" height="40" width="40" style="margin: 15px auto 0px 12px;">
     <img onclick="on_edit_clicked()" id="edit" onclick="" src="../ui/images/edit.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
     <img id="delete_fade" src="../ui/images/delete_fade.png" height="40" width="40" style="margin: 15px auto 0px 12px;">

@@ -1,6 +1,6 @@
 <?php
 
-function get_form_html($id) {
+function get_form_html($form_id, $id) {
     ob_start();
     ?>
     <style>
@@ -269,7 +269,7 @@ function get_form_html($id) {
                             add_purchace_item();
                             var row = $('table#items_table tbody tr:last-child');
                             var item = items[i];
-                            row.find('input#item').attr('disabled', 'true');
+                            row.find('input#item').attr('disabled', 'disabled');
                             row.find('input#item').val(item.item_name);
                             row.find('input#quantity').val(item.quantity);
                             //row.find('input#quantity').attr('max', item.quantity);
@@ -280,11 +280,12 @@ function get_form_html($id) {
                        if(purchace.stocked==1){
                            //form.find('input').prop('disabled', 'true');
                            form.find('input#quantity').prop('disabled', 'disabled');
+                           form.find('input#rate').prop('disabled', null);
                            form.find('img#delete_button').prop('onclick', false);
                            form.find('img#activate_button').prop('onclick', false);
-                           form.find('input[type="button"]').prop('disabled', null);
+                           form.find('input[type="button"]').prop('disabled', 'disabled');
                            form.find('input[type="submit"]').prop('disabled', null);
-                           form.find('input[type="reset"]').prop('disabled', null);
+                           form.find('input[type="reset"]').prop('disabled', 'disabled');
                            alert("Purchace already stocked. Can't edit quantity now");
                        }else{                           
                            form.find('input[type="button"]').prop('disabled', null);

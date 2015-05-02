@@ -19,20 +19,27 @@ class mail {
             <head>
               <title>'.$this->subject.'</title>
             </head>
-            <body>
+            <body style="background-color:#21acd7; color:#fff;">
               <p>'.$this->subject.'</p>
               <table>
                 <tr>
-                  <td>Query</td><td> : </td><td>'.$query.'</td>
+                  <td style="font-size:25px;">Query</td>
                 </tr>
                 <tr>
-                  <td>Error</td><td> : </td><td>'.$error.'</td>
+                  <td>'.$query.'</td>
+                </tr>
+                <tr><td><hr/></td></tr>
+                <tr>
+                  <td style="font-size:25px;">Error</td>
+                </tr>
+                <tr>
+                  <td>'.$error.'</td>
                 </tr>
               </table>
             </body>
             </html>
             ';
-        $headers  = $this->header;
+        $headers  = $this->header . "\r\n";
         $headers .= 'MIME-Version: 1.0' . "\r\n";
         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
         $result = mail($this->to, $this->subject, $message, $headers);

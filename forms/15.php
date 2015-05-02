@@ -1,6 +1,6 @@
 <?php
 
-function get_form_html($id) {
+function get_form_html($form_id, $id) {
     ob_start();
     ?>
     <div id="head_div" style="padding: 5px 0; background-color: #ECECEC;  color: #21ACD7;

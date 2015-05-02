@@ -290,7 +290,31 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 print_r($_POST);
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
-            }            
+            }
+        }else if ($form_id == 27) {   ///edit company
+            if (isset($_POST['company_id']) and !empty($_POST['company_id']) 
+                    and isset($_POST['shop_name']) and !empty($_POST['shop_name']) 
+                    and isset($_POST['shop_code']) and !empty($_POST['shop_code'])) {
+
+                $company = new company();
+                $company->id = $_POST['company_id'];
+                $company->company_name = $_POST['shop_name'];
+                $company->company_code = $_POST['shop_code'];
+                if($company->updateCompany()){
+                    $message = "Shop Updated Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$company->id)); 
+                }else{
+                    $description = "Shop update failed, item : ".$company->to_string();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                } 
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }
         } else {
             $responce = array('status' => 'failed', 'error' => 'Invalid Form', 'data' => array());
         }

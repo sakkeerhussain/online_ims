@@ -32,22 +32,30 @@ class company {
         if ($company == null){
             $company = $this;
         }
-        $this->db_handler->add_model($company);
-        $description = "Added new Company (" . $company->to_string() . ")";
-        Log::i($this->tag, $description);
+        $result = $this->db_handler->add_model($company);
+        if($result){
+            $description = "Added new Company (" . $company->to_string() . ")";
+            Log::i($this->tag, $description);
+        }
+        return $result;
     }
     function getCompany(){
         return $this->db_handler->get_model($this,  $this->id);
     }
     function updateCompany(){
-        return $this->db_handler->update_model($this);
-        $description = "Updating Company (" . $company->to_string() . ")";
-        Log::i($this->tag, $description);
+        $result = $this->db_handler->update_model($this);
+        if($result){
+            $description = "Updating Company (" . $this->to_string() . ")";
+            Log::i($this->tag, $description);
+        }
+        return $result;
     }
     function deleteCompany(){
         $result = $this->db_handler->delete_model($this);
-        $description = "Company deleted, result : ".$result;
-        Log::i($this->tag, $description);
+        if ($result){
+            $description = "Company deleted, id : ".$this->id;
+            Log::i($this->tag, $description);
+        }
         return $result;
     }
     function getCompanies(){

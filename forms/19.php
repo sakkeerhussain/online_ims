@@ -1,6 +1,6 @@
 <?php
 
-function get_form_html($id) {
+function get_form_html($form_id, $id) {
     ob_start();
     ?>
     <div id="head_div" style="padding: 5px 0; background-color: #ECECEC;  color: #21ACD7;
@@ -83,7 +83,7 @@ function get_form_html($id) {
                                 $vendor->id = $purchace->wendor_id;
                                 $vendor->getWendor();
                             ?>
-                            <td id="vendor"><?php 
+                            <td id="vendor" vendor_address="<?php echo $vendor->contact_address; ?>"><?php 
                                 echo $vendor->wendor_name; ?></td>
                             <td>
                                 <?php
@@ -223,6 +223,7 @@ function get_form_html($id) {
             });
             tax_amount = tax_amount.toFixed(2);
             var vendor_name = selected_row.find('td#vendor').html();
+            var vendor_address = selected_row.find('td#vendor').attr('vendor_address');
             var amount = selected_row.find('td#amount').html();
             amount = parseFloat(amount).toFixed(2);
             var id = selected_row.attr('id');
@@ -235,6 +236,7 @@ function get_form_html($id) {
             var data = {
                 id : id,
                 vendor_name : vendor_name,
+                vendor_address : vendor_address,
                 amount : amount,
                 less_discount : '0.00',
                 tax_amount : tax_amount,
@@ -260,7 +262,8 @@ function get_form_html($id) {
                 
                 html = html + "<table>"
                         +"<tr><td>Bill No. </td><td>:</td><td>" + data.id + "</td></tr>"
-                        +"<tr><td>Name </td><td>:</td><td>" +data.vendor_name+ "</td></tr></table></div>";
+                        +"<tr><td>Name </td><td>:</td><td>" +data.vendor_name+ "</td></tr>"
+                        +"<tr><td></td><td>:</td><td>" +data.vendor_address+ "</td></tr></table></div>";
                 
                 html = html + "<div style=\"border-top:1px dashed #000; margin:10px auto 0 auto;padding:0 0 10px 0;\"><table style=\"width:100%;\"><tr style=\"border-bottom: 1px dashed #000; border-top: 1px dashed #000;\">"
                         + "<td style=\"width:5%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px;\">SNo</td>"

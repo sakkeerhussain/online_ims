@@ -161,6 +161,23 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
             } else {
                 $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
             }
+        } else if ($form_id == 27) { //shop form
+            if (isset($_POST['shop_name']) and !empty($_POST['shop_name']) 
+                    and isset($_POST['shop_code']) and !empty($_POST['shop_code'])) {
+
+                $company = new company();
+                $company->company_name = $_POST['shop_name'];
+                $company->company_code = $_POST['shop_code'];
+                if ($company->addCompany()) {
+                    $responce = array('status' => 'success', 'error' => '',
+                        'data' => array('message' => 'Shop Added successfully'));
+                } else {
+                    Log::e($tag, "Shop adding failed item : " . $company->to_string() . 'Error : '.  mysql_error());
+                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                }
+            } else {
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
+            }
         } else {
             $responce = array('status' => 'failed', 'error' => 'Invalid Form', 'data' => array());
         }
