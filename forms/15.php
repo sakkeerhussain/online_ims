@@ -7,7 +7,7 @@ function get_form_html($form_id, $id) {
          border-radius: 5px;margin-left: auto; text-align: center; ">
         SALES REPORT OF <?php echo date('F - Y',time()); ?>
     </div>
-    <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
+    <div style="margin-top: 20px; background-color:transparent;padding-bottom: 30px;">
         <style>
             div#purchace_items td{
                 border: 1px solid #21ACD7;
@@ -63,10 +63,8 @@ function get_form_html($form_id, $id) {
                     $user->getUser();
                     $sales = $sale_obj->getThisMonthsSales($user->company_id);
                     $i = 0;
-                    if($sales==NULL || sizeof($sales)==0){
-                        echo '<tr><td colspan="8"> No Sales Found </td></tr>';
-                    } else{
-                    foreach ($sales as $sale) {
+                    if(is_array($sales) and count($sales)!=0){
+                      foreach ($sales as $sale) {
                         ?>
                         <tr id="<?php echo $sale->id; ?>" onclick="select_row(this)" status="not_selected" >
                             <td style="text-align: center;">
@@ -171,7 +169,9 @@ function get_form_html($form_id, $id) {
                             </td>
                         </tr>
                         <?php
-                    }
+                    } 
+                }else{
+                    echo '<tr><td colspan="8"> No Sales Found </td></tr>';
                 }
                     ?>
                 </tbody>                               

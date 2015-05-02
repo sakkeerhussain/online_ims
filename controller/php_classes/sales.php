@@ -50,17 +50,19 @@ class sales {
             $sale = $this;
         }
         $sale_id = $this->db_handler->add_model($sale);
-        foreach ($this->sales_items as $sales_item) {
-            $sales_item->sale_id = $sale_id;
-            $sales_item->company_id = $sale->company_id;
-            $sales_item->addSaleItem();
-            $inv = new inventry();
-            $inv->company_id = $sale->company_id;
-            $inv->item_id = $sales_item->item_id;
-            $invs = $inv->getInventryForSpecificCompanyAndItem();
-            $inv = $invs[0];  
-            $inv->in_stock_count = $inv->in_stock_count - $sales_item->quantity; 
-            $inv->updateInventry();
+        if(is_array($this->sales_items) and count($this->sales_items)!=0){
+            foreach ($this->sales_items as $sales_item) {
+                $sales_item->sale_id = $sale_id;
+                $sales_item->company_id = $sale->company_id;
+                $sales_item->addSaleItem();
+                $inv = new inventry();
+                $inv->company_id = $sale->company_id;
+                $inv->item_id = $sales_item->item_id;
+                $invs = $inv->getInventryForSpecificCompanyAndItem();
+                $inv = $invs[0];  
+                $inv->in_stock_count = $inv->in_stock_count - $sales_item->quantity; 
+                $inv->updateInventry();
+            }
         }
         $description = "Added new Sale (". $sale->to_string().")";
         
@@ -81,9 +83,11 @@ class sales {
         $this->db_handler->update_model($sale);
         $sale_item_obj = new sales_items();
         $sale_item_obj->clearSaleItems($sale_id);
-        foreach ($this->sales_items as $sales_item) {
-            $sales_item->sale_id = $sale_id;
-            $sales_item->addSaleItem();
+        if(is_array($this->sales_items) and count($this->sales_items)!=0){
+            foreach ($this->sales_items as $sales_item) {
+                $sales_item->sale_id = $sale_id;
+                $sales_item->addSaleItem();
+            }
         }
         $description = "Updating Sale (". $sale->to_string().")";
         Log::i($this->tag, $description);
@@ -96,33 +100,41 @@ class sales {
     }
     function getSales($company_id){
         $sales = $this->db_handler->get_model_list($this, 'company_id = ' + $company_id);
-        foreach ($sales as $sale) {
-            $sale_item = new sales_items();
-            $sale->sales_items = $sale_item->getSaleItems($sale->id);
+        if(is_array($sales) and count($sales)!=0){
+            foreach ($sales as $sale) {
+                $sale_item = new sales_items();
+                $sale->sales_items = $sale_item->getSaleItems($sale->id);
+            }
         }
         return $sales;
     }
     function getTodaysSales($company_id){ 
         $sales = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . ' and DATE(`sale_at`) = DATE(NOW()) ORDER BY `id` DESC');
-        foreach ($sales as $sale) {
-            $sale_item = new sales_items();
-            $sale->sales_items = $sale_item->getSaleItems($sale->id);
+        if(is_array($sales) and count($sales)!=0){
+            foreach ($sales as $sale) {
+                $sale_item = new sales_items();
+                $sale->sales_items = $sale_item->getSaleItems($sale->id);
+            }
         }
         return $sales;
     }
     function getLastWeeksSales($company_id){ 
         $sales = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . ' and `sale_at` >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) ORDER BY `id` DESC');
-        foreach ($sales as $sale) {
-            $sale_item = new sales_items();
-            $sale->sales_items = $sale_item->getSaleItems($sale->id);
+        if(is_array($sales) and count($sales)!=0){
+            foreach ($sales as $sale) {
+                $sale_item = new sales_items();
+                $sale->sales_items = $sale_item->getSaleItems($sale->id);
+            }
         }
         return $sales;
     }
     function getThisMonthsSales($company_id){ 
         $sales = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . ' and YEAR(`sale_at`) = YEAR(NOW()) and MONTH(`sale_at`) = MONTH(NOW()) ORDER BY `id` DESC');
-        foreach ($sales as $sale) {
-            $sale_item = new sales_items();
-            $sale->sales_items = $sale_item->getSaleItems($sale->id);
+        if(is_array($sales) and count($sales)!=0){
+            foreach ($sales as $sale) {
+                $sale_item = new sales_items();
+                $sale->sales_items = $sale_item->getSaleItems($sale->id);
+            }
         }
         return $sales;
     }

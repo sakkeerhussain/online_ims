@@ -3,14 +3,19 @@
 function get_form_html($form_id, $id) {
     ob_start();
     ?>
-    <div style="height: 150px; 
-         width: 320px; background-color: #ECECEC; 
-         border-radius: 5px;margin-left: auto;display: none; ">
-
-
-
+    <div id="head_div" style="padding: 5px 0; background-color: #ECECEC;  color: #21ACD7;
+         border-radius: 5px;margin-left: auto; text-align: center; ">
+        <?php
+        $user = new user();
+        $user->id = $_SESSION['user_id'];
+        $user->getUser();
+        $company = new company();
+        $company->id = $user->company_id;
+        $company->getCompany();
+        echo "STOCK REPORT OF $company->company_name - $company->company_code";  
+        ?>
     </div>
-    <div style="margin-top: 30px; background-color:transparent;padding-bottom: 30px;">
+    <div style="margin-top: 20px; background-color:transparent;padding-bottom: 30px;">
         <style>
             div#purchace_items td{
                 border: 1px solid #21ACD7;
@@ -52,9 +57,6 @@ function get_form_html($form_id, $id) {
                 <tbody style="padding-left: 3px; text-align: center; ">
                     <?php
                     $inventry = new inventry();
-                    $user = new user();
-                    $user->id = $_SESSION['user_id'];
-                    $user->getUser();
                     $inventries = $inventry->getInventryForSpecificCompany($user->company_id);
                     $i = 0;
                     if($inventries==NULL || sizeof($inventries)==0){
