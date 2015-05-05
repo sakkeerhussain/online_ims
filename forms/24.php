@@ -11,7 +11,7 @@ function get_form_html($form_id, $date) {
                 $date = date('d/m/Y',time());
             }
             echo $date;
-        ?>" />
+            ?>" />
     </div>
     <div id="sales_items_table" style="margin-top: 10px; background-color:transparent;padding-bottom: 30px;">
         <style>
@@ -81,7 +81,7 @@ function get_form_html($form_id, $date) {
                                 <?php echo $item->item_name.' ( '. $item->item_code .' )'; ?>
                             </td>
                             <td>
-                                <?php echo number_format($sales_item->quantity, 2); ?>
+                                <?php echo number_format($sales_item->quantity, 3); ?>
                             </td>
                             
                             <td id="tax">
@@ -95,7 +95,7 @@ function get_form_html($form_id, $date) {
                         <tr>
                             <td></td>
                             <td style="text-align: right;"> TOTAL </td>
-                            <td><?php echo number_format($total_count, 2); ?></td>
+                            <td><?php echo number_format($total_count, 3); ?></td>
                             <td><?php echo number_format($grand_total, 2); ?></td>
                         </tr>
                   </tbody>                               
@@ -166,7 +166,7 @@ function get_form_html($form_id, $date) {
             $('div#print_container_body').empty();
             $('div#print_container_footer').empty();
         }
-       $(document).ready(function (){
+       function setup_datepicker(){
            $('input#date_field').datepick({
                minDate:'26/04/2015', 
                dateFormat:'dd/mm/yyyy',
@@ -175,7 +175,8 @@ function get_form_html($form_id, $date) {
                     load_day_end_report();
                 }
            });
-       });
+       }
+       setup_datepicker();
     </script>
 
     <?php
