@@ -38,16 +38,16 @@ function get_form_html($form_id, $id) {
                         </div>
                     </td>
                 </tr>
-    <!--            <tr>
+                <tr>
                     <td class="field_name"> 
-                        <font>ITEM MRP </font>
+                        <font>BILL NUMBER</font>
                     </td>
                     <td class="field"> 
-                        <div style="padding: 0px 12px;">
-                        <input type="number" id="mrp" required />
+                        <div class="parent">
+                            <input type="text" id="bill_number" />
                         </div>
                     </td>
-                </tr>-->
+                </tr>
                 <tr>
                     <td colspan="2">
                         <style>
@@ -261,6 +261,7 @@ function get_form_html($form_id, $id) {
                        //alert(message);
                        var form = $('form.action_form');
                        form.find('input#wendor_id').val(purchace.wendor);
+                       form.find('input#bill_number').val(purchace.bill_number);
                        form.attr('purchace_id', purchace.id);
                        form.find('span#total').html(purchace.amount);
                        var items = purchace.items;
@@ -340,6 +341,7 @@ function get_form_html($form_id, $id) {
                 var id = 8;
                 var operation = $(this).attr('operation');
                 var purchace_id = $(this).attr('purchace_id');
+                var bill_number = $('form input#bill_number').val();
                 var total = $('span#total').html();
                 if(items.length == 0){
                     items = 'no_items';
@@ -349,6 +351,7 @@ function get_form_html($form_id, $id) {
                         form_id: id,
                         purchace_id: purchace_id,
                         total: total,
+                        bill_number: bill_number,
                         items: items
                     }
                     update_form_data(data, 

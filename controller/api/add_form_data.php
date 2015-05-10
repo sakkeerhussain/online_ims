@@ -69,12 +69,14 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
             }
         }else if ($form_id == 7) {
             if (isset($_POST['wendor_id']) and !empty($_POST['wendor_id']) 
+                    and isset($_POST['bill_number'])// and !empty($_POST['bill_number'])
                     and isset($_POST['total']) and !empty($_POST['total']) 
                     and isset($_POST['items']) and !empty($_POST['items'])) {
                 $purchace = new purchaces();
                 $purchace->amount = $_POST['total'];
                 $purchace->wendor_id = $_POST['wendor_id'];
                 $purchace->purchace_manager_id = $_SESSION['user_id'];
+                $purchace->bill_number = $_POST['bill_number'];
                 $user = new user();
                 $user->id = $_SESSION['user_id'];
                 $user->getUser();

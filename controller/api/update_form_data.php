@@ -139,12 +139,14 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
             }            
         } else if ($form_id == 8) {   ///edit : purchace return
             if (isset($_POST['purchace_id']) and !empty($_POST['purchace_id']) 
+                    and isset($_POST['bill_number']) //and !empty($_POST['bill_number']) 
                     and isset($_POST['total']) //and !empty($_POST['total']) 
                     and isset($_POST['items']) and !empty($_POST['items'])) {
                 $purchace = new purchaces();
                 $purchace->id = $_POST['purchace_id'];
                 $purchace->getPurchace();
                 $purchace->amount = $_POST['total'];
+                $purchace->bill_number = $_POST['bill_number'];
                 $purchace_items_prev = $purchace->getPurchaceItems();
                 $purchace_items_new = array();
                 if(!($_POST['items'] == 'no_items')){

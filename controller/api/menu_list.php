@@ -34,7 +34,8 @@ if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){
     }else if($user->user_type_id==2){  
         
         $menu_list = array(array('menu_item_name'=>'Purchace Invoice','menu_item_id'=>'7'),
-            array('menu_item_name'=>'Purchace Return','menu_item_id'=>'8'),
+            array('menu_item_name'=>'Edit Purchace','menu_item_id'=>'8'),
+            //array('menu_item_name'=>'Purchace Return','menu_item_id'=>'8'),
             array('menu_item_name'=>'Purchace Report','menu_item_id'=>'19'),
             array('menu_item_name'=>'Stock Report','menu_item_id'=>'9'));
         

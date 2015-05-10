@@ -84,7 +84,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                                 array_push($items, $p_item_array);
                             }
                         }
-                        $purchace_array = array("id"=>$purchace->id,"wendor"=>$vendor_name, "stocked"=>$purchace->stocked, "amount"=>$purchace->amount, "items"=>$items);
+                        $purchace_array = array("id"=>$purchace->id,"wendor"=>$vendor_name, "stocked"=>$purchace->stocked, "amount"=>$purchace->amount, "bill_number"=>$purchace->bill_number, "items"=>$items);
                         $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "data"=>$purchace_array));
                     } else {
                         $responce = array('status' => 'failed', 'error' => 'The Purchace is of another shop', 'data' => array());

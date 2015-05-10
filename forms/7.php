@@ -54,16 +54,16 @@ function get_form_html($form_id, $id) {
                         </div>
                     </td>
                 </tr>
-    <!--            <tr>
+                <tr>
                     <td class="field_name"> 
-                        <font>ITEM MRP </font>
+                        <font>BILL NUMBER</font>
                     </td>
                     <td class="field"> 
-                        <div style="padding: 0px 12px;">
-                        <input type="number" id="mrp" required />
+                        <div class="parent">
+                            <input type="text" id="bill_number" />
                         </div>
                     </td>
-                </tr>-->
+                </tr>
                 <tr>
                     <td colspan="2">
                         <style>
@@ -114,8 +114,8 @@ function get_form_html($form_id, $id) {
                                     $items = array();
                                     $items = $item->getItems();
                                     foreach ($items as $item) {
-                                        echo '<option id="' . $item->id .'"'
-                                        . 'purchace_rate="' . $item->purchace_rate .'"'        
+                                        echo '<option id="' . $item->id . '"'
+                                        . 'purchace_rate="' . $item->purchace_rate . '"'
                                         . ' value="' . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ' )" >'
                                         . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ' )'
                                         . '</option>';
@@ -215,13 +215,13 @@ function get_form_html($form_id, $id) {
             calculate_purchace_total();
         }
         function calculate_purchace_total() {
-            var items_table = $('#items_table').find('tbody').children(); 
+            var items_table = $('#items_table').find('tbody').children();
             var total = 0;
             items_table.each(function() {
                 var item_total_input = $(this).find('input#total');
                 var row_status = $(this).attr('status');
                 var item_total = item_total_input.val();
-                if ($.isNumeric(item_total) && row_status=='active') {
+                if ($.isNumeric(item_total) && row_status == 'active') {
                     total = parseInt(total) + parseInt(item_total);
                 }
             });
@@ -231,10 +231,10 @@ function get_form_html($form_id, $id) {
             var row = $(delete_btn).closest('tr');
             row.attr('status', 'deativated');
             row.css('background-color', '#c0effd');
-            row.find('input').prop('required',null);
-            row.find('input').css('border',"0px");
-            $(delete_btn).css('display','none');
-            $(delete_btn).siblings().first().css('display','block');
+            row.find('input').prop('required', null);
+            row.find('input').css('border', "0px");
+            $(delete_btn).css('display', 'none');
+            $(delete_btn).siblings().first().css('display', 'block');
             $(delete_btn).parent('td').css('text-align', 'centre');
             calculate_purchace_total();
         }
@@ -242,21 +242,21 @@ function get_form_html($form_id, $id) {
             var row = $(enable_btn).closest('tr');
             row.attr('status', 'active');
             row.css('background-color', '#fff');
-            row.find('input').prop('required','required');
-            $(enable_btn).siblings().first().css('display','block');
-            $(enable_btn).css('display','none');
+            row.find('input').prop('required', 'required');
+            $(enable_btn).siblings().first().css('display', 'block');
+            $(enable_btn).css('display', 'none');
             $(enable_btn).parent('td').css('text-align', 'centre');
             calculate_purchace_total();
         }
         function add_purchace_item() {
             var row = '<tr  status="active" slno=""><td style="text-align: center;"></td><td>'
-                    +'<input type="text" onchange="update_item_details(this)" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
-                    +'</td><td><input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>'
-                    +'</td><td><input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>'
-                    +'</td><td><input type="text" min="0" required  id="total" disabled/></td><td style="width: 20px; text-align: center; padding-right: 5px;">'
-                    +'<img id="delete_button" onclick="delete_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto;  margin-left: auto;" src="../ui/images/cross_button.png"/>'
-                    +'<img id="activate_button" onclick="enable_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto; margin-left: auto; display: none;" src="../ui/images/tick_button.png" />'
-                    +'</td></tr>';
+                    + '<input type="text" onchange="update_item_details(this)" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
+                    + '</td><td><input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>'
+                    + '</td><td><input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>'
+                    + '</td><td><input type="text" min="0" required  id="total" disabled/></td><td style="width: 20px; text-align: center; padding-right: 5px;">'
+                    + '<img id="delete_button" onclick="delete_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto;  margin-left: auto;" src="../ui/images/cross_button.png"/>'
+                    + '<img id="activate_button" onclick="enable_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto; margin-left: auto; display: none;" src="../ui/images/tick_button.png" />'
+                    + '</td></tr>';
             var lastcount = $('table#items_table tbody tr:last-child').attr('slno');
             $('table#items_table tbody').append(row);
             lastcount = parseInt(lastcount) + 1;
@@ -275,16 +275,16 @@ function get_form_html($form_id, $id) {
                     wendor_input.css('border', '1px solid #f00');
                     alert("Invalid Wendor");
                     return;
-                }else{
+                } else {
                     wendor_id = wendor_option_obj.attr('id');
                 }
-                
+
                 var items = new Array();
                 var i = 0;
                 var items_table = $('#items_table').find('tbody').children();
                 var invalid_item_precent = false;
                 items_table.each(function() {
-                    if($(this).attr('status')=='active'){
+                    if ($(this).attr('status') == 'active') {
                         var item_input = $(this).find('input#item');
                         var item_name = item_input.val();
                         var item_option_obj = $('datalist#items').find("option[value='" + item_name + "']");
@@ -292,14 +292,14 @@ function get_form_html($form_id, $id) {
                             item_input.css('border', '1px solid #f00');
                             invalid_item_precent = true;
                             return;
-                        }else{
+                        } else {
                             var id = item_option_obj.attr('id');
                             var quantity = $(this).find('input#quantity').val();
                             var rate = $(this).find('input#rate').val();
                             var item = {
-                                id:id,
-                                quantity:quantity,
-                                rate:rate
+                                id: id,
+                                quantity: quantity,
+                                rate: rate
                             }
                             items[i++] = item;
                         }
@@ -310,27 +310,29 @@ function get_form_html($form_id, $id) {
                     //alert("Invalid Item Precent");
                     return;
                 }
-                
+
                 var id = 7;
                 var operation = $(this).attr('operation');
                 var total = $('span#total').html();
-                
+                var bill_number = $('form input#bill_number').val();
+
                 if (operation == 'add') {
                     var data = {
                         form_id: id,
                         wendor_id: wendor_id,
                         total: total,
+                        bill_number: bill_number,
                         items: items
                     }
                     add_form_data(data, function(message) {
                         //$('form.action_form').get(0).reset();
-                        get_form(7,function(html) {
-                                    $('div#form-body').html(html);
-                                }, function(message) {
-                                    $('font#section_heading').empty();
-                                    $('div#form-body').empty();
-                                    alert(message);
-                                });
+                        get_form(7, function(html) {
+                            $('div#form-body').html(html);
+                        }, function(message) {
+                            $('font#section_heading').empty();
+                            $('div#form-body').empty();
+                            alert(message);
+                        });
                         alert(message);
                     }, function(message) {
                         alert(message);
@@ -347,9 +349,9 @@ function get_form_html($form_id, $id) {
     return $form;
 }
 
-function get_form_tools_html($id){
+function get_form_tools_html($id) {
     ob_start();
-    
+
     $tools = ob_get_clean();
     return $tools;
 }

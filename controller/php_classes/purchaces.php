@@ -19,6 +19,7 @@ class purchaces {
     public $created_at;
     public $last_edited;
     public $stocked;
+    public $bill_number;
     private $purchace_items = array();
     private $db_handler;
     private $tag = 'PURCHACE CONTROLLER';

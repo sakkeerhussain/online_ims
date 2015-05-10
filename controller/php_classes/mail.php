@@ -17,7 +17,7 @@ class mail {
         $message = '
             <html>
             <head>
-              <title>'.$this->subject.'</title>
+              <title style="font-size:28px;">'.$this->subject.'</title>
             </head>
             <body style="background-color:#21acd7; color:#fff;">
               <p>'.$this->subject.'</p>
