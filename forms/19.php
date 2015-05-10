@@ -36,6 +36,9 @@ function get_form_html($form_id, $id) {
                             ID
                         </td>
                         <td>
+                            BILL NO.
+                        </td>
+                        <td>
                             DATE
                         </td>
                         <td style="">
@@ -74,6 +77,9 @@ function get_form_html($form_id, $id) {
                             </td>
                             <td>
                                 <?php echo $purchace->id; ?>
+                            </td>
+                            <td id="bill_number" >
+                                <?php echo $purchace->bill_number; ?>
                             </td>
                             <td>
                                 <?php echo $purchace->created_at; ?>
@@ -233,6 +239,7 @@ function get_form_html($form_id, $id) {
             rounded_grand_total = rounded_grand_total.toFixed(2);
             var round_off = grand_total - rounded_grand_total;
             round_off = round_off.toFixed(2);
+            var bill_number = selected_row.find('td#bill_number').html();
             var data = {
                 id : id,
                 vendor_name : vendor_name,
@@ -243,6 +250,7 @@ function get_form_html($form_id, $id) {
                 grand_total : grand_total,
                 rounded_grand_total : rounded_grand_total,
                 round_off : round_off,
+                bill_number: bill_number,
                 items : items
             }
             print_purchace_invoice(data);
@@ -251,7 +259,7 @@ function get_form_html($form_id, $id) {
                 var html = '';
                 html ='<font style="font-size:30px;">ROYALE PIKNIK TRADERS LLP</font><br/>'
                         +'<font>29/861, PARAYANCHERI, CALICUT - 673006</font><br/>'
-                        +'<font>Tin No. &nbsp; &nbsp; 32110855402</font><br/>'
+                        +'<font>Tin No. &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp; </font><br/>'
                         +'<font>PURCHACE BILL</font><br/><br/>';
                 $('div#print_container_header').html(html);
                 html = '';
@@ -261,7 +269,7 @@ function get_form_html($form_id, $id) {
                         +"<tr><td>Date</td><td>:</td><td>" + date + "</td></tr></table>";
                 
                 html = html + "<table>"
-                        +"<tr><td>Bill No. </td><td>:</td><td>" + data.id + "</td></tr>"
+                        +"<tr><td>Bill No. </td><td>:</td><td>" + data.bill_number/*id*/ + "</td></tr>"
                         +"<tr><td>Name </td><td>:</td><td>" +data.vendor_name+ "</td></tr>"
                         +"<tr><td></td><td>:</td><td>" +data.vendor_address+ "</td></tr></table></div>";
                 
