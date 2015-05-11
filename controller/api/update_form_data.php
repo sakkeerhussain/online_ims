@@ -137,7 +137,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }            
-        } else if ($form_id == 8) {   ///edit : purchace return
+        } else if ($form_id == 8) {   ///edit : purchace edit
             if (isset($_POST['purchace_id']) and !empty($_POST['purchace_id']) 
                     and isset($_POST['bill_number']) //and !empty($_POST['bill_number']) 
                     and isset($_POST['total']) //and !empty($_POST['total']) 
@@ -345,6 +345,69 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
+        }else if ($form_id == 30) {   ///edit : purchace return
+            if (isset($_POST['purchace_id']) and !empty($_POST['purchace_id']) 
+                    and isset($_POST['bill_number']) //and !empty($_POST['bill_number']) 
+                    and isset($_POST['total']) //and !empty($_POST['total']) 
+                    and isset($_POST['items']) and !empty($_POST['items'])) {
+                $purchace = new purchaces();
+                $purchace->id = $_POST['purchace_id'];
+                $purchace->getPurchace();
+                $purchace->amount = $_POST['total'];
+                $purchace->bill_number = $_POST['bill_number'];
+                $purchace_items_prev = $purchace->getPurchaceItems();
+                $purchace_items_new = array();
+                if(!($_POST['items'] == 'no_items')){
+                    foreach ($_POST['items'] as $purchace_array_item) {
+                        $purchace_item = new purchace_items();
+                        $purchace_item->item_id = $purchace_array_item['id'];
+                        $purchace_item->quantity = $purchace_array_item['quantity'];
+                        $purchace_item->rate = $purchace_array_item['rate'];
+                        array_push($purchace_items_new, $purchace_item);
+                    }
+                }
+                
+                //getting user info 
+                $user = new user();
+                $user->id = $purchace->purchace_manager_id;
+                $user->getUser();
+                $shop_id = $user->company_id;
+                //updating stock
+                if(is_array($purchace_items_prev) and (count($purchace_items_prev) > 0)){
+                    foreach ($purchace_items_prev as $purchace_item_prev) {
+                        foreach ($purchace_items_new as $purchace_item_new) {
+                            if($purchace_item_prev->item_id === $purchace_item_new->item_id){
+                                $diff =  $purchace_item_prev->quantity - $purchace_item_new->quantity;
+                                
+                                $inventry = new inventry();
+                                $inventry->company_id = $shop_id;
+                                $inventry->item_id = $purchace_item_prev->item_id;
+                                $inventry = $inventry->getInventryForSpecificCompanyAndItem()[0];
+                                $inventry->in_stock_count = $inventry->in_stock_count - $diff;
+                                $inventry->updateInventry();
+                            }
+                        }
+                    } 
+                }
+                
+                $purchace->setPurchaceItems($purchace_items_new);
+                
+                if($purchace->updatePurchace()){
+                    $message = "Purchace Updated Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$purchace->id)); 
+                }else{
+                    $description = "Purchace update failed, Purchace : ".$purchace->to_string();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                }               
+                
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
         } else {
             $responce = array('status' => 'failed', 'error' => 'Invalid Form', 'data' => array());
         }
