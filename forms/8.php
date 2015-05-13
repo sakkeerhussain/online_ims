@@ -117,10 +117,10 @@ function get_form_html($form_id, $id) {
                                             <input type="text" oninput="update_item_details(this)" onchange="update_item_details(this)" onfocus="$(this).css('border', '0px')" autocomplete="off" list="items" id="item" required />
                                         </td>
                                         <td>
-                                            <input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>
+                                            <input type="number" min="0" step="0.001" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>
                                         </td>
                                         <td>
-                                            <input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>
+                                            <input type="number" min="0" step="0.01" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>
                                         </td>
                                         <td>
                                             <input type="text" min="0" required  id="total" disabled/>
@@ -287,12 +287,16 @@ function get_form_html($form_id, $id) {
                            form.find('input[type="button"]').prop('disabled', 'disabled');
                            form.find('input[type="submit"]').prop('disabled', null);
                            form.find('input[type="reset"]').prop('disabled', 'disabled');
+                           form.find('input#quantity').prop('step', "0.001");
+                           form.find('input#rate').prop('step', "0.01");
                            alert("Purchace already stocked. Can't edit quantity now");
                        }else{                           
                            form.find('input[type="button"]').prop('disabled', null);
                            form.find('input[type="submit"]').prop('disabled', null);
                            form.find('input[type="reset"]').prop('disabled', null);
                            form.find('input[type="number"]').prop('disabled', null);
+                           form.find('input#quantity').prop('step', "0.001");
+                           form.find('input#rate').prop('step', "0.01");
                        }
                    }, function(message) {
                        var form = $('form.action_form');

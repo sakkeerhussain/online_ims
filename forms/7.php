@@ -133,10 +133,10 @@ function get_form_html($form_id, $id) {
                                             <input type="text" oninput="update_item_details(this)" onchange="update_item_details(this)" onfocus="$(this).css('border', '0px')" autocomplete="off" list="items" id="item" required />
                                         </td>
                                         <td>
-                                            <input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>
+                                            <input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)" step="0.001"  id="quantity"/>
                                         </td>
                                         <td>
-                                            <input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>
+                                            <input type="number" min="0" required onchange="calculate_total(this)" onkeyup="calculate_total(this)" step="0.01" id="rate"/>
                                         </td>
                                         <td>
                                             <input type="text" min="0" required  id="total" disabled/>
