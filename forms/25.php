@@ -40,7 +40,7 @@ function get_form_html($form_id, $id) {
                     </td>
                     <td class="field"> 
                         <div class="parent">
-                            <input type="number" id="in_stock_count" required disabled="disabled" />
+                            <input type="number" step="0.001" id="in_stock_count" required disabled="disabled" />
                         </div>
                     </td>
                 </tr>
@@ -50,7 +50,7 @@ function get_form_html($form_id, $id) {
                     </td>
                     <td class="field"> 
                         <div style="padding: 0px 0px;">
-                            <input type="number" id="mrp" required disabled="disabled"  />
+                            <input type="number" step="0.01" id="mrp" required disabled="disabled"  />
                         </div>
                     </td>
                 </tr>
