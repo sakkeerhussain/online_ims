@@ -127,8 +127,8 @@ function get_form_html($form_id, $id) {
                                             . ' selling_pize="' . $inv->selling_prize . '"'
                                             . ' tax="' . $tax_category->tax_percentage . '"'
                                             . ' item_name="' . $item->item_name . '"'
-                                            . ' value="' . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ' )" >'
-                                            . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ' )'
+                                            . ' value="' . $item->item_name . ' - ' . $item->item_code . '" >'
+                                            . $item->item_name . ' - ' . $item->item_code 
                                             . '</option>';
                                         }
                                     }
@@ -183,7 +183,7 @@ function get_form_html($form_id, $id) {
                     <td>
                         <div style="background-color: #21ACD7; color: #fff; text-align: right; padding-right: 20px;">
                             <span style="margin-right: 20px;">TOTAL </span>
-                            <span id="total">0</span>
+                            <span id="total">0.00</span>
                         </div> 
                     </td>
                 </tr>
@@ -192,7 +192,7 @@ function get_form_html($form_id, $id) {
                     <td>
                         <div style="background-color: #21ACD7; color: #fff; text-align: right; padding-right: 20px;">
                             <span style="margin-right: 20px;">PAID </span>
-                            <span id="total_paid">0</span>
+                            <span id="total_paid">0.00</span>
                         </div> 
                     </td>
                 </tr>
@@ -201,7 +201,7 @@ function get_form_html($form_id, $id) {
                     <td>
                         <div style="background-color: #21ACD7; color: #fff; text-align: right; padding-right: 20px;">
                             <span style="margin-right: 20px;">BALANCE</span>
-                            <span id="balance">0</span>
+                            <span id="balance">0.00</span>
                         </div> 
                     </td>
                 </tr>
@@ -304,6 +304,7 @@ function get_form_html($form_id, $id) {
             $(delete_btn).parent('td').css('text-align', 'centre');
             calculate_purchace_total();
         }
+
         function enable_this_row(enable_btn) {
             var row = $(enable_btn).closest('tr');
             row.attr('status', 'active');
@@ -314,6 +315,7 @@ function get_form_html($form_id, $id) {
             $(enable_btn).parent('td').css('text-align', 'centre');
             calculate_purchace_total();
         }
+   
         function add_sale_item() {
             var row = '<tr  status="active" slno=""><td style="text-align: center;"></td><td>'
                     + '<input type="text" onchange="update_item_details(this)"  oninput="update_item_details(this)" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
@@ -332,6 +334,7 @@ function get_form_html($form_id, $id) {
             $('table#items_table tbody tr:last-child').attr('slno', lastcount);
             $('table#items_table tbody tr:last-child td:first-child').html(lastcount);
         }
+        
         function load_sale(){
             var sale_id = $('input#sale_id').val();
             var data = {
@@ -360,8 +363,9 @@ function get_form_html($form_id, $id) {
                             row.find('input#total').attr('tax', item.tax);
                     } 
                     form.find('span#total').html(sale.amount);
+                    form.find('span#total').attr('tax', sale.tax);
                     form.find('span#total_paid').html(sale.amount);
-                    form.find('span#balance').html(0.00);
+                    form.find('span#balance').html('0.00');
                     form.attr('sale_id', sale.id);
                     form.attr('customer_name', sale.c_name);
                     form.attr('customer_id', sale.c_id);   
@@ -376,6 +380,7 @@ function get_form_html($form_id, $id) {
                        alert(message);
                    });
             }
+ 
         $(document).ready(function(e) {
             $('form.action_form').on('submit', function(e) {
                 e.preventDefault();
@@ -396,7 +401,9 @@ function get_form_html($form_id, $id) {
                             var id = item_option_obj.attr('id');
                             var item_name = item_option_obj.attr('item_name');
                             var quantity = $(this).find('input#quantity').val();
+                            quantity = parseFloat(quantity).toFixed(3);
                             var rate = $(this).find('input#rate').val();
+                            rate = parseFloat(rate).toFixed(2);
                             var tax = $(this).find('input#total').attr('tax');
                             var total = $(this).find('input#total').val();
                             var item = {

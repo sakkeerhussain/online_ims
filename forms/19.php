@@ -9,7 +9,7 @@ function get_form_html($form_id, $id) {
     </div>
     <div style="margin-top: 10px; background-color:transparent;padding-bottom: 30px;">
         <style>
-            div#purchace_items td{
+            div#purchace_items td, div#purchace_items th{
                 border: 1px solid #21ACD7;
             }
             div#purchace_items tbody td{
@@ -24,38 +24,50 @@ function get_form_html($form_id, $id) {
                 background-color: transparent;
             }
         </style>
+        <input type="text" id="search" placeholder="Enter Search Key here..." style="width: 100%; margin-left: 0px;" onkeyup="search()" />
+        <style>
+            img#search{
+                position: relative;
+                height: 20px;
+                width: 20px;
+                float: right;
+                top: -29px;
+                right: 10px;
+            }
+        </style>
+        <img id="search" src="../ui/images/search.png" onclick="search()" />
         <div id="purchace_items" style="width: 100%; padding: 10px 0; color: #21ACD7;">           
             <table id="items_table" style="border-collapse: collapse; width: 100%; 
                    background-color: #fff; border-radius: 10px;  color: #21ACD7;">
                 <thead style="text-align: center;">
                     <tr>
-                        <td>
+                        <th>
                             #
-                        </td>
-                        <td>
+                        </th>
+                        <th>
                             ID
-                        </td>
-                        <td>
+                        </th>
+                        <th>
                             BILL NO.
-                        </td>
-                        <td>
+                        </th>
+                        <th>
                             DATE
-                        </td>
-                        <td style="">
+                        </th>
+                        <th style="">
                             PURCHACED FROM
-                        </td>
-                        <td style="">
+                        </th>
+                        <th style="">
                             PURCHACED BY
-                        </td>
-                        <td>
+                        </th>
+                        <th>
                             AMOUNT
-                        </td>
-                        <td style="">
+                        </th>
+                        <th style="">
                             STOCKED
-                        </td>
-                        <td style="">
+                        </th>
+                        <th style="">
 
-                        </td>
+                        </th>
                     </tr>
                 </thead>
                 <tbody style="padding-left: 3px; text-align: center; ">
@@ -81,8 +93,12 @@ function get_form_html($form_id, $id) {
                             <td id="bill_number" >
                                 <?php echo $purchace->bill_number; ?>
                             </td>
-                            <td>
-                                <?php echo $purchace->created_at; ?>
+                            <?php 
+                                $date = date('d/m/Y',(strtotime($purchace->created_at)+(5.5*60*60) ));
+                                $time = date('h:m a',(strtotime($purchace->created_at)+(5.5*60*60) ));
+                            ?>
+                            <td id="date" date="<?php  echo $date ?>">
+                                <?php  echo $date . ' - ' . $time; ?>
                             </td>
                             <?php
                                 $vendor = new wendors();
@@ -121,21 +137,21 @@ function get_form_html($form_id, $id) {
                                 <table id="purchace_items" style="border-collapse: collapse; background-color: #c0effd; width: 80%; color: #21ACD7; float: right;">
                                     <thead>
                                     <tr>
-                                        <td>
+                                        <th>
                                             ITEM
-                                        </td>
-                                        <td>
+                                        </th>
+                                        <th>
                                             QUANTITY
-                                        </td>
-                                        <td>
+                                        </th>
+                                        <th>
                                             PURCHACE RATE
-                                        </td>
-                                        <td>
+                                        </th>
+                                        <th>
                                             MRP
-                                        </td>
-                                        <td>
+                                        </th>
+                                        <th>
                                             TOTAL
-                                        </td>
+                                        </th>
                                     </tr>
                                     </thead> 
                                     <tbody> 
@@ -240,11 +256,13 @@ function get_form_html($form_id, $id) {
             var round_off = grand_total - rounded_grand_total;
             round_off = round_off.toFixed(2);
             var bill_number = selected_row.find('td#bill_number').html();
+            var date = selected_row.find('td#date').attr('date');
             var data = {
                 id : id,
                 vendor_name : vendor_name,
                 vendor_address : vendor_address,
                 amount : amount,
+                date : date,
                 less_discount : '0.00',
                 tax_amount : tax_amount,
                 grand_total : grand_total,
@@ -259,14 +277,14 @@ function get_form_html($form_id, $id) {
                 var html = '';
                 html ='<font style="font-size:30px;">ROYALE PIKNIK TRADERS LLP</font><br/>'
                         +'<font>29/861, PARAYANCHERI, CALICUT - 673006</font><br/>'
-                        +'<font>Tin No. &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp; </font><br/>'
+                        +'<font>Tin No. 32110844692 </font><br/>'
                         +'<font>PURCHACE BILL</font><br/><br/>';
                 $('div#print_container_header').html(html);
                 html = '';
-                var d = new Date();
-                var date = d.getDate()+"/"+(parseInt(d.getMonth())+parseInt(1))+"/"+d.getFullYear();
+                //var d = new Date();
+                //var date = d.getDate()+"/"+(parseInt(d.getMonth())+parseInt(1))+"/"+d.getFullYear();
                 html = html + "<div<!-- style=\"padding:10px 0;\"><table style=\"float:right;\">"
-                        +"<tr><td>Date</td><td>:</td><td>" + date + "</td></tr></table>";
+                        +"<tr><td>Date</td><td>:</td><td>" + data.date + "</td></tr></table>";
                 
                 html = html + "<table>"
                         +"<tr><td>Bill No. </td><td>:</td><td>" + data.bill_number/*id*/ + "</td></tr>"
@@ -358,6 +376,64 @@ function get_form_html($form_id, $id) {
             }
             return str.replace(/\s+/g, ' ');
 
+        }
+        
+        function search(){
+            var search_key = $('input#search').val();
+            if(search_key !== ''){                
+                console.log("search key "+ search_key);
+                searchTable(search_key);
+            }else{
+                $('#items_table tr').show();
+                $('#items_table tr#purchace_item').hide();
+            }
+        }
+        function searchTable(inputVal)
+        {
+                var table = $('#items_table');
+                table.find('tr').each(function(index, row)
+                {
+                    if($(row).attr('id')!=='purchace_item'){
+                        var allCells = $(row).find('td');
+                        if(allCells.length > 0)
+                        {
+                                var found = false;
+                                allCells.each(function(index, td)
+                                {
+                                        var regExp = new RegExp(inputVal, 'i');
+                                        if(regExp.test($(td).text()))
+                                        {
+                                                found = true;
+                                                return false;
+                                        }
+                                });
+                                if(found == true)$(row).show();else $(row).hide();
+                        }
+                        
+                        var items_row = $(row).next('tr');
+                        var allCells = items_row.find('td');
+                        if(allCells.length > 0)
+                        {
+                                var found = false;
+                                allCells.each(function(index, td)
+                                {
+                                        var regExp = new RegExp(inputVal, 'i');
+                                        if(regExp.test($(td).text()))
+                                        {
+                                                found = true;
+                                                return false;
+                                        }
+                                });
+                                if(found == true){
+                                    $(row).show();
+                                    items_row.show();
+                                }else{
+                                    items_row.hide();
+                                }
+                        }
+                        
+                    }
+                });
         }
     </script>
 

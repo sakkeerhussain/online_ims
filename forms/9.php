@@ -95,10 +95,10 @@ function get_form_html($form_id, $id) {
                                 ?>
                             </td>
                             <td>
-                                <?php echo $inventry->in_stock_count; ?>
+                                <?php echo number_format($inventry->in_stock_count, 3); ?>
                             </td>
                             <td>
-                                <?php echo $inventry->selling_prize; ?>
+                                <?php echo number_format($inventry->selling_prize, 2); ?>
                             </td>
                             <td>
                                 <?php
@@ -120,8 +120,12 @@ function get_form_html($form_id, $id) {
     <script type="text/javascript">
         function search(){
             var search_key = $('input#search').val();
-            console.log("search key "+ search_key);
-            searchTable(search_key);
+            if(search_key !== ''){                
+                console.log("search key "+ search_key);
+                searchTable(search_key);
+            }else{
+                $('#items_table tr').show();
+            }
         }
         function searchTable(inputVal)
         {

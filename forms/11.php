@@ -50,7 +50,7 @@ function get_form_html($form_id, $id) {
                     </td>
                     <td class="field"> 
                         <div style="padding: 0px 0px;">
-                            <input type="number" id="mrp" required />
+                            <input type="number" id="mrp" required step="0.01" />
                         </div>
                     </td>
                 </tr>
@@ -60,7 +60,7 @@ function get_form_html($form_id, $id) {
                     </td>
                     <td class="field"> 
                         <div class="parent">
-                            <input type="number" id="purchace_rate" required />
+                            <input type="number" id="purchace_rate" required step="0.01"/>
                         </div>
                     </td>
                 </tr>
@@ -155,6 +155,7 @@ function get_form_html($form_id, $id) {
         });
         };
         setFormActionListener();
+        
     </script>
     <?php
 

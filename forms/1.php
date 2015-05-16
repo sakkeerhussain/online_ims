@@ -130,8 +130,8 @@ function get_form_html($form_id, $id) {
                                             . ' selling_pize="' . $inv->selling_prize . '"'
                                             . ' tax="' . $tax_category->tax_percentage . '"'
                                             . ' item_name="' . $item->item_name . '"'
-                                            . ' value="' . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ' )" >'
-                                            . $item->item_name . ' - ' . $item->item_code . ' ( ID : ' . $item->id . ' )'
+                                            . ' value="' . $item->item_name . ' - ' . $item->item_code .'" >'
+                                            . $item->item_name . ' - ' . $item->item_code
                                             . '</option>';
                                         }
                                     }
@@ -334,7 +334,9 @@ function get_form_html($form_id, $id) {
                             var id = item_option_obj.attr('id');
                             var item_name = item_option_obj.attr('item_name');
                             var quantity = $(this).find('input#quantity').val();
+                            quantity = parseFloat(quantity).toFixed(3);
                             var rate = $(this).find('input#rate').val();
+                            rate = parseFloat(rate).toFixed(2);
                             var tax = $(this).find('input#total').attr('tax');
                             var total = $(this).find('input#total').val();
                             var item = {

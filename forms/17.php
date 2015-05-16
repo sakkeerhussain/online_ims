@@ -12,7 +12,7 @@ function get_form_html($form_id, $id) {
     </div>
     <div style="margin-top: 10px; background-color:transparent;padding-bottom: 30px;">
         <style>
-            div#purchace_items td{
+            div#purchace_items td, div#purchace_items th{
                 border: 1px solid #21ACD7;
             }
             div#purchace_items tbody td{
@@ -27,32 +27,44 @@ function get_form_html($form_id, $id) {
                 background-color: transparent;
             }
         </style>
+        <input type="text" id="search" placeholder="Enter Search Key here..." style="width: 100%; margin-left: 0px;" onkeyup="search()" />
+        <style>
+            img#search{
+                position: relative;
+                height: 20px;
+                width: 20px;
+                float: right;
+                top: -29px;
+                right: 10px;
+            }
+        </style>
+        <img id="search" src="../ui/images/search.png" onclick="search()" />
         <div id="purchace_items" style="width: 100%; padding: 10px 0; color: #21ACD7;">           
             <table id="items_table" style="border-collapse: collapse; width: 100%; 
                    background-color: #fff; border-radius: 10px;  color: #21ACD7;">
                 <thead style="text-align: center;">
                     <tr status="not_selected">
-                        <td>
+                        <th>
                             #
-                        </td>
-                        <td>
+                        </th>
+                        <th>
                             ID
-                        </td>
-                        <td>
+                        </th>
+                        <th>
                             ITEM NAME
-                        </td>
-                        <td>
+                        </th>
+                        <th>
                             ITEM CODE
-                        </td>
-                        <td style="">
+                        </th>
+                        <th style="">
                             MRP
-                        </td>
-                        <td style="">
+                        </th>
+                        <th style="">
                             PURCHACE RATE
-                        </td>
-                        <td style="">
+                        </th>
+                        <th style="">
                             TAX
-                        </td>
+                        </th>
                     </tr>
                 </thead>
                 <tbody style="padding-left: 3px; text-align: center; ">
@@ -176,6 +188,39 @@ function get_form_html($form_id, $id) {
                     alert(message);
                 }
              );
+        }
+        
+        
+        function search(){
+            var search_key = $('input#search').val();
+            if(search_key !== ''){                
+                console.log("search key "+ search_key);
+                searchTable(search_key);
+            }else{
+                $('#items_table tr').show();
+            }
+        }
+        function searchTable(inputVal)
+        {
+                var table = $('#items_table');
+                table.find('tr').each(function(index, row)
+                {
+                        var allCells = $(row).find('td');
+                        if(allCells.length > 0)
+                        {
+                                var found = false;
+                                allCells.each(function(index, td)
+                                {
+                                        var regExp = new RegExp(inputVal, 'i');
+                                        if(regExp.test($(td).text()))
+                                        {
+                                                found = true;
+                                                return false;
+                                        }
+                                });
+                                if(found == true)$(row).show();else $(row).hide();
+                        }
+                });
         }
     </script>
 

@@ -42,17 +42,17 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                                 $tax_category->id = $item->tax_category_id;
                                 $tax_category->getTaxCategory();
                                 
-                                $s_item_array=array("item_name"=>$item->item_name.' - '.$item->item_code.' ( ID : '.$item->id.' )' , "quantity"=>$s_item->quantity, "rate"=>$s_item->rate, "tax"=>$s_item->tax, "tax_rate"=>$tax_category->tax_percentage, "total"=>($s_item->rate*$s_item->quantity));
+                                $s_item_array=array("item_name"=>$item->item_name.' - '.$item->item_code , "quantity"=>  number_format($s_item->quantity, 3), "rate"=>  number_format($s_item->rate, 2), "tax"=>$s_item->tax, "tax_rate"=>$tax_category->tax_percentage, "total"=>  number_format(($s_item->rate*$s_item->quantity)), 2);
                                 array_push($items, $s_item_array);
                             }
                         }
-                        $sales_array = array("id"=>$sale->id,"customer"=>$customer_name,"c_name"=>$customer->customer_name,"c_id"=>$customer->id, "amount"=>$sale->amount, "items"=>$items);
+                        $sales_array = array("id"=>$sale->id,"customer"=>$customer_name,"c_name"=>$customer->customer_name,"c_id"=>$customer->id, "amount"=>  number_format($sale->amount, 2), "tax"=>$sale->tax_amount, "items"=>$items);
                         $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "data"=>$sales_array));
                     } else {
                         $responce = array('status' => 'failed', 'error' => 'The Sale is of another shop', 'data' => array());
                     }
                 } else {
-                    $responce = array('status' => 'failed', 'error' => 'Invalid Purchace ID', 'data' => array());
+                    $responce = array('status' => 'failed', 'error' => 'Invalid Sale ID', 'data' => array());
                 }                    
            } else {
                 ob_start();

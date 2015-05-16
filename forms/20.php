@@ -17,7 +17,7 @@ function get_form_html($form_id, $id) {
     </div>
     <div style="margin-top: 10px; background-color:transparent;padding-bottom: 30px;">
         <style>
-            div#purchace_items td{
+            div#purchace_items td,div#purchace_items th{
                 border: 1px solid #21ACD7;
             }
             div#purchace_items tbody td{
@@ -32,26 +32,38 @@ function get_form_html($form_id, $id) {
                 background-color: transparent;
             }
         </style>
+        <input type="text" id="search" placeholder="Enter Search Key here..." style="width: 100%; margin-left: 0px;" onkeyup="search()" />
+        <style>
+            img#search{
+                position: relative;
+                height: 20px;
+                width: 20px;
+                float: right;
+                top: -29px;
+                right: 10px;
+            }
+        </style>
+        <img id="search" src="../ui/images/search.png" onclick="search()" />
         <div id="purchace_items" style="width: 100%; padding: 10px 0; color: #21ACD7;">           
             <table id="items_table" style="border-collapse: collapse; width: 100%; 
                    background-color: #fff; border-radius: 10px;  color: #21ACD7;">
                 <thead style="text-align: center;">
                     <tr  status="not_selected">
-                        <td>
+                        <th>
                             #
-                        </td>
-                        <td>
+                        </th>
+                        <th>
                             ITEM
-                        </td>
-                        <td>
+                        </th>
+                        <th>
                             STOCK COUNT
-                        </td>
-                        <td style="">
+                        </th>
+                        <th style="">
                             SELLING PRIZE
-                        </td>
-                        <td style="">
+                        </th>
+                        <th style="">
                             TAX
-                        </td>
+                        </th>
                     </tr>
                 </thead>
                 <tbody style="padding-left: 3px; text-align: center; ">
@@ -74,8 +86,8 @@ function get_form_html($form_id, $id) {
                                 $item->getItem();
                                 echo $item->item_name. ' ('.$item->item_code.')';
                             ?></td>
-                            <td id="in_stock_count"><?php echo $inventry->in_stock_count; ?></td>
-                            <td id="mrp"><?php echo $inventry->selling_prize; ?></td>
+                            <td id="in_stock_count"><?php echo number_format($inventry->in_stock_count, 3); ?></td>
+                            <td id="mrp"><?php echo number_format($inventry->selling_prize, 2); ?></td>
                             <td id="tax_category" tax_category_id="<?php echo $inventry->tax_category_id; ?>"><?php
                                 $tax = new tax_category();
                                 $tax->id = $inventry->tax_category_id;
@@ -169,6 +181,37 @@ function get_form_html($form_id, $id) {
                     alert(message);
                 });
             }
+        }
+        function search(){
+            var search_key = $('input#search').val();
+            if(search_key !== ''){                
+                console.log("search key "+ search_key);
+                searchTable(search_key);
+            }else{
+                $('#items_table tr').show();
+            }
+        }
+        function searchTable(inputVal)
+        {
+                var table = $('#items_table');
+                table.find('tr').each(function(index, row)
+                {
+                        var allCells = $(row).find('td');
+                        if(allCells.length > 0)
+                        {
+                                var found = false;
+                                allCells.each(function(index, td)
+                                {
+                                        var regExp = new RegExp(inputVal, 'i');
+                                        if(regExp.test($(td).text()))
+                                        {
+                                                found = true;
+                                                return false;
+                                        }
+                                });
+                                if(found == true)$(row).show();else $(row).hide();
+                        }
+                });
         }
     </script>
 

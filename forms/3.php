@@ -9,7 +9,7 @@ function get_form_html($form_id, $id) {
     </div>
     <div style="margin-top: 10px; background-color:transparent;padding-bottom: 30px;">
         <style>
-            div#purchace_items td{
+            div#purchace_items td,div#purchace_items th{
                 border: 1px solid #21ACD7;
             }
             div#purchace_items tbody td{
@@ -24,35 +24,47 @@ function get_form_html($form_id, $id) {
                 background-color: transparent;
             }
         </style>
+        <input type="text" id="search" placeholder="Enter Search Key here..." style="width: 100%; margin-left: 0px;" onkeyup="search()" />
+        <style>
+            img#search{
+                position: relative;
+                height: 20px;
+                width: 20px;
+                float: right;
+                top: -29px;
+                right: 10px;
+            }
+        </style>
+        <img id="search" src="../ui/images/search.png" onclick="search()" />
         <div id="purchace_items" style="width: 100%; padding: 10px 0; color: #21ACD7;">           
             <table id="items_table" style="border-collapse: collapse; width: 100%; 
                    background-color: #fff; border-radius: 10px;  color: #21ACD7;">
                 <thead style="text-align: center;">
                     <tr  status="not_selected" >
-                        <td>
+                        <th>
                             #
-                        </td>
-                        <td>
+                        </th>
+                        <th>
                             ID
-                        </td>
-                        <td>
+                        </th>
+                        <th>
                             DATE AND TIME
-                        </td>
-                        <td>
+                        </th>
+                        <th>
                             CUSTOMER
-                        </td>
-                        <td style="">
+                        </th>
+                        <th style="">
                             TAX
-                        </td>
-                        <td style="">
+                        </th>
+                        <th style="">
                             NET. AMOUNT
-                        </td>
-                        <td style="">
+                        </th>
+                        <th style="">
                             TOTAL
-                        </td>
-                        <td style="">
+                        </th>
+                        <th style="">
 
-                        </td>
+                        </th>
                     </tr>
                 </thead>
                 <tbody style="padding-left: 3px; text-align: center; ">
@@ -104,29 +116,29 @@ function get_form_html($form_id, $id) {
                                      onclick="toggle_items_visibility(this)" src="../ui/images/up_arrow.png"/>
                             </td>
                         </tr>
-                        <tr style="display: none;">
+                        <tr style="display: none;" id="sale_items">
                             <td colspan="8" style="padding:0 0 20px 0;">
                                 <table  id="sale_items" style="border-collapse: collapse; background-color: #c0effd; width: 80%; color: #21ACD7; float: right;">
                                     <thead>
                                     <tr>
-                                        <td>
+                                        <th>
                                             ITEM
-                                        </td>
-                                        <td>
+                                        </th>
+                                        <th>
                                             QUANTITY
-                                        </td>
-                                        <td>
+                                        </th>
+                                        <th>
                                             RATE
-                                        </td>
-                                        <td>
+                                        </th>
+                                        <th>
                                             NET. AMOUNT
-                                        </td>
-                                        <td>
+                                        </th>
+                                        <th>
                                             TAX
-                                        </td>
-                                        <td>
+                                        </th>
+                                        <th>
                                             TOTAL
-                                        </td>
+                                        </th>
                                     </tr>
                                 </thead>
                                     <tbody>
@@ -141,16 +153,16 @@ function get_form_html($form_id, $id) {
                                         $item->getItem();
                                         ?>
                                             <td id="item" item_name="<?php echo $item->item_name; ?>"><?php
-                                                echo $item->item_name . ' - ' . $item->item_code .' ( ID : '.$item->id.' )';
+                                                echo $item->item_name . ' - ' . $item->item_code;
                                             ?></td>
                                             <td id="quantity" val="<?php echo $s_item->quantity; ?>">
-                                                <?php echo $s_item->quantity; ?>
+                                                <?php echo number_format($s_item->quantity, 3); ?>
                                             </td>
                                             <td id="rate" val="<?php echo $s_item->rate; ?>">
-                                                <?php echo $s_item->rate; ?>
+                                                <?php echo number_format($s_item->rate, 2); ?>
                                             </td>                                            
                                             <td>
-                                                <?php echo (($s_item->quantity * $s_item->rate) - $s_item->tax); ?>
+                                                <?php echo number_format((($s_item->quantity * $s_item->rate) - $s_item->tax), 2); ?>
                                             </td>    
                                             <?php 
                                                 $tax_category = new tax_category();
@@ -158,10 +170,10 @@ function get_form_html($form_id, $id) {
                                                 $tax_category->getTaxCategory();
                                             ?>
                                             <td id="tax" val="<?php echo $s_item->tax; ?>" tax_rate="<?php echo $tax_category->tax_percentage; ?>">
-                                                <?php echo $s_item->tax; ?>
+                                                <?php echo number_format($s_item->tax, 2); ?>
                                             </td>
                                             <td id="total" val="<?php echo ($s_item->quantity * $s_item->rate); ?>">
-                                                <?php echo ($s_item->quantity * $s_item->rate); ?>
+                                                <?php echo number_format(($s_item->quantity * $s_item->rate), 2); ?>
                                             </td>
                                         </tr>
                                         <?php
@@ -193,7 +205,9 @@ function get_form_html($form_id, $id) {
                 var item_name = $(this).find('td#item').html();
                 var id = $(this).attr('id');
                 var quantity = $(this).find('td#quantity').attr('val');
+                quantity = parseFloat(quantity).toFixed(3);
                 var rate = $(this).find('td#rate').attr('val');
+                rate = parseFloat(rate).toFixed(2);
                 var tax = $(this).find('td#tax').attr('val');
                 var tax_rate = $(this).find('td#tax').attr('tax_rate');
                 var total = $(this).find('td#total').attr('val');
@@ -212,12 +226,14 @@ function get_form_html($form_id, $id) {
              var c_id = selected_row.find('td#customer').attr('c_id');
              var sale_id = selected_row.attr('id');
              var total = selected_row.find('td#total').html();
+             total = parseFloat(total).toFixed(2);
              var total_tax = selected_row.find('td#tax').html();
              var net_total = selected_row.find('td#net_amount').html();
              get_form(2,  ///sales return invoice
                 function (html, tools){
                     $('div#form-body').html(html);
                     $('div#content-body-action-tools').html(tools);
+                    $('input#sale_id').val(sale_id);
                     var form = $('div#form-body').find('form.action_form');
                     form.attr('operation', 'update');
                     form.find('input#customer_id').val(c_name+' ( ID : '+c_id+' )');
@@ -237,8 +253,9 @@ function get_form_html($form_id, $id) {
                         row.find('input#total').attr('tax', item.tax);
                     } 
                     form.find('span#total').html(total);
+                    form.find('span#total').attr('tax', total_tax);
                     form.find('span#total_paid').html(total);
-                    form.find('span#balance').html(0.00);
+                    form.find('span#balance').html('0.00');
                     form.attr('sale_id', sale_id);
                     form.attr('customer_name', c_name);
                     form.attr('customer_id', c_id);
@@ -393,6 +410,63 @@ function get_form_html($form_id, $id) {
             row.next('tr').fadeToggle();
             row.find('img#toggle_button').toggle();
             
+        }
+        function search(){
+            var search_key = $('input#search').val();
+            if(search_key !== ''){                
+                console.log("search key "+ search_key);
+                searchTable(search_key);
+            }else{
+                $('#items_table tr').show();
+                $('#items_table tr#sale_items').hide();
+            }
+        }
+        function searchTable(inputVal)
+        {
+                var table = $('#items_table');
+                table.find('tr').each(function(index, row)
+                {
+                    if($(row).attr('id')!=='sale_items'){
+                        var allCells = $(row).find('td');
+                        if(allCells.length > 0)
+                        {
+                                var found = false;
+                                allCells.each(function(index, td)
+                                {
+                                        var regExp = new RegExp(inputVal, 'i');
+                                        if(regExp.test($(td).text()))
+                                        {
+                                                found = true;
+                                                return false;
+                                        }
+                                });
+                                if(found == true)$(row).show();else $(row).hide();
+                        }
+                        
+                        var items_row = $(row).next('tr');
+                        var allCells = items_row.find('td');
+                        if(allCells.length > 0)
+                        {
+                                var found = false;
+                                allCells.each(function(index, td)
+                                {
+                                        var regExp = new RegExp(inputVal, 'i');
+                                        if(regExp.test($(td).text()))
+                                        {
+                                                found = true;
+                                                return false;
+                                        }
+                                });
+                                if(found == true){
+                                    $(row).show();
+                                    items_row.show();
+                                }else{
+                                    items_row.hide();
+                                }
+                        }
+                        
+                    }
+                });
         }
     </script>
 
