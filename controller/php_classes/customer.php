@@ -47,7 +47,7 @@ class customer {
     }
     function updateCustomer(){
         return $this->db_handler->update_model($this);
-        $description = "Updating Customer (" . $customer->to_string() . ")";
+        $description = "Updating Customer (" . $this->to_string() . ")";
         Log::i($this->tag, $description);
     }
     function deleteCustomer(){

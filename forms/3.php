@@ -156,13 +156,13 @@ function get_form_html($form_id, $id) {
                                                 echo $item->item_name . ' - ' . $item->item_code;
                                             ?></td>
                                             <td id="quantity" val="<?php echo $s_item->quantity; ?>">
-                                                <?php echo number_format($s_item->quantity, 3); ?>
+                                                <?php echo number_format($s_item->quantity, 3, '.',''); ?>
                                             </td>
                                             <td id="rate" val="<?php echo $s_item->rate; ?>">
-                                                <?php echo number_format($s_item->rate, 2); ?>
+                                                <?php echo number_format($s_item->rate, 2, '.',''); ?>
                                             </td>                                            
                                             <td>
-                                                <?php echo number_format((($s_item->quantity * $s_item->rate) - $s_item->tax), 2); ?>
+                                                <?php echo number_format((($s_item->quantity * $s_item->rate) - $s_item->tax), 2, '.',''); ?>
                                             </td>    
                                             <?php 
                                                 $tax_category = new tax_category();
@@ -170,10 +170,10 @@ function get_form_html($form_id, $id) {
                                                 $tax_category->getTaxCategory();
                                             ?>
                                             <td id="tax" val="<?php echo $s_item->tax; ?>" tax_rate="<?php echo $tax_category->tax_percentage; ?>">
-                                                <?php echo number_format($s_item->tax, 2); ?>
+                                                <?php echo number_format($s_item->tax, 2, '.',''); ?>
                                             </td>
                                             <td id="total" val="<?php echo ($s_item->quantity * $s_item->rate); ?>">
-                                                <?php echo number_format(($s_item->quantity * $s_item->rate), 2); ?>
+                                                <?php echo number_format(($s_item->quantity * $s_item->rate), 2, '.',''); ?>
                                             </td>
                                         </tr>
                                         <?php

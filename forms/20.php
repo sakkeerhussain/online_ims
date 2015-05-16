@@ -86,8 +86,8 @@ function get_form_html($form_id, $id) {
                                 $item->getItem();
                                 echo $item->item_name. ' ('.$item->item_code.')';
                             ?></td>
-                            <td id="in_stock_count"><?php echo number_format($inventry->in_stock_count, 3); ?></td>
-                            <td id="mrp"><?php echo number_format($inventry->selling_prize, 2); ?></td>
+                            <td id="in_stock_count"><?php echo number_format($inventry->in_stock_count, 3, '.',''); ?></td>
+                            <td id="mrp"><?php echo number_format($inventry->selling_prize, 2, '.',''); ?></td>
                             <td id="tax_category" tax_category_id="<?php echo $inventry->tax_category_id; ?>"><?php
                                 $tax = new tax_category();
                                 $tax->id = $inventry->tax_category_id;

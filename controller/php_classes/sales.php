@@ -108,7 +108,7 @@ class sales {
     }
 
     function getSales($company_id) {
-        $sales = $this->db_handler->get_model_list($this, 'company_id = ' + $company_id);
+        $sales = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id);
         if (is_array($sales) and count($sales) != 0) {
             foreach ($sales as $sale) {
                 $sale_item = new sales_items();

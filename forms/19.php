@@ -208,6 +208,8 @@ function get_form_html($form_id, $id) {
                 $('table#items_table tr').css('background-color', '#FFF');
                 $('img#print').css('display', 'none');
                 $('img#print_fade').css('display', 'block');
+                $('img#delete').css('display', 'none');
+                $('img#delete_fade').css('display', 'block');
             }else{            
                 $('table#items_table tr').attr('status', 'not_selected');
                 $('table#items_table tr').css('background-color', '#FFF');
@@ -215,6 +217,8 @@ function get_form_html($form_id, $id) {
                 j_row.css('background-color', '#C0EFFD');
                 $('img#print').css('display', 'block');
                 $('img#print_fade').css('display', 'none');
+                $('img#delete').css('display', 'block');
+                $('img#delete_fade').css('display', 'none');
             }          
         }
         function on_print_clicked() {
@@ -435,6 +439,30 @@ function get_form_html($form_id, $id) {
                     }
                 });
         }
+        function on_delete_clicked(){            
+            var selected_row = $('tr[status="selected"]');
+            var id = selected_row.attr('id');
+            if(confirm('Are you sure you want to delete PURCHACE-'+id+' ?' )){
+                var data = {
+                    form_id : 19,
+                    purchace_id : id
+                }
+                delete_form_data(data, function(message) {
+                    get_form(19,
+                        function(html, tools) {
+                             $('div#form-body').html(html);
+                             $('div#content-body-action-tools').html(tools);
+                        }, function(message) {
+                             $('font#section_heading').empty();
+                             $('div#form-body').empty();
+                             alert(message);
+                        });
+                    alert(message);
+                }, function(message) {
+                    alert(message);
+                });
+            }
+        }
     </script>
 
     <?php
@@ -447,6 +475,8 @@ function get_form_tools_html($id){
     ?>    
     <img id="print_fade" src="../ui/images/printer_fade.png" height="40" width="40" style="margin: 15px auto 0px 12px;">
     <img onclick="on_print_clicked()" id="print" onclick="" src="../ui/images/printer.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
+    <img id="delete_fade" src="../ui/images/delete_fade.png" height="40" width="40" style="margin: 15px auto 0px 12px;">
+    <img onclick="on_delete_clicked()" id="delete" src="../ui/images/delete.png" height="40" width="40" style="margin: 15px auto 0px 12px; cursor: pointer; display: none;">
     <script>
         
     </script>

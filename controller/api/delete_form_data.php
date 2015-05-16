@@ -54,6 +54,30 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }            
+        }else if ($form_id == 19) {   ///purchace delete
+            if (isset($_POST['purchace_id']) and !empty($_POST['purchace_id'])) {
+                $purchace = new purchaces();
+                $purchace->id = $_POST['purchace_id'];
+                $purchace->getPurchace();
+                if($purchace->stocked){
+                    $responce = array('status' => 'failed', 'error' => 'Purchace already stocked, Can\'t delete !', 'data' => array());
+                }else{
+                    if($purchace->deletePurchace()){
+                        $message = "Purchace deleted Successfuly";
+                        $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$purchace->id)); 
+                    }else{
+                        $description = "Purchace delete failed, Purchace : ".$purchace->to_string();
+                        Log::e($tag, $description);
+                        $message = "Some server error occured";
+                        $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                    }   
+                }
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
         }else if ($form_id == 20) {   ///stock: (inventry) delete
             if (isset($_POST['inventry_id']) and !empty($_POST['inventry_id'])) {
                 $inventry = new inventry();
@@ -139,6 +163,25 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$user->id)); 
                 }else{
                     $description = "User delete failed, User : ".$user->to_string()." Error : ".  mysql_error();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                }                    
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
+        } else if ($form_id == 31) {   ///expence delete
+            if (isset($_POST['expence_id']) and !empty($_POST['expence_id'])) {
+                $expence = new expences();
+                $expence->id = $_POST['expence_id'];
+                if($expence->deleteExpence()){
+                    $message = "Expence deleted Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$expence->id)); 
+                }else{
+                    $description = "Expence delete failed, Expence : ".$expence->to_string()." Error : ".  mysql_error();
                     Log::e($tag, $description);
                     $message = "Some server error occured";
                     $responce = array('status' => 'failed', 'error' => $message, 'data' => array());

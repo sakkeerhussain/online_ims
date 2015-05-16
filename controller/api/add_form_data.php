@@ -49,6 +49,29 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
+        } else if ($form_id == 5) {
+            if (isset($_POST['amount']) and !empty($_POST['amount']) 
+                    and isset($_POST['description']) and !empty($_POST['description'])) {
+                $expence = new expences();
+                $expence->description = $_POST['description'];
+                $expence->amount = $_POST['amount'];
+                $user = new user();
+                $user->id = $_SESSION['user_id'];
+                $user->getUser();                
+                $expence->user_id = $user->id;
+                $expence->company_id = $user->company_id;
+                if ($expence->addExpence()) {
+                    $responce = array('status' => 'success', 'error' => '',
+                        'data' => array('message' => 'Expence Added successfully'));
+                } else {
+                    Log::e($tag, "Expence adding failed Expence : " . $expence->to_string() . 'Error : '.  mysql_error());
+                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                }
+            } else {
+                ob_start();
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }
         } else if ($form_id == 6) {
             if (isset($_POST['customer_name']) and !empty($_POST['customer_name']) 
                     and isset($_POST['contact_number']) and !empty($_POST['contact_number']) ) {

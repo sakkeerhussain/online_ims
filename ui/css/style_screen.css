@@ -14,6 +14,11 @@ input{
     padding:10px; 
     color: #21ACD7;
 }
+textArea{
+    border-radius:5px;
+    padding:10px; 
+    color: #21ACD7;
+}
 /*input[type=number]::-webkit-inner-spinn-button,
 input[type=number]::-webkit-outer-spin-button{
     -webkit-appearance: none;

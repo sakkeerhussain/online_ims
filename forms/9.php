@@ -95,10 +95,10 @@ function get_form_html($form_id, $id) {
                                 ?>
                             </td>
                             <td>
-                                <?php echo number_format($inventry->in_stock_count, 3); ?>
+                                <?php echo number_format($inventry->in_stock_count, 3, '.',''); ?>
                             </td>
                             <td>
-                                <?php echo number_format($inventry->selling_prize, 2); ?>
+                                <?php echo number_format($inventry->selling_prize, 2, '.',''); ?>
                             </td>
                             <td>
                                 <?php

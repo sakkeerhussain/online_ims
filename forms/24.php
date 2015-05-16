@@ -81,11 +81,11 @@ function get_form_html($form_id, $date) {
                                 <?php echo $item->item_name.' ( '. $item->item_code .' )'; ?>
                             </td>
                             <td>
-                                <?php echo number_format($sales_item->quantity, 3); ?>
+                                <?php echo number_format($sales_item->quantity, 3, '.',''); ?>
                             </td>
                             
                             <td id="tax">
-                                <?php echo number_format($sales_item->total, 2);  ?>
+                                <?php echo number_format($sales_item->total, 2, '.','');  ?>
                             </td>
                         </tr>
                         <?php
@@ -95,8 +95,8 @@ function get_form_html($form_id, $date) {
                         <tr>
                             <td></td>
                             <td style="text-align: right;"> TOTAL </td>
-                            <td><?php echo number_format($total_count, 3); ?></td>
-                            <td><?php echo number_format($grand_total, 2); ?></td>
+                            <td><?php echo number_format($total_count, 3, '.',''); ?></td>
+                            <td><?php echo number_format($grand_total, 2, '.',''); ?></td>
                         </tr>
                   </tbody>                               
             </table>
@@ -133,9 +133,9 @@ function get_form_html($form_id, $date) {
                             <td>1</td>
                             <td style="text-align: left;">SALES</td>
                             <td><?php echo $vals['count']; ?></td>
-                            <td><?php echo number_format($vals['tax_amount'], 2); ?></td>
-                            <td><?php echo number_format($vals['net_amount'], 2); ?></td>
-                            <td><?php echo number_format($vals['amount'], 2); ?></td>
+                            <td><?php echo number_format($vals['tax_amount'], 2, '.',''); ?></td>
+                            <td><?php echo number_format($vals['net_amount'], 2, '.',''); ?></td>
+                            <td><?php echo number_format($vals['amount'], 2, '.',''); ?></td>
                     </tr>
                 </tbody>                               
             </table>

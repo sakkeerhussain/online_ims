@@ -30,8 +30,13 @@ class purchaces {
 
     public function to_string() {
         $purchace_items = '';
-        foreach ($this->purchace_items as $purchace_item) {
-            $purchace_items = $purchace_items . '[' . $purchace_item->to_string() . ']';
+        
+        if(is_array($this->purchace_items) and count($this->purchace_items)){
+            foreach ($this->purchace_items as $purchace_item) {
+                $purchace_items = $purchace_items . '[' . $purchace_item->to_string() . ']';
+            }
+        }else{
+            $purchace_items = "No items";
         }
         return 'id : ' . $this->id . ' - '
                 . 'wendor_id : ' . $this->wendor_id . ' - '
@@ -65,6 +70,19 @@ class purchaces {
                 $purchace_item->addPurchaceItem();
             }
             $description = "Updating Purchace (". $purchace->to_string().")";
+            Log::i($this->tag, $description);
+            return TRUE;        
+        }else{
+            return FALSE;
+        }
+    }
+    
+    function deletePurchace(){
+        $result = $this->db_handler->delete_model($this);
+        if($result){
+            $purchace_item_obj = new purchace_items();
+            $purchace_item_obj->clearPurchaceItems($this->id);
+            $description = "Deleted Purchace (". $this->to_string().")";
             Log::i($this->tag, $description);
             return TRUE;        
         }else{

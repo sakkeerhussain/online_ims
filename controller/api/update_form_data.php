@@ -112,6 +112,27 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
+        } else if ($form_id == 5) {
+            if (isset($_POST['amount']) and !empty($_POST['amount']) 
+                    and isset($_POST['expence_id']) and !empty($_POST['expence_id'])
+                    and isset($_POST['description']) and !empty($_POST['description'])) {
+                $expence = new expences();
+                $expence->id = $_POST['expence_id'];
+                $expence->getExpence();
+                $expence->description = $_POST['description'];
+                $expence->amount = $_POST['amount'];
+                if ($expence->updateExpence()) {
+                    $responce = array('status' => 'success', 'error' => '',
+                        'data' => array('message' => 'Expence Updated successfully'));
+                } else {
+                    Log::e($tag, "Expence updation failed Expence : " . $expence->to_string() . 'Error : '.  mysql_error());
+                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                }
+            } else {
+                ob_start();
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }
         } else if ($form_id == 6) {   ///edit customer
             if (isset($_POST['customer_id']) and !empty($_POST['customer_id']) 
                     and isset($_POST['customer_name']) and !empty($_POST['customer_name']) 
