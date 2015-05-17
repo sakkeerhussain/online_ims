@@ -68,4 +68,18 @@ class bank_deposits {
         Log::i($this->tag, $description);
         return $result;
     }
+
+    function getOneMonthsBankDepositsSummary($company_id, $month, $year) {
+        $query = "SELECT SUM(`amount`) as `amount` FROM `bank_deposits` WHERE YEAR(`deposited_at`) = $year AND MONTH(`deposited_at`) = $month and `company_id` = $company_id ";
+        $result = $this->db_handler->executeQuery($query);
+        $vals = array();
+        if ($row = mysql_fetch_assoc($result)) {
+            foreach ($row as $key => $value) {
+                $vals[$key] = $value;
+            }
+            return $vals;
+        } else {
+            return FALSE;
+        }
+    }
 }

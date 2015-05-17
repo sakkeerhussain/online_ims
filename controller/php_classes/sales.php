@@ -151,9 +151,22 @@ class sales {
         return $sales;
     }
 
+    function getOneMonthsSaleSummary($company_id, $month, $year) {
+        $query = "SELECT SUM(`net_amount`) as `net_amount`,SUM(`tax_amount`) as `tax_amount`,SUM(`amount`) as `amount` FROM `sales` WHERE YEAR(`sale_at`) = $year AND MONTH(`sale_at`) = $month and `company_id` = $company_id ";
+        $result = $this->db_handler->executeQuery($query);
+        $vals = array();
+        if ($row = mysql_fetch_assoc($result)) {
+            foreach ($row as $key => $value) {
+                $vals[$key] = $value;
+            }
+            return $vals;
+        } else {
+            return FALSE;
+        }
+    }
+
     function getOneDaysSaleStatistics($company_id, $date) {
         $query = "SELECT count(*) as `count`, SUM(`amount`) as `amount` , SUM(`net_amount`) as `net_amount` , SUM(`tax_amount`) as `tax_amount` FROM `sales` WHERE DATE(`sale_at`) = '" . $date . "' and `company_id` = $company_id ";
-        Log::d("ghkgk", $query);
         $result = $this->db_handler->executeQuery($query);
         $vals = array();
         if ($row = mysql_fetch_assoc($result)) {

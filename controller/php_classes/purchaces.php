@@ -147,6 +147,20 @@ class purchaces {
         return $purchaces;
     }
 
+    function getOneMonthsPurchaceSummary($company_id, $month, $year) {
+        $query = "SELECT SUM(`amount`) as `amount` FROM `purchaces` WHERE YEAR(`created_at`) = $year AND MONTH(`created_at`) = $month and `company_id` = $company_id and `stocked` = 1 ";
+        $result = $this->db_handler->executeQuery($query);
+        $vals = array();
+        if ($row = mysql_fetch_assoc($result)) {
+            foreach ($row as $key => $value) {
+                $vals[$key] = $value;
+            }
+            return $vals;
+        } else {
+            return FALSE;
+        }
+    }
+
 }
 
 //

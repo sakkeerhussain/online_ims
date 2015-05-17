@@ -43,10 +43,11 @@ if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){
         
         $menu_list = array(//array('menu_item_name'=>'User Management','menu_item_id'=>'13'),
             //array('menu_item_name'=>'Redeem','menu_item_id'=>'14'),
-            array('menu_item_name'=>'Stock Report','menu_item_id'=>'20'),
+            array('menu_item_name'=>'Balance Sheet','menu_item_id'=>'33'),
             array('menu_item_name'=>'Day End Report','menu_item_id'=>'24'),
             array('menu_item_name'=>'Sales Report','menu_item_id'=>'15'),
-            array('menu_item_name'=>'Bank Deposit','menu_item_id'=>'4'));
+            array('menu_item_name'=>'Bank Deposit','menu_item_id'=>'4'),
+            array('menu_item_name'=>'Stock Report','menu_item_id'=>'20'));
         
         $responce = array('status'=>'success','error'=>'','data'=> array('menu_list'=>$menu_list));
     }else if($user->user_type_id==4){   

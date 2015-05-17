@@ -61,4 +61,18 @@ class expences {
         Log::i($this->tag, $description);
         return $result;
     }
+
+    function getOneMonthsExpenceSummary($company_id, $month, $year) {
+        $query = "SELECT SUM(`amount`) as `amount` FROM `expences` WHERE YEAR(`created_at`) = $year AND MONTH(`created_at`) = $month and `company_id` = $company_id ";
+        $result = $this->db_handler->executeQuery($query);
+        $vals = array();
+        if ($row = mysql_fetch_assoc($result)) {
+            foreach ($row as $key => $value) {
+                $vals[$key] = $value;
+            }
+            return $vals;
+        } else {
+            return FALSE;
+        }
+    }
 }
