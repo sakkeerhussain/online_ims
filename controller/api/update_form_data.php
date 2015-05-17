@@ -112,6 +112,28 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
+        } else if ($form_id == 4) { // bank deposit edit
+            if (isset($_POST['amount']) and !empty($_POST['amount']) 
+                    and isset($_POST['bank_deposit_id']) and !empty($_POST['bank_deposit_id'])
+                    and isset($_POST['description']) and !empty($_POST['description'])) {
+                $bank_deposit = new bank_deposits();
+                $bank_deposit->id = $_POST['bank_deposit_id'];
+                $bank_deposit->getBankDeposit();
+                $bank_deposit->description = $_POST['description'];
+                $bank_deposit->amount = $_POST['amount'];
+                $bank_deposit->bank_id = $_POST['bank_id'];
+                if ($bank_deposit->updateBankDeposit()) {
+                    $responce = array('status' => 'success', 'error' => '',
+                        'data' => array('message' => 'Bank Deposit Updated successfully'));
+                } else {
+                    Log::e($tag, "Bank Deposit updation failed Expence : " . $bank_deposit->to_string() . 'Error : '.  mysql_error());
+                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                }
+            } else {
+                ob_start();
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }
         } else if ($form_id == 5) {
             if (isset($_POST['amount']) and !empty($_POST['amount']) 
                     and isset($_POST['expence_id']) and !empty($_POST['expence_id'])

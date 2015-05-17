@@ -192,6 +192,25 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }            
+        } else if ($form_id == 32) {   ///bank deposit delete
+            if (isset($_POST['bank_deposit_id']) and !empty($_POST['bank_deposit_id'])) {
+                $bank_deposit = new bank_deposits();
+                $bank_deposit->id = $_POST['bank_deposit_id'];
+                if($bank_deposit->deleteBankDeposit()){
+                    $message = "Bank Deposit deleted Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$bank_deposit->id)); 
+                }else{
+                    $description = "Expence delete failed, Expence : ".$bank_deposit->to_string()." Error : ".  mysql_error();
+                    Log::e($tag, $description);
+                    $message = "Some server error occured";
+                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                }                    
+            }else {
+                ob_start();
+                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }            
         } else {
             $responce = array('status' => 'failed', 'error' => 'Invalid Form', 'data' => array());
         }

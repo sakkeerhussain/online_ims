@@ -49,6 +49,31 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
+        } else if ($form_id == 4) {
+            if (isset($_POST['amount']) and !empty($_POST['amount']) 
+                    and isset($_POST['bank_id']) and !empty($_POST['bank_id'])
+                    and isset($_POST['description']) and !empty($_POST['description'])) {
+                $bank_deposit = new bank_deposits();
+                $bank_deposit->description = $_POST['description'];
+                $bank_deposit->amount = $_POST['amount'];
+                $bank_deposit->bank_id = $_POST['bank_id'];
+                $user = new user();
+                $user->id = $_SESSION['user_id'];
+                $user->getUser();                
+                $bank_deposit->user_id = $user->id;
+                $bank_deposit->company_id = $user->company_id;
+                if ($bank_deposit->addBankDeposits()) {
+                    $responce = array('status' => 'success', 'error' => '',
+                        'data' => array('message' => 'Bank Deposit Added successfully'));
+                } else {
+                    Log::e($tag, "Bank Deposit adding failed, Bank Deposit : " . $bank_deposit->to_string() . 'Error : '.  mysql_error());
+                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                }
+            } else {
+                ob_start();
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }
         } else if ($form_id == 5) {
             if (isset($_POST['amount']) and !empty($_POST['amount']) 
                     and isset($_POST['description']) and !empty($_POST['description'])) {

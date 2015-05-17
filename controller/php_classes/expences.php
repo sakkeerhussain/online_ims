@@ -50,9 +50,10 @@ class expences {
         return $expences;
     }
     function updateExpence(){
-        return $this->db_handler->update_model($this);
+        $result = $this->db_handler->update_model($this);
         $description = "Updating Expence (" . $this->to_string() . ")";
         Log::i($this->tag, $description);
+        return $result;
     }
     function deleteExpence(){
         $result = $this->db_handler->delete_model($this);

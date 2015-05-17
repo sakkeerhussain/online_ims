@@ -5,7 +5,7 @@ function get_form_html($form_id, $id) {
     ?>
     <div id="head_div" style="padding: 5px 0; background-color: #ECECEC;  color: #21ACD7;
          border-radius: 5px;margin-left: auto; text-align: center; ">
-        LAST 50 EXPENCES
+        LAST 50 BANK DEPOSITS
     </div>
     <div style="margin-top: 10px; background-color:transparent;padding-bottom: 30px;">
         <style>
@@ -41,6 +41,9 @@ function get_form_html($form_id, $id) {
                         <td>
                             AMOUNT
                         </td>
+                        <td>
+                            BANK
+                        </td>
                         <td style="">
                             DESCRIPTION
                         </td>
@@ -48,33 +51,43 @@ function get_form_html($form_id, $id) {
                 </thead>
                 <tbody style="padding-left: 3px; text-align: center; ">
                     <?php
-                    $expence = new expences();
+                    $bank_deposit = new bank_deposits();
                     $user = new user();
                     $user->id = $_SESSION['user_id'];
                     $user->getUser();
-                    $expences = $expence->getExpences($user->company_id);
+                    $bank_deposits = $bank_deposit->getBankDeposits($user->company_id);
                     $i = 0;
-                    if($expences==NULL || sizeof($expences)==0){
-                        echo '<tr><td colspan="8"> No Expence Found </td></tr>';
+                    if($bank_deposits==NULL || sizeof($bank_deposits)==0){
+                        echo '<tr><td colspan="8"> No Bank deposits Found </td></tr>';
                     } else{
-                    foreach ($expences as $expence) {
+                    foreach ($bank_deposits as $bank_deposit) {
                         ?>
-                        <tr id="<?php echo $expence->id; ?>"  onclick="select_row(this)" status="not_selected">
+                        <tr id="<?php echo $bank_deposit->id; ?>"  onclick="select_row(this)" status="not_selected">
                             <td style="text-align: center;">
                                 <?php echo ++$i; ?>
                             </td>
                             <td>
-                                <?php echo $expence->id; ?>
+                                <?php echo $bank_deposit->id; ?>
                             </td>
                             <?php 
-                                $date = date('d/m/Y',(strtotime($expence->created_at)+(5.5*60*60) ));
-                                $time = date('h:m a',(strtotime($expence->created_at)+(5.5*60*60) ));
+                                $date = date('d/m/Y',(strtotime($bank_deposit->deposited_at)+(5.5*60*60) ));
+                                $time = date('h:m a',(strtotime($bank_deposit->deposited_at)+(5.5*60*60) ));
                             ?>
                             <td>
                                 <?php  echo $date . ' - ' . $time; ?>
                             </td>
-                            <td id="amount"><?php echo number_format($expence->amount, 2, '.', ''); ?></td>
-                            <td id="description"><?php echo $expence->description; ?></td>
+                            <td id="amount"><?php echo number_format($bank_deposit->amount, 2, '.', ''); ?></td>
+                            <?php
+                            $bank = new bank();
+                            $bank->id = $bank_deposit->bank_id;
+                            $bank->getBank();
+                            ?>
+                            <td id="bank" bank_id="<?php echo $bank->id; ?>">
+                                <?php 
+                                    echo $bank->bank_name.' - '.$bank->branch.' - '.$bank->account_number; 
+                                ?>
+                            </td>
+                            <td id="description"><?php echo $bank_deposit->description; ?></td>
                         </tr>
                     <?php
                     }
@@ -110,17 +123,19 @@ function get_form_html($form_id, $id) {
             var amount = selected_row.find('td#amount').html();
             var id = selected_row.attr('id');
             var description = selected_row.find('td#description').html();
-            get_form(5,  ///expence create form
+            var bank_id = selected_row.find('td#bank').attr('bank_id');
+            get_form(4,  ///bank deposit create form
                 function (html, tools){
                     $('div#form-body').html(html);
                     $('div#content-body-action-tools').html(tools);
                     var form = $('div#form-body').find('form.action_form');
                     form.attr('operation', 'update');
-                    form.attr('expence_id', id);
+                    form.attr('bank_deposit_id', id);
                     form.find('input#amount').val(amount);
                     form.find('textarea#description').val(description);
+                    form.find('select#bank_account').val(bank_id);
                     form.find('input[type=submit]').val('UPDATE');
-                    $('div#head_div').html('ID : EXPENCE-'+id);
+                    $('div#head_div').html('ID : BANK DEPOSIT-'+id);
                     $('div#head_div').css('display', 'block');
                 },
                 function (message){
@@ -135,11 +150,11 @@ function get_form_html($form_id, $id) {
             var id = selected_row.attr('id');
             if(confirm('Are you sure you want to delete EXPENCE-'+id+' ?' )){
                 var data = {
-                    form_id : 31,
-                    expence_id : id
+                    form_id : 32,
+                    bank_deposit_id : id
                 }
                 delete_form_data(data, function(message) {
-                    get_form(31,
+                    get_form(32,
                         function(html, tools) {
                              $('div#form-body').html(html);
                              $('div#content-body-action-tools').html(tools);
