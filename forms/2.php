@@ -34,37 +34,20 @@ function get_form_html($form_id, $id) {
                     </td>
                     <td class="field"> 
                         <div class="parent">
-                            <input id="customer_id" onfocus="$(this).css('border', '0px')" list="customers" autocomplete="off" style="border: 0;"/>
-                            <datalist id="customers">
-                                <?php
-                                $user = new user();
-                                $user->id = $_SESSION['user_id'];
-                                $user->getUser();
-                                $customer_obj = new customer();
-                                $customers = array();
-                                $customers = $customer_obj->getCustomers($user->company_id);
-                                foreach ($customers as $customer) {
-                                    echo '<option id="' . $customer->id
-                                    . '" customer_name="' . $customer->customer_name
-                                    . '" value="' . $customer->customer_name . ' ( ID : ' . $customer->id . ')" >'
-                                    . $customer->customer_name . ' ( ID : ' . $customer->id . ')'
-                                    . '</option>';
-                                }
-                                ?>    
-                            </datalist>
+                            <input id="customer_id" onfocus="$(this).css('border', '0px')" list="customers" autocomplete="off" style="border: 0;" disabled/>
                         </div>
                     </td>
                 </tr>
-    <!--            <tr>
-                    <td class="field_name"> 
-                        <font>ITEM MRP </font>
+                <tr>
+                    <td class="field_name">                    
+                        <font>DATE &amp; TIME</font>
                     </td>
                     <td class="field"> 
-                        <div style="padding: 0px 12px;">
-                        <input type="number" id="mrp" required />
+                        <div class="parent">
+                            <input id="date_and_time" disabled autocomplete="off" style="border: 0;"/>
                         </div>
                     </td>
-                </tr>-->
+                </tr>
                 <tr>
                     <td colspan="2">
                         <style>
@@ -111,6 +94,9 @@ function get_form_html($form_id, $id) {
                                 <tbody style="padding-left: 3px;">
                                 <datalist id="items">
                                     <?php
+                                    $user = new user();
+                                    $user->id = $_SESSION['user_id'];
+                                    $user->getUser();
                                     $inv = new inventry();
                                     $invs = array();
                                     $invs = $inv->getInventryForSpecificCompany($user->company_id);
@@ -317,7 +303,7 @@ function get_form_html($form_id, $id) {
         }
    
         function add_sale_item() {
-            var row = '<tr  status="active" slno=""><td style="text-align: center;"></td><td>'
+            var row = '<tr  status="active" slno="" previous="false"><td style="text-align: center;"></td><td>'
                     + '<input type="text" onchange="update_item_details(this)"  oninput="update_item_details(this)" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
                     + '</td><td><input type="number" min="0" step="any" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>'
                     + '</td><td><input type="text"  value="0" min="0" required disabled onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>'
@@ -346,6 +332,9 @@ function get_form_html($form_id, $id) {
                        //alert(message);
                        var form = $('form.action_form');
                        form.find('input#customer_id').val(sale.customer);
+                       form.find('input#date_and_time').val(sale.date + ' - ' + sale.time);
+                       form.find('input#date_and_time').attr('date', sale.date);
+                       form.find('input#date_and_time').attr('time', sale.time);
                        form.find('input#customer_id').attr('disabled', 'true');
                        $('table#items_table tbody').empty();
                        var items = sale.items;
@@ -355,12 +344,14 @@ function get_form_html($form_id, $id) {
                             var item = items[i];
                             row.find('input#item').attr('disabled', 'disabled');
                             row.find('input#item').val(item.item_name);
+                            row.find('input#item').attr('item_id', item.item_id);
                             row.find('input#quantity').val(item.quantity);
                             row.find('input#quantity').attr('max', item.quantity);
                             row.find('input#rate').val(item.rate);
                             row.find('input#rate').attr('tax', item.tax_rate);
                             row.find('input#total').val(item.total);
                             row.find('input#total').attr('tax', item.tax);
+                            row.attr('previous', true);
                     } 
                     form.find('span#total').html(sale.amount);
                     form.find('span#total').attr('tax', sale.tax);
@@ -393,13 +384,17 @@ function get_form_html($form_id, $id) {
                         var item_input = $(this).find('input#item');
                         var item_name = item_input.val();
                         var item_option_obj = $('datalist#items').find("option[value='" + item_name + "']");
-                        if (item_option_obj.length == "0") {
+                        if (item_option_obj.length == "0" && !$(this).attr('previous')) {
                             item_input.css('border', '1px solid #f00');
                             invalid_item_precent = true;
                             return;
                         } else {
-                            var id = item_option_obj.attr('id');
-                            var item_name = item_option_obj.attr('item_name');
+                            if($(this).attr('previous')){
+                                var id = item_input.attr('item_id');
+                            }else{
+                                var id = item_option_obj.attr('id');
+                                var item_name = item_option_obj.attr('item_name');
+                            }
                             var quantity = $(this).find('input#quantity').val();
                             quantity = parseFloat(quantity).toFixed(3);
                             var rate = $(this).find('input#rate').val();
@@ -439,6 +434,8 @@ function get_form_html($form_id, $id) {
                 var sale_id = $(this).attr('sale_id');
                 var customer_name = $(this).attr('customer_name');
                 var customer_id = $(this).attr('customer_id');
+                var date = $(this).find('input#date_and_time').attr('date');
+                var time = $(this).find('input#date_and_time').attr('time');
 
                 if(items.length == 0){
                     items = 'no_items';
@@ -455,7 +452,7 @@ function get_form_html($form_id, $id) {
                         update_form_data(data, function(message, sale_id) {
                             //$('form.action_form').get(0).reset();
                             //alert(message);
-                            print_bill(data, customer_name, customer_id, sale_id, total_paid, balance);
+                            print_bill(data, customer_name, customer_id, sale_id, total_paid, balance, date, time);
                             get_form(2,
                                 function(html) {
                                     $('div#form-body').html(html);
@@ -471,38 +468,26 @@ function get_form_html($form_id, $id) {
                     alert("Invalid Operation " + form_id + ' - ' + operation);
                 }
             });
-            function print_bill(data, customer_name, customer_id, sale_id, total_paid, balance) {
+            function print_bill(data, customer_name, customer_id, sale_id, total_paid, balance, date, time) {
                 var html = '';
                 html ='<img id="logo_bill" src="images/nutiez.png"/><br/><font id="print_container_header_company_adderss">Royal Piknik Traders LLP, 29/861</font>'
                         +'<br/><font id="print_container_header_company_adderss">Parayancheri, Calicut</font><br/><font id="print_container_header_company_adderss">'
-                        +'Phone : 0495 2741095,+91 9388627725</font><br/><font id="print_container_header_company_adderss">The kerala value added tax rules 2005/ form no. 8</font>';
+                        +'Phone : 0495 2741095,+91 9388627725</font><br/><font id="print_container_header_company_adderss">The kerala value added tax rules 2005/ form no. 8</font>'
+                        +'<br/><font id="print_container_header_company_adderss">Tin : 32110844692</font>'
+                        +'<br/><font id="print_container_header_company_adderss">True Copy</font>';
                 $('div#print_container_header').html(html);
-                html = '';
-                var d = new Date();
-                var date = d.getDate()+"/"+(parseInt(d.getMonth())+parseInt(1))+"/"+d.getFullYear();
-                var hour = d.getHours();
-                var am_or_pm;
-                if(hour<12){
-                    am_or_pm = "AM";
-                }else{                    
-                    am_or_pm = "PM";
-                }
-                if(hour==0){
-                    hour = 12;
-                }else if(hour>12){                    
-                    hour = parseInt(hour)-parseInt(12);
-                }                
-                var time = hour+":"+d.getMinutes()+" "+am_or_pm;
-                html = html + "<div<!-- style=\"padding:10px 0;\"><table style=\"float:right;\">"
+                
+                html = "<div<!-- style=\"padding:10px 0;\"><table style=\"float:right; font-size: 12px;\">"
                         +"<tr><td>Date</td><td>:</td><td style=\"text-align:right;\">" + date + "</td></tr>"
                         +"<tr><td>Time</td><td>:</td><td style=\"text-align:right;\">" + time + "</td></tr></table>";
                 
-                html = html + "<table>"
+                html = html + "<table style=\"font-size: 12px;\">"
                         +"<tr><td>Bill No.</td><td>:</td><td>" + sale_id + "</td></tr>"
                         +"<tr><td>Cust. ID</td><td>:</td><td>" + customer_id + "</td></tr>"
                         +"<tr><td>Cust. Name</td><td>:</td><td>" + customer_name + "</td></tr></table></div>";
                 
-                html = html + "<div style=\"border-top:1px dashed #000; margin:10px auto 0 auto;padding:0 0 10px 0;\"><table style=\"width:100%;\"><tr style=\"border-bottom: 1px solid #000; border-top: 1px solid #000;\">"
+                html = html + "<div style=\"border-top:1px dashed #000; margin:10px auto 0 auto;padding:0 0 10px 0;\">"
+                        + "<table style=\"width:100%;font-size: 12px;\"><tr style=\"border-bottom: 1px solid #000; border-top: 1px solid #000;\">"
                         + "<td style=\"width:45%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px;\">Description</td>"
                         + "<td style=\"width:17%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Qty</td>"
                         + "<td style=\"width:17%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Rate</td>"
@@ -516,16 +501,16 @@ function get_form_html($form_id, $id) {
                     for (var key in data.items) {
                         var item = data.items[key];
                         html = html + "<tr><td>" + item.item_name + "</td>"
-                                +"<td style=\"text-align:right;\">" + item.quantity + "</td>"
-                                +"<td style=\"text-align:right;\">" + item.rate + "</td>"
+                                +"<td style=\"text-align:right;\">" + parseFloat(item.quantity).toFixed(3) + "</td>"
+                                +"<td style=\"text-align:right;\">" + parseFloat(item.rate).toFixed(2) + "</td>"
                                 //+"<td style=\"text-align:right;\">" + (parseFloat(item.total) - parseFloat(item.tax)) + "</td>"
     //                            +"<td style=\"text-align:right;\">" + item.tax + "</td>"
-                                +"<td style=\"text-align:right;\">" + item.total + "</td>"
+                                +"<td style=\"text-align:right;\">" + parseFloat(item.total).toFixed(2) + "</td>"
                                 +"</tr>";
                     }
                 }
                 html = html + "</table></div>";
-                html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table style=\"margin-left: auto;\">";
+                html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table style=\"margin-left: auto;font-size: 12px;\">";
                 html = html + "<tr><td>Net. Amount</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.net_amount + "</td></tr>";
                 html = html + "<tr><td>Tax</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.tax_amount + "</td></tr>";
                 html = html + "<tr><td>Total</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.total + "</td></tr>";

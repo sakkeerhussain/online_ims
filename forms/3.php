@@ -328,20 +328,23 @@ function get_form_html($form_id, $id) {
                 var html = '';
                 html ='<img id="logo_bill" src="images/nutiez.png"/><br/><font id="print_container_header_company_adderss">Royal Piknik Traders LLP, 29/861</font>'
                         +'<br/><font id="print_container_header_company_adderss">Parayancheri, Calicut</font><br/><font id="print_container_header_company_adderss">'
-                        +'Phone : 0495 2741095,+91 9388627725</font><br/><font id="print_container_header_company_adderss">The kerala value added tax rules 2005/ form no. 8</font>';
+                        +'Phone : 0495 2741095,+91 9388627725</font><br/><font id="print_container_header_company_adderss">The kerala value added tax rules 2005/ form no. 8</font>'
+                        +'<br/><font id="print_container_header_company_adderss">Tin : 32110844692</font>'
+                        +'<br/><font id="print_container_header_company_adderss">True Copy</font>';
                 $('div#print_container_header').html(html);
                 html = '';
    
-                html = html + "<div<!-- style=\"padding:10px 0;\"><table style=\"float:right;\">"
+                html = html + "<div<!-- style=\"padding:10px 0;\"><table style=\"float:right; font-size: 12px;\">"
                         +"<tr><td>Date</td><td>:</td><td style=\"text-align:right;\">" + data.date + "</td></tr>"
                         +"<tr><td>Time</td><td>:</td><td style=\"text-align:right;\">" + data.time + "</td></tr></table>";
                 
-                html = html + "<table>"
+                html = html + "<table style=\"font-size: 12px;\">"
                         +"<tr><td>Bill No.</td><td>:</td><td>" + sale_id + "</td></tr>"
                         +"<tr><td>Cust. ID</td><td>:</td><td>" + data.customer_id + "</td></tr>"
                         +"<tr><td>Cust. Name</td><td>:</td><td>" + customer_name + "</td></tr></table></div>";
                 
-                html = html + "<div style=\"border-top:1px dashed #000; margin:10px auto 0 auto;padding:0 0 10px 0;\"><table style=\"width:100%;\"><tr style=\"border-bottom: 1px solid #000; border-top: 1px solid #000;\">"
+                html = html + "<div style=\"border-top:1px dashed #000; margin:10px auto 0 auto;padding:0 0 10px 0;\">"
+                        + "<table style=\"width:100%;font-size: 12px;\"><tr style=\"border-bottom: 1px solid #000; border-top: 1px solid #000;\">"
                         + "<td style=\"width:45%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px;\">Description</td>"
                         + "<td style=\"width:17%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Qty</td>"
                         + "<td style=\"width:17%; border-bottom:1px dashed #000; padding-bottom:5px; margin-bottom:5px; text-align:right;\">Rate</td>"
@@ -352,15 +355,15 @@ function get_form_html($form_id, $id) {
                 for (var key in data.items) {
                     var item = data.items[key];
                     html = html + "<tr><td>" + item.item_name + "</td>"
-                            +"<td style=\"text-align:right;\">" + item.quantity + "</td>"
-                            +"<td style=\"text-align:right;\">" + item.rate + "</td>"
+                            +"<td style=\"text-align:right;\">" + parseFloat(item.quantity).toFixed(3) + "</td>"
+                            +"<td style=\"text-align:right;\">" + parseFloat(item.rate).toFixed(2) + "</td>"
                             //+"<td style=\"text-align:right;\">" + (parseFloat(item.total) - parseFloat(item.tax)) + "</td>"
 //                            +"<td style=\"text-align:right;\">" + item.tax + "</td>"
-                            +"<td style=\"text-align:right;\">" + item.total + "</td>"
+                            +"<td style=\"text-align:right;\">" + parseFloat(item.total).toFixed(2) + "</td>"
                             +"</tr>";
                 }
                 html = html + "</table></div>";
-                html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table style=\"margin-left: auto;\">";
+                html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table style=\"margin-left: auto;font-size: 12px;\">";
                 html = html + "<tr><td>Net. Amount</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.net_amount + "</td></tr>";
                 html = html + "<tr><td>Tax</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.tax_amount + "</td></tr>";
                 html = html + "<tr style=\"font-size:18px;\"><td><b>Total</b></td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\"><b>" + data.total + "</b></td></tr>";

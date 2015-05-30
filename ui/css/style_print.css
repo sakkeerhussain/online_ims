@@ -18,30 +18,30 @@ div#print_container{
     width: -moz-calc(100% - 20px);
     margin: 0;
     float: none;
-    padding: 10px;
+    padding: 5px;
     background-image: url(../images/bill_bg.png);
 }
 div#print_container_header{
     text-align: center;
 }
 div#print_container_body{
-    margin: 10px auto 0 auto;
+    margin: 2px auto 0 auto;
 }
 div#print_container_footer{
     text-align: center;
-    margin-top: 20px;
+    margin-top: -5px;
 }
 div#print_container_footer font{
-    font-size: 18px;
+    font-size: 14px;
 }
 font{
     color: #000;
 }
 font#print_container_header_company_adderss{
-    font-size: 14px;
+    font-size: 12px;
 }
 img#logo_bill{
     width: 200px;
-    height: 60px;
+    height: 40px;
     margin: 0 auto;
 }
