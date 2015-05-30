@@ -129,8 +129,19 @@ class sales {
         return $sales;
     }
 
-    function getLastWeeksSales($company_id) {
-        $sales = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . ' and `sale_at` >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) ORDER BY `id` DESC');
+    function getLastThreeDaysSales($company_id) {
+        $sales = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . ' and `sale_at` >= DATE_SUB(CURDATE(), INTERVAL 2 DAY) ORDER BY `id` DESC');
+        if (is_array($sales) and count($sales) != 0) {
+            foreach ($sales as $sale) {
+                $sale_item = new sales_items();
+                $sale->sales_items = $sale_item->getSaleItems($sale->id);
+            }
+        }
+        return $sales;
+    }
+
+    function getSalesOfADay($company_id, $date) {
+        $sales = $this->db_handler->get_model_list($this, '`company_id` = ' . $company_id . ' and DATE(`sale_at`) = \''.$date.'\' ORDER BY `id` DESC');
         if (is_array($sales) and count($sales) != 0) {
             foreach ($sales as $sale) {
                 $sale_item = new sales_items();

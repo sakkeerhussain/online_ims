@@ -95,7 +95,7 @@ function get_form_html($form_id, $id) {
                             </td>
                             <?php 
                                 $date = date('d/m/Y',(strtotime($purchace->created_at)+(5.5*60*60) ));
-                                $time = date('h:m a',(strtotime($purchace->created_at)+(5.5*60*60) ));
+                                $time = date('h:m A',(strtotime($purchace->created_at)+(5.5*60*60) ));
                             ?>
                             <td id="date" date="<?php  echo $date ?>">
                                 <?php  echo $date . ' - ' . $time; ?>

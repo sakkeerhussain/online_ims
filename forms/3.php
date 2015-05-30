@@ -5,7 +5,7 @@ function get_form_html($form_id, $id) {
     ?>
     <div id="head_div" style="padding: 5px 0; background-color: #ECECEC;  color: #21ACD7;
          border-radius: 5px;margin-left: auto; text-align: center; ">
-        SALES OF LAST 7 DAYS
+        SALES OF LAST 3 DAYS
     </div>
     <div style="margin-top: 10px; background-color:transparent;padding-bottom: 30px;">
         <style>
@@ -48,7 +48,7 @@ function get_form_html($form_id, $id) {
                             ID
                         </th>
                         <th>
-                            DATE AND TIME
+                            DATE &amp; TIME
                         </th>
                         <th>
                             CUSTOMER
@@ -73,7 +73,7 @@ function get_form_html($form_id, $id) {
                     $user = new user();
                     $user->id = $_SESSION['user_id'];
                     $user->getUser();
-                    $sales = $sale_obj->getLastWeeksSales($user->company_id);
+                    $sales = $sale_obj->getLastThreeDaysSales($user->company_id);
                     $i = 0;
                     if($sales==NULL || sizeof($sales)==0){
                         echo '<tr><td colspan="8"> No Sales Found </td></tr>';
@@ -87,8 +87,12 @@ function get_form_html($form_id, $id) {
                             <td>
                                 <?php echo $sale->id; ?>
                             </td>
-                            <td>
-                                <?php echo $sale->sale_at; ?>
+                            <?php 
+                                $date = date('d/m/Y',(strtotime($sale->sale_at)+(5.5*60*60) ));
+                                $time = date('h:m A',(strtotime($sale->sale_at)+(5.5*60*60) ));
+                            ?>
+                            <td id="date" date="<?php  echo $date ?>" time="<?php  echo $time ?>">
+                                <?php  echo $date . ' - ' . $time; ?>
                             </td>
                             <?php 
                                 $customer = new customer();
@@ -307,12 +311,16 @@ function get_form_html($form_id, $id) {
              var net_total = selected_row.find('td#net_amount').html();
              net_total = parseFloat(net_total);
              net_total = net_total.toFixed(2);
+             var date = selected_row.find('td#date').attr('date');
+             var time = selected_row.find('td#date').attr('time');
              var data = {
                   customer_id: c_id,
                   total: total,
                   net_amount: net_total,
                   tax_amount: total_tax,
-                  items: items
+                  items: items,
+                  date: date,
+                  time: time
              }
              print_bill(data, c_name, sale_id);
         }
@@ -323,28 +331,10 @@ function get_form_html($form_id, $id) {
                         +'Phone : 0495 2741095,+91 9388627725</font><br/><font id="print_container_header_company_adderss">The kerala value added tax rules 2005/ form no. 8</font>';
                 $('div#print_container_header').html(html);
                 html = '';
-                var d = new Date();
-                var date = d.getDate()+"/"+(parseInt(d.getMonth())+parseInt(1))+"/"+d.getFullYear();
-                var hour = d.getHours();
-                var am_or_pm;
-                if(hour<12){
-                    am_or_pm = "AM";
-                }else{                    
-                    am_or_pm = "PM";
-                }
-                if(hour==0){
-                    hour = 12;
-                }else if(hour>12){                    
-                    hour = parseInt(hour)-parseInt(12);
-                }              
-                var minut = d.getMinutes();
-                if(minut<10){
-                    minut = "0"+minut;
-                }
-                var time = hour+":"+minut+" "+am_or_pm;
+   
                 html = html + "<div<!-- style=\"padding:10px 0;\"><table style=\"float:right;\">"
-                        +"<tr><td>Date</td><td>:</td><td style=\"text-align:right;\">" + date + "</td></tr>"
-                        +"<tr><td>Time</td><td>:</td><td style=\"text-align:right;\">" + time + "</td></tr></table>";
+                        +"<tr><td>Date</td><td>:</td><td style=\"text-align:right;\">" + data.date + "</td></tr>"
+                        +"<tr><td>Time</td><td>:</td><td style=\"text-align:right;\">" + data.time + "</td></tr></table>";
                 
                 html = html + "<table>"
                         +"<tr><td>Bill No.</td><td>:</td><td>" + sale_id + "</td></tr>"
