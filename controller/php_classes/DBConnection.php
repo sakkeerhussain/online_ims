@@ -155,6 +155,25 @@ class DBConnection {
         }
     }
 
+    function get_model_count($model, $conditions = null) {
+        $table_name = get_class($model);
+        $query = 'SELECT count(*) as `count` FROM `:table_name`';
+        $query = str_replace(':table_name', $table_name, $query);
+        if ($conditions != NULL) {
+            $query = $query . ' WHERE ' . $conditions;
+        }
+        $result = $this->executeQuery($query);
+        if ($result) {
+            if ($row = mysql_fetch_assoc($result)) {
+                return $row['count'];
+            } else {
+                return FALSE;
+            }
+        } else {
+            return FALSE;
+        }
+    }
+
     function get_model_list_from_query($query, $table_name) {
         $array = array();
         $result = $this->executeQuery($query);

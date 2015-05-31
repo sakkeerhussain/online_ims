@@ -18,6 +18,7 @@ spl_autoload_register(function($class_name) {
         <link rel="stylesheet" type="text/css" media="screen" href="css/style_screen.css" />
         <link rel="stylesheet" type="text/css" media="print" href="css/style_print.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.datepick.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="css/style_pagination.css" />
         <script type="application/javascript" src="js/jquery-1.11.1.min.js"></script>
         <script type="application/javascript" src="js/jquery.datepick.js"></script>
         <script type="application/javascript" src="js/ajax.js" ></script>

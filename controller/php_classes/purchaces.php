@@ -129,8 +129,8 @@ class purchaces {
         return $purchaces;
     }
 
-    function getPurchacesDESC($company_id) {
-        $purchaces = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . ' ORDER BY `id` DESC LIMIT 50');
+    function getPurchacesDESC($company_id, $start, $limit) {
+        $purchaces = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . " ORDER BY `id` DESC LIMIT  $start,$limit");
         foreach ($purchaces as $purchace) {
             $purchace_item = new purchace_items();
             $purchace->purchace_items = $purchace_item->getPurchace_items($purchace->id);
@@ -161,9 +161,23 @@ class purchaces {
         }
     }
 
+    function getPurchacesCount($company_id) {
+        $purchaces_count = $this->db_handler->get_model_count($this, 'company_id = ' . $company_id );
+        return $purchaces_count;
+    }
+
 }
 
-//
+//registering for class auto loading
+//spl_autoload_register(function($class_name) {
+//    $controller_root = $_SERVER['DOCUMENT_ROOT'] . '/piknik_ims/controller';
+//    if (file_exists($controller_root . '/php_classes/' . $class_name . '.php')) {
+//        $file_name = $controller_root . '/php_classes/' . $class_name . '.php';
+//        require_once $file_name;
+//    } else {
+//        throw new Exception("Class " . $class_name . " Not found");
+//    }
+//});
 //$p = new Purchaces();
 //$p->id = 4;
 ////$p->amount = 300;
@@ -178,3 +192,4 @@ class purchaces {
 ////$p->addPurchace();
 //$p->getPurchace();
 //print_r($p);
+//echo $p->getPurchacesCount(1);

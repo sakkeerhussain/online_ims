@@ -1,0 +1,31 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : May 31, 2015, 9:12:43 AM
+    Author     : Sakkeer Hussain
+*/
+
+.pagination{
+    margin:0px auto;
+}
+.pagination .current{
+    padding: 4px 10px;
+    color: #21ACD7;
+    margin: 1px 0px 9px 6px;
+    cursor: pointer;
+    display: inline;
+    text-transform: capitalize;
+    background: whitesmoke;
+}
+.pagination .page-numbers{
+    padding: 4px 10px;
+    color: white !important;
+    margin: 1px 0px 9px 6px;
+    cursor: pointer;
+    display: inline;
+    text-transform: capitalize;
+    background: #21ACD7;
+}
