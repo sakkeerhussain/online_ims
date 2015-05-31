@@ -1,14 +1,23 @@
 <?php
 
-function get_form_html($form_id, $id) {
+function get_form_html($form_id, $id, $page, $limit, $adjacents) {
     ob_start();
+    $customer = new customer();
+    $user = new user();
+    $user->id = $_SESSION['user_id'];
+    $user->getUser();
+    $count = $customer->getCustomersCount($user->company_id);
+    if ($page == 1) {
+        $start = 0;
+        $head_message = "LAST $limit CUSTOMERS";
+    } else {
+        $start = ($page - 1) * $limit;
+        $head_message = "CUSTOMERS $start TO ".($start + $limit);
+    }
     ?>
-    <div style="height: 150px; 
-         width: 320px; background-color: #ECECEC; 
-         border-radius: 5px;margin-left: auto;display: none; ">
-
-
-
+    <div id="head_div" style="padding: 5px 0; background-color: #ECECEC;  color: #21ACD7;
+         border-radius: 5px;margin-left: auto; text-align: center; ">
+        <?php echo $head_message; ?>
     </div>
     <div style="margin-top: 10px; background-color:transparent;padding-bottom: 30px;">
         <style>
@@ -27,6 +36,12 @@ function get_form_html($form_id, $id) {
                 background-color: transparent;
             }
         </style>
+        
+        <div style="padding: 10px 0; background-color: transparent; 
+             border-radius: 5px;margin-left: auto; text-align: center;overflow-x: auto; ">
+             <?php echo pagination($limit, $adjacents, $count, $page); ?>
+        </div>
+        
         <div id="purchace_items" style="width: 100%; padding: 10px 0; color: #21ACD7;">           
             <table id="items_table" style="border-collapse: collapse; width: 100%; 
                    background-color: #fff; border-radius: 10px;  color: #21ACD7;">
@@ -51,12 +66,8 @@ function get_form_html($form_id, $id) {
                 </thead>
                 <tbody style="padding-left: 3px; text-align: center; ">
                     <?php
-                    $customer = new customer();
-                    $user = new user();
-                    $user->id = $_SESSION['user_id'];
-                    $user->getUser();
-                    $customers = $customer->getCustomers($user->company_id);
-                    $i = 0;
+                    $customers = $customer->getCustomers($user->company_id, $start, $limit);
+                    $i = $start;
                     if($customers==NULL || sizeof($customers)==0){
                         echo '<tr><td colspan="8"> No Customer Found </td></tr>';
                     } else{
@@ -82,6 +93,12 @@ function get_form_html($form_id, $id) {
                 </tbody>                               
             </table>
         </div>
+        
+        <div style="padding: 10px 0; background-color: transparent; 
+             border-radius: 5px;margin-left: auto; text-align: center;overflow-x: auto; ">
+             <?php echo pagination($limit, $adjacents, $count, $page); ?>
+        </div>
+        
     </div>
     <script type="text/javascript">
         function select_row(row) {
@@ -153,6 +170,26 @@ function get_form_html($form_id, $id) {
                 });
             }
         }
+        
+        function set_pagination_listener(){          
+            $('.pagination').on('click','.page-numbers',function(e){
+                e.preventDefault();
+                var page = $(this).attr('page');
+                var id = 0;
+                get_form(21,
+                    function(html, tools) {
+                        $('div#form-body').html(html);
+                        $('div#content-body-action-tools').html(tools);
+                    }, function(message) {
+                        $('font#section_heading').empty();
+                        alert(message);
+                    },id
+                    ,page
+                );
+                return false;
+             }); 
+        }
+        set_pagination_listener();
     </script>
 
     <?php

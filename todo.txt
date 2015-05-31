@@ -1,4 +1,3 @@
-1. pagination on form 31 expences list
-2. pagination on form 21
+2. pagination on form 21 customers list
 3. pagination on form 9
 10. 

@@ -42,7 +42,6 @@ function get_form_html($form_id, $id, $page, $limit, $adjacents) {
              <?php echo pagination($limit, $adjacents, $count, $page); ?>
         </div>
         
-        
         <div id="purchace_items" style="width: 100%; padding: 10px 0; color: #21ACD7;">           
             <table id="items_table" style="border-collapse: collapse; width: 100%; 
                    background-color: #fff; border-radius: 10px;  color: #21ACD7;">

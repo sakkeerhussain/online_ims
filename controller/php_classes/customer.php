@@ -56,7 +56,11 @@ class customer {
         Log::i($this->tag, $description);
         return $result;
     }
-    function getCustomers($company_id){
-        return $this->db_handler->get_model_list($this,  'company_id = '.$company_id);
+    function getCustomers($company_id, $start, $limit){
+        return $this->db_handler->get_model_list($this,  'company_id = '.$company_id . " ORDER BY `id` DESC LIMIT  $start,$limit");
+    }
+    function getCustomersCount($company_id){
+        $customers_count = $this->db_handler->get_model_count($this, 'company_id = ' . $company_id );
+        return $customers_count;
     }
 }
