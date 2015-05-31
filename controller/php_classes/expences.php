@@ -45,8 +45,8 @@ class expences {
     function getExpence(){
         return $this->db_handler->get_model($this,  $this->id);
     }
-    function getExpences($company_id){
-        $expences = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . ' ORDER BY `id` DESC LIMIT 50');
+    function getExpences($company_id, $start, $limit){
+        $expences = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . " ORDER BY `id` DESC LIMIT  $start,$limit");
         return $expences;
     }
     function updateExpence(){
@@ -74,5 +74,10 @@ class expences {
         } else {
             return FALSE;
         }
+    }
+
+    function getExpencesCount($company_id) {
+        $expences_count = $this->db_handler->get_model_count($this, 'company_id = ' . $company_id );
+        return $expences_count;
     }
 }
