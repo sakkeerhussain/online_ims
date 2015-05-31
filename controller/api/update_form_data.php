@@ -71,7 +71,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         $inv = $invs[0];  
                         $inv->in_stock_count = $inv->in_stock_count - $qty; 
                         $inv->updateInventry();
-                        $description = "Updating inventry (sales return - new item) diff : ".$qty.", inventry : ".$inv->to_string();
+                        $description = "Updating inventry (sales return - new item) qty : ".$qty.", inventry : ".$inv->to_string();
                         Log::i($tag, $description);
                     }
                 }

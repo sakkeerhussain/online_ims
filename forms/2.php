@@ -389,11 +389,12 @@ function get_form_html($form_id, $id) {
                             invalid_item_precent = true;
                             return;
                         } else {
-                            if($(this).attr('previous')){
-                                var id = item_input.attr('item_id');
+                            var id;
+                            if($(this).attr('previous') == 'true'){
+                                id = item_input.attr('item_id');
                             }else{
-                                var id = item_option_obj.attr('id');
-                                var item_name = item_option_obj.attr('item_name');
+                                id = item_option_obj.attr('id');
+                                //var item_name = item_option_obj.attr('item_name');
                             }
                             var quantity = $(this).find('input#quantity').val();
                             quantity = parseFloat(quantity).toFixed(3);

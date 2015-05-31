@@ -156,9 +156,13 @@ function get_form_html($form_id, $id) {
                                         $item->id = $s_item->item_id;
                                         $item->getItem();
                                         ?>
-                                            <td id="item" item_name="<?php echo $item->item_name; ?>"><?php
-                                                echo $item->item_name . ' - ' . $item->item_code;
-                                            ?></td>
+                                            <td id="item" 
+                                                item_name="<?php echo $item->item_name . ' - ' . $item->item_code; ?>"
+                                                item_id="<?php echo $item->id; ?>">
+                                                    <?php
+                                                        echo $item->item_name . ' - ' . $item->item_code;
+                                                    ?>
+                                            </td>
                                             <td id="quantity" val="<?php echo $s_item->quantity; ?>">
                                                 <?php echo number_format($s_item->quantity, 3, '.',''); ?>
                                             </td>
@@ -206,7 +210,8 @@ function get_form_html($form_id, $id) {
             var items = new Array();
             var i = 0;
             sale_items.each(function() {
-                var item_name = $(this).find('td#item').html();
+                var item_name = $(this).find('td#item').attr('item_name');
+                var item_id = $(this).find('td#item').attr('item_id');
                 var id = $(this).attr('id');
                 var quantity = $(this).find('td#quantity').attr('val');
                 quantity = parseFloat(quantity).toFixed(3);
@@ -220,6 +225,7 @@ function get_form_html($form_id, $id) {
                      quantity: quantity,
                      rate: rate,
                      item_name: item_name,
+                     item_id: item_id,
                      total: total,
                      tax_rate: tax_rate,
                      tax: tax
@@ -232,6 +238,8 @@ function get_form_html($form_id, $id) {
              var total = selected_row.find('td#total').html();
              total = parseFloat(total).toFixed(2);
              var total_tax = selected_row.find('td#tax').html();
+             var date = selected_row.find('td#date').attr('date');
+             var time = selected_row.find('td#date').attr('time');
              var net_total = selected_row.find('td#net_amount').html();
              get_form(2,  ///sales return invoice
                 function (html, tools){
@@ -242,6 +250,9 @@ function get_form_html($form_id, $id) {
                     form.attr('operation', 'update');
                     form.find('input#customer_id').val(c_name+' ( ID : '+c_id+' )');
                     form.find('input#customer_id').attr('disabled', 'true');
+                    form.find('input#date_and_time').val(date + ' - ' + time);
+                    form.find('input#date_and_time').attr('date', date);
+                    form.find('input#date_and_time').attr('time', time);
                     $('table#items_table tbody').empty();
                     for(var i = 0; i<items.length; i++){
                         add_sale_item();
@@ -249,12 +260,14 @@ function get_form_html($form_id, $id) {
                         var item = items[i];
                         row.find('input#item').attr('disabled', 'disabled');
                         row.find('input#item').val(item.item_name);
+                        row.find('input#item').attr('item_id', item.item_id);
                         row.find('input#quantity').val(item.quantity);
                         row.find('input#quantity').attr('max', item.quantity);
                         row.find('input#rate').val(item.rate);
                         row.find('input#rate').attr('tax', item.tax_rate);
                         row.find('input#total').val(item.total);
                         row.find('input#total').attr('tax', item.tax);
+                        row.attr('previous', true);
                     } 
                     form.find('span#total').html(total);
                     form.find('span#total').attr('tax', total_tax);
