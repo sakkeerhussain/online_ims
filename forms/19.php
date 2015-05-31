@@ -91,7 +91,7 @@ function get_form_html($form_id, $id, $page, $limit, $adjacents) {
                 <tbody style="padding-left: 3px; text-align: center; ">
                     <?php
                     $purchaces = $purchace_obj->getPurchacesDESC($user->company_id, $start, $limit);
-                    $i = 0;
+                    $i = $start;
                     if ($purchaces == NULL || sizeof($purchaces) == 0) {
                         echo '<tr><td colspan="8"> No Purchace Found </td></tr>';
                     } else {
