@@ -22,6 +22,7 @@ spl_autoload_register(function($class_name) {
         <script type="application/javascript" src="js/jquery.datepick.js"></script>
         <script type="application/javascript" src="js/ajax.js" ></script>
         <script type="application/javascript" src="js/event_handler.js" ></script>
+        <link rel="icon" type="image/png" href="../favicon.png" />
     </head>
 
     <body>
