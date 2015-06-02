@@ -82,11 +82,11 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                                 $item = new item();
                                 $item->id = $p_item->item_id;
                                 $item->getItem();
-                                $p_item_array=array("item_name"=>$item->item_name.' - '.$item->item_code.' ( ID : '.$item->id.' )' , "quantity"=>$p_item->quantity, "rate"=>$p_item->rate);
+                                $p_item_array=array("item_name"=>$item->item_name.' - '.$item->item_code.' ( ID : '.$item->id.' )' , "quantity"=> number_format($p_item->quantity, 3, '.', ''), "rate"=>number_format($p_item->rate, 2, '.', ''));
                                 array_push($items, $p_item_array);
                             }
                         }
-                        $purchace_array = array("id"=>$purchace->id,"wendor"=>$vendor_name, "stocked"=>$purchace->stocked, "amount"=>$purchace->amount, "bill_number"=>$purchace->bill_number, "items"=>$items);
+                        $purchace_array = array("id"=>$purchace->id,"wendor"=>$vendor_name, "stocked"=>$purchace->stocked, "amount"=>  number_format($purchace->amount, 2, '.', ''), "bill_number"=>$purchace->bill_number, "items"=>$items);
                         $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "data"=>$purchace_array));
                     } else {
                         $responce = array('status' => 'failed', 'error' => 'The Purchace is of another shop', 'data' => array());
