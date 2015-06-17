@@ -173,9 +173,11 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
         }else if ($form_id == 11) { //item form
             if (isset($_POST['item_code']) and !empty($_POST['item_code']) 
                     and isset($_POST['item_name']) and !empty($_POST['item_name']) 
-                    and isset($_POST['mrp']) and !empty($_POST['mrp']) 
+                    and isset($_POST['mrp']) // and !empty($_POST['mrp']) 
                     and isset($_POST['tax_category_id']) and !empty($_POST['tax_category_id']) 
-                    and isset($_POST['purchace_rate']) and !empty($_POST['purchace_rate'])) {
+                    and isset($_POST['purchace_rate']) // and !empty($_POST['purchace_rate'])
+                    and isset($_POST['discount_percent']) // and !empty($_POST['discount_percent'])
+                    ) {
 
                 $item = new item();
                 $item->item_code = $_POST['item_code'];
@@ -183,6 +185,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $item->mrp = $_POST['mrp'];
                 $item->tax_category_id = $_POST['tax_category_id'];
                 $item->purchace_rate = $_POST['purchace_rate'];
+                $item->discount_percent = $_POST['discount_percent'];
                 if ($item->addItem()) {
                     $responce = array('status' => 'success', 'error' => '',
                         'data' => array('message' => 'Item Added successfully'));
