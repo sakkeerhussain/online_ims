@@ -54,6 +54,9 @@ function get_form_html($form_id, $id) {
                             CUSTOMER
                         </th>
                         <th style="">
+                            DISCOUNT
+                        </th>
+                        <th style="">
                             TAX
                         </th>
                         <th style="">
@@ -104,14 +107,17 @@ function get_form_html($form_id, $id) {
                                 echo $customer->customer_name. ' ( ID : '.$customer->id.' )';
                                 ?>
                             </td>
+                            <td id="discount">
+                                <?php echo number_format($sale->discount, 2, '.',''); ?>
+                            </td>
                             <td id="tax">
-                                <?php echo $sale->tax_amount; ?>
+                                <?php echo number_format($sale->tax_amount, 2, '.',''); ?>
                             </td>
                             <td id="net_amount">
-                                <?php echo $sale->net_amount; ?>
+                                <?php echo number_format($sale->net_amount, 2, '.',''); ?>
                             </td>
                             <td id="total">
-                                <?php echo $sale->amount; ?>
+                                <?php echo number_format($sale->amount, 2, '.',''); ?>
                             </td>
                             <td id="down_button" style="width: 20px;text-align: center; padding: 10px;">
                                 <img id="toggle_button" style="width: 20px; height: 20px; cursor: pointer;"
@@ -136,6 +142,9 @@ function get_form_html($form_id, $id) {
                                         </th>
                                         <th>
                                             NET. AMOUNT
+                                        </th>
+                                        <th>
+                                            DISCOUNT
                                         </th>
                                         <th>
                                             TAX
@@ -177,6 +186,9 @@ function get_form_html($form_id, $id) {
                                                 $tax_category->id = $item->tax_category_id;
                                                 $tax_category->getTaxCategory();
                                             ?>
+                                            <td id="discount" val="<?php echo $s_item->discount; ?>" discount_percent="<?php echo $item->discount_percent; ?>">
+                                                <?php echo number_format($s_item->discount, 2, '.',''); ?>
+                                            </td>
                                             <td id="tax" val="<?php echo $s_item->tax; ?>" tax_rate="<?php echo $tax_category->tax_percentage; ?>">
                                                 <?php echo number_format($s_item->tax, 2, '.',''); ?>
                                             </td>
@@ -219,6 +231,8 @@ function get_form_html($form_id, $id) {
                 rate = parseFloat(rate).toFixed(2);
                 var tax = $(this).find('td#tax').attr('val');
                 var tax_rate = $(this).find('td#tax').attr('tax_rate');
+                var discount = $(this).find('td#discount').attr('val');
+                var discount_percent = $(this).find('td#discount').attr('discount_percent');
                 var total = $(this).find('td#total').attr('val');
                 var item = {
                      id: id,
@@ -227,6 +241,8 @@ function get_form_html($form_id, $id) {
                      item_name: item_name,
                      item_id: item_id,
                      total: total,
+                     discount:discount,
+                     discount_percent:discount_percent,
                      tax_rate: tax_rate,
                      tax: tax
                 }
@@ -296,6 +312,7 @@ function get_form_html($form_id, $id) {
                 var quantity = $(this).find('td#quantity').attr('val');
                 var rate = $(this).find('td#rate').attr('val');
                 var tax = $(this).find('td#tax').attr('val');
+                var discount = $(this).find('td#discount').attr('val');
                 var total = $(this).find('td#total').attr('val');
                 total = parseFloat(total);
                 total = total.toFixed(2);
@@ -305,6 +322,7 @@ function get_form_html($form_id, $id) {
                      rate: rate,
                      item_name: item_name,
                      total: total,
+                     discount:discount,
                      tax: tax
                 }
                 items[i++] = item;
@@ -321,6 +339,9 @@ function get_form_html($form_id, $id) {
              var total_tax = selected_row.find('td#tax').html();
              total_tax = parseFloat(total_tax);
              total_tax = total_tax.toFixed(2);
+             var total_discount = selected_row.find('td#discount').html();
+             total_discount = parseFloat(total_discount);
+             total_discount = total_discount.toFixed(2);
              var net_total = selected_row.find('td#net_amount').html();
              net_total = parseFloat(net_total);
              net_total = net_total.toFixed(2);
@@ -331,6 +352,7 @@ function get_form_html($form_id, $id) {
                   total: total,
                   net_amount: net_total,
                   tax_amount: total_tax,
+                  discount:total_discount,
                   items: items,
                   date: date,
                   time: time
@@ -378,6 +400,7 @@ function get_form_html($form_id, $id) {
                 html = html + "</table></div>";
                 html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table style=\"margin-left: auto;font-size: 12px;\">";
                 html = html + "<tr><td>Net. Amount</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.net_amount + "</td></tr>";
+                html = html + "<tr><td>Discount</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.discount + "</td></tr>";
                 html = html + "<tr><td>Tax</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.tax_amount + "</td></tr>";
                 html = html + "<tr style=\"font-size:18px;\"><td><b>Total</b></td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\"><b>" + data.total + "</b></td></tr>";
                 html = html + "</table></div>";
