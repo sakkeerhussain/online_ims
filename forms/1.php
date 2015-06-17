@@ -239,7 +239,6 @@ function get_form_html($form_id, $id) {
             if ($.isNumeric($total)) {
                 var discount_percent = parseFloat($parent.find('input#rate').attr('discount_percent'));
                 var discount = ($total * discount_percent) / 100;
-                //$tax = $tax.toFixed(2);
                 if($.isNumeric(discount)){
                     $parent.find('input#total').attr('discount', discount);
                     $parent.find('input#discount').val(discount);
@@ -278,8 +277,12 @@ function get_form_html($form_id, $id) {
                 var item_discount = item_total_input.attr('discount');
                 if ($.isNumeric(item_total) && row_status == 'active') {
                     total = parseFloat(total) + parseFloat(item_total);
-                    total_tax = parseFloat(total_tax) + parseFloat(item_tax);
-                    total_discount = parseFloat(total_discount) + parseFloat(item_discount);
+                    if($.isNumeric(item_tax)){
+                        total_tax = parseFloat(total_tax) + parseFloat(item_tax);
+                    }
+                    if($.isNumeric(item_discount)){
+                        total_discount = parseFloat(total_discount) + parseFloat(item_discount);
+                    }
                 }
             });
             total = total.toFixed(2);

@@ -77,16 +77,19 @@ function get_form_html($form_id, $id) {
                                         <td>
                                             ITEM
                                         </td>
-                                        <td style="width: 17%;">
+                                        <td style="width: 13%;">
                                             QUANTITY
                                         </td>
-                                        <td style="width: 17%;">
+                                        <td style="width: 13%;">
                                             RATE
                                         </td>
-                                        <td style="width: 17%;">
+                                        <td style="width: 13%;">
+                                            DISCOUNT
+                                        </td>
+                                        <td style="width: 13%;">
                                             TOTAL
                                         </td>
-                                        <td style="width: 10%;">
+                                        <td style="width: 8%;">
                                             DELETE
                                         </td>
                                     </tr>
@@ -112,6 +115,7 @@ function get_form_html($form_id, $id) {
                                             . ' stock_count="' . $inv->in_stock_count . '"'
                                             . ' selling_pize="' . $inv->selling_prize . '"'
                                             . ' tax="' . $tax_category->tax_percentage . '"'
+                                            . ' discount_percent="' . $item->discount_percent . '"'
                                             . ' item_name="' . $item->item_name . '"'
                                             . ' value="' . $item->item_name . ' - ' . $item->item_code . '" >'
                                             . $item->item_name . ' - ' . $item->item_code 
@@ -128,8 +132,11 @@ function get_form_html($form_id, $id) {
                                         <input type="number" min="0" step="any" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>
                                     </td>
                                     <td>
-                                        <input type="text"  value="0" min="0" required disabled onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>
+                                        <input type="text" value="0" min="0" required disabled onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>
                                     </td>
+                                        <td>
+                                            <input type="text" value="0" min="0" required disabled id="discount"/>
+                                        </td>
                                     <td>
                                         <input type="text" min="0" required  id="total" disabled/>
                                     </td>
@@ -148,6 +155,9 @@ function get_form_html($form_id, $id) {
                                     <td>
                                         <input type="text"  value="0" min="0" required disabled onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>
                                     </td>
+                                        <td>
+                                            <input type="text" value="0" min="0" required disabled id="discount"/>
+                                        </td>
                                     <td>
                                         <input type="text" min="0" required  id="total" disabled/>
                                     </td>
@@ -226,9 +236,11 @@ function get_form_html($form_id, $id) {
                 var selling_prize = item_option_obj.attr('selling_pize');
                 var stock_count = item_option_obj.attr('stock_count');
                 var tax = item_option_obj.attr('tax');
+                var discount_percent = item_option_obj.attr('discount_percent');
                 var row = item_input.parent('td').parent('tr');
                 row.find('input#rate').val(selling_prize);
                 row.find('input#rate').attr('tax', tax);
+                row.find('input#rate').attr('discount_percent', discount_percent);
                 row.find('input#quantity').prop('max', stock_count);
                 calculate_total(row.find('input#rate').get(0));
             }
@@ -240,6 +252,16 @@ function get_form_html($form_id, $id) {
             var $total = $quantity * $rate;
             $total = $total.toFixed(2);
             if ($.isNumeric($total)) {
+                var discount_percent = parseFloat($parent.find('input#rate').attr('discount_percent'));
+                var discount = ($total * discount_percent) / 100;
+                if($.isNumeric(discount)){
+                    $parent.find('input#total').attr('discount', discount);
+                    $parent.find('input#discount').val(discount);
+                    $total = $total - discount;
+                }else{                    
+                    $parent.find('input#total').attr('discount', 0);
+                    $parent.find('input#discount').val(0);
+                }
                 $parent.find('input#total').val($total);
                 var $tax_percentage = parseFloat($parent.find('input#rate').attr('tax'));
                 var $tax = ($total * $tax_percentage) / (100 + $tax_percentage);
@@ -252,6 +274,8 @@ function get_form_html($form_id, $id) {
             } else {
                 $parent.find('input#total').val(0);
                 $parent.find('input#total').attr('tax', 0);
+                $parent.find('input#total').attr('discount', 0);
+                $parent.find('input#discount').val(0);
             }
             calculate_purchace_total();
         }
@@ -259,14 +283,21 @@ function get_form_html($form_id, $id) {
             var items_table = $('#items_table').find('tbody').children();
             var total = 0;
             var total_tax = 0;
+            var total_discount = 0;
             items_table.each(function() {
                 var item_total_input = $(this).find('input#total');
                 var row_status = $(this).attr('status');
                 var item_total = item_total_input.val();
                 var item_tax = item_total_input.attr('tax');
+                var item_discount = item_total_input.attr('discount');
                 if ($.isNumeric(item_total) && row_status == 'active') {
                     total = parseFloat(total) + parseFloat(item_total);
-                    total_tax = parseFloat(total_tax) + parseFloat(item_tax);
+                    if($.isNumeric(item_tax)){
+                        total_tax = parseFloat(total_tax) + parseFloat(item_tax);
+                    }
+                    if($.isNumeric(item_discount)){
+                        total_discount = parseFloat(total_discount) + parseFloat(item_discount);
+                    }
                 }
             });
             total = total.toFixed(2);
@@ -278,6 +309,8 @@ function get_form_html($form_id, $id) {
             var balance = total - paid;
             balance = balance.toFixed(2);
             $('span#balance').html(balance);
+            total_discount = total_discount.toFixed(2);
+            $('span#total').attr('discount', total_discount);            
         }
         function delete_this_row(delete_btn) {
             var row = $(delete_btn).closest('tr');
@@ -307,6 +340,7 @@ function get_form_html($form_id, $id) {
                     + '<input type="text" onchange="update_item_details(this)"  oninput="update_item_details(this)" onfocus="$(this).css(\'border\', \'0px\')" autocomplete="off" list="items" id="item" required />'
                     + '</td><td><input type="number" min="0" step="any" required onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="quantity"/>'
                     + '</td><td><input type="text"  value="0" min="0" required disabled onchange="calculate_total(this)" onkeyup="calculate_total(this)"  id="rate"/>'
+                    + '</td><td><input type="text" value="0" min="0" required disabled id="discount"/>'
                     + '</td><td><input type="text" min="0" required  id="total" disabled/></td><td style="width: 20px; text-align: center; padding-right: 5px;">'
                     + '<img id="delete_button" onclick="delete_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto;  margin-left: auto;" src="../ui/images/cross_button.png"/>'
                     + '<img id="activate_button" onclick="enable_this_row(this)" style="color: #f00; cursor: pointer; height: 20px; width: 20px; margin-right: auto; margin-left: auto; display: none;" src="../ui/images/tick_button.png" />'
@@ -401,6 +435,7 @@ function get_form_html($form_id, $id) {
                             var rate = $(this).find('input#rate').val();
                             rate = parseFloat(rate).toFixed(2);
                             var tax = $(this).find('input#total').attr('tax');
+                            var discount = $(this).find('input#total').attr('discount');
                             var total = $(this).find('input#total').val();
                             var item = {
                                 id: id,
@@ -408,7 +443,8 @@ function get_form_html($form_id, $id) {
                                 rate: rate,
                                 item_name: item_name,
                                 total: total,
-                                tax: tax
+                                tax: tax,
+                                discount: discount
                             }
                             items[i++] = item;
                         }
@@ -424,6 +460,7 @@ function get_form_html($form_id, $id) {
                 var operation = $(this).attr('operation');
                 var total = $('span#total').html();
                 var total_tax = $('span#total').attr('tax');
+                var total_discount = $('span#total').attr('discount');
                 var net_total = parseFloat(total) - parseFloat(total_tax);
                 net_total = net_total.toFixed(2);
                 var total_paid = $('span#total_paid').html();
@@ -448,6 +485,7 @@ function get_form_html($form_id, $id) {
                         total: total,
                         net_amount: net_total,
                         tax_amount: total_tax,
+                        discount:total_discount,
                         items: items
                     }
                         update_form_data(data, function(message, sale_id) {
@@ -513,6 +551,7 @@ function get_form_html($form_id, $id) {
                 html = html + "</table></div>";
                 html = html + "<div style=\"border-top:1px dashed #000; padding:10px 0;\"><table style=\"margin-left: auto;font-size: 12px;\">";
                 html = html + "<tr><td>Net. Amount</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.net_amount + "</td></tr>";
+                html = html + "<tr><td>Discount</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.discount + "</td></tr>";
                 html = html + "<tr><td>Tax</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.tax_amount + "</td></tr>";
                 html = html + "<tr><td>Total</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + data.total + "</td></tr>";
                 html = html + "<tr><td>Paid</td><td style=\"margin:0 15;\">:</td><td style=\"text-align:right;\">" + total_paid + "</td></tr>";
