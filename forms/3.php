@@ -254,6 +254,7 @@ function get_form_html($form_id, $id) {
              var total = selected_row.find('td#total').html();
              total = parseFloat(total).toFixed(2);
              var total_tax = selected_row.find('td#tax').html();
+             var total_discount = selected_row.find('td#discount').html();
              var date = selected_row.find('td#date').attr('date');
              var time = selected_row.find('td#date').attr('time');
              var net_total = selected_row.find('td#net_amount').html();
@@ -281,12 +282,16 @@ function get_form_html($form_id, $id) {
                         row.find('input#quantity').attr('max', item.quantity);
                         row.find('input#rate').val(item.rate);
                         row.find('input#rate').attr('tax', item.tax_rate);
+                        row.find('input#rate').attr('discount_percent', item.discount_percent);
                         row.find('input#total').val(item.total);
                         row.find('input#total').attr('tax', item.tax);
+                        row.find('input#total').attr('discount', item.discount);
+                        row.find('input#discount').val(item.discount);
                         row.attr('previous', true);
                     } 
                     form.find('span#total').html(total);
                     form.find('span#total').attr('tax', total_tax);
+                    form.find('span#total').attr('discount', total_discount);
                     form.find('span#total_paid').html(total);
                     form.find('span#balance').html('0.00');
                     form.attr('sale_id', sale_id);
