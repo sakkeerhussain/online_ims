@@ -19,14 +19,16 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
         if ($form_id == 1) {
             if (isset($_POST['customer_id']) 
                     and isset($_POST['total']) and !empty($_POST['total']) 
-                    and isset($_POST['net_amount']) and !empty($_POST['net_amount']) 
-                    and isset($_POST['tax_amount']) and !empty($_POST['tax_amount']) 
+                    and isset($_POST['net_amount']) // and !empty($_POST['net_amount']) 
+                    and isset($_POST['tax_amount']) // and !empty($_POST['tax_amount'])
+                    and isset($_POST['discount']) // and !empty($_POST['discount']) 
                     and isset($_POST['items']) and !empty($_POST['items'])) {
                 $sale = new sales();
                 $sale->customer_id = $_POST['customer_id'];
                 $sale->amount = $_POST['total'];
                 $sale->net_amount = $_POST['net_amount'];
                 $sale->tax_amount = $_POST['tax_amount'];
+                $sale->discount = $_POST['discount'];
                 $user = new user();
                 $user->id = $_SESSION['user_id'];
                 $user->getUser();
@@ -38,6 +40,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     $sales_item->quantity = $sales_array_item['quantity'];
                     $sales_item->rate = $sales_array_item['rate'];
                     $sales_item->tax = $sales_array_item['tax'];
+                    $sales_item->discount = $sales_array_item['discount'];
                     array_push($sales_items, $sales_item);
                 }
                 $sale->setSalesItems($sales_items);
