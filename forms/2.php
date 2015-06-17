@@ -183,6 +183,15 @@ function get_form_html($form_id, $id) {
                         </div> 
                     </td>
                 </tr>
+                <tr style="display: none;">
+                    <td></td>
+                    <td>
+                        <div style="background-color: #21ACD7; color: #fff; text-align: right; padding-right: 20px;">
+                            <span style="margin-right: 20px;">DISCOUNT </span>
+                            <span id="discount">0.00</span>
+                        </div> 
+                    </td>
+                </tr>
                 <tr>
                     <td></td>
                     <td>
@@ -310,7 +319,8 @@ function get_form_html($form_id, $id) {
             balance = balance.toFixed(2);
             $('span#balance').html(balance);
             total_discount = total_discount.toFixed(2);
-            $('span#total').attr('discount', total_discount);            
+            $('span#total').attr('discount', total_discount);   
+            $('span#discount').val(total_discount);         
         }
         function delete_this_row(delete_btn) {
             var row = $(delete_btn).closest('tr');
@@ -383,12 +393,17 @@ function get_form_html($form_id, $id) {
                             row.find('input#quantity').attr('max', item.quantity);
                             row.find('input#rate').val(item.rate);
                             row.find('input#rate').attr('tax', item.tax_rate);
+                            row.find('input#rate').attr('discount_percent', item.discount_percent);
                             row.find('input#total').val(item.total);
                             row.find('input#total').attr('tax', item.tax);
+                            row.find('input#total').attr('discount', item.discount);
+                            row.find('input#discount').val(item.discount);
                             row.attr('previous', true);
                     } 
                     form.find('span#total').html(sale.amount);
                     form.find('span#total').attr('tax', sale.tax);
+                    form.find('span#total').attr('discount', sale.discount);
+                    form.find('span#discount').html(sale.discount);
                     form.find('span#total_paid').html(sale.amount);
                     form.find('span#balance').html('0.00');
                     form.attr('sale_id', sale.id);
@@ -401,7 +416,7 @@ function get_form_html($form_id, $id) {
                    
                 }, function(message) {
                        var form = $('form.action_form');
-                       form.find('input').prop('disabled', 'true');
+                       form.find('input').prop('disabled', 'disabled');
                        alert(message);
                    });
             }

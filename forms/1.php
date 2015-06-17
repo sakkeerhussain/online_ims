@@ -180,9 +180,18 @@ function get_form_html($form_id, $id) {
                 <tr>
                     <td></td>
                     <td>
-                        <div style="background-color: #21ACD7; color: #fff; text-align: center; padding-right: 20px;">
+                        <div style="background-color: #21ACD7; color: #fff; text-align: right; padding-right: 20px;">
                             <span style="margin-right: 20px;">TOTAL </span>
-                            <span id="total">0</span>
+                            <span id="total">0.00</span>
+                        </div> 
+                    </td>
+                </tr>
+                <tr style="display: none;">
+                    <td></td>
+                    <td>
+                        <div style="background-color: #21ACD7; color: #fff; text-align: right; padding-right: 20px;">
+                            <span style="margin-right: 20px;">DISCOUNT </span>
+                            <span id="discount">0.00</span>
                         </div> 
                     </td>
                 </tr>
@@ -291,6 +300,7 @@ function get_form_html($form_id, $id) {
             $('span#total').html(total);
             $('span#total').attr('tax', total_tax);
             $('span#total').attr('discount', total_discount);
+            $('span#discount').html(total_discount);
         }
         function delete_this_row(delete_btn) {
             var row = $(delete_btn).closest('tr');
