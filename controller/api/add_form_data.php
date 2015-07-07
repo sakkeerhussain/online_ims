@@ -52,7 +52,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
-        } else if ($form_id == 4) {
+        } else if ($form_id == 4) {  //bank deposit
             if (isset($_POST['amount']) and !empty($_POST['amount']) 
                     and isset($_POST['bank_id']) and !empty($_POST['bank_id'])
                     and isset($_POST['description']) and !empty($_POST['description'])) {
@@ -70,7 +70,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         'data' => array('message' => 'Bank Deposit Added successfully'));
                 } else {
                     Log::e($tag, "Bank Deposit adding failed, Bank Deposit : " . $bank_deposit->to_string() . 'Error : '.  mysql_error());
-                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
             } else {
                 ob_start();
@@ -93,7 +98,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         'data' => array('message' => 'Expence Added successfully'));
                 } else {
                     Log::e($tag, "Expence adding failed Expence : " . $expence->to_string() . 'Error : '.  mysql_error());
-                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
             } else {
                 ob_start();
@@ -110,9 +120,18 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 $user->id = $_SESSION['user_id'];
                 $user->getUser();
                 $customer->company_id = $user->company_id;
-                $customer->addCustomer();
-                $message = "Customer added successfully";
-                $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message));
+                if($customer->addCustomer()){
+                    $message = "Customer added successfully";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message));
+                } else {
+                    Log::e($tag, "Customer adding failed Customer : " . $customer->to_string() . 'Error : '.  mysql_error());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
+                }
             } else {
                 ob_start();
                 $a = ob_get_clean();
