@@ -16,7 +16,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
     if (isset($_POST['form_id']) and !empty($_POST['form_id'])) {
         $form_id = $_POST['form_id'];
         $tag = "ADD_FORM_DATA";
-        if ($form_id == 1) {
+        if ($form_id == 1) {  /// add sale
             if (isset($_POST['customer_id']) 
                     and isset($_POST['total']) and !empty($_POST['total']) 
                     and isset($_POST['net_amount']) // and !empty($_POST['net_amount']) 
@@ -191,7 +191,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         'data' => array('message' => 'Item Added successfully'));
                 } else {
                     Log::e($tag, "Item adding failed item : " . $item->to_string() . 'Error : '.  mysql_error());
-                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
             } else {
                 $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
@@ -212,7 +217,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         'data' => array('message' => 'Bank Added successfully'));
                 } else {
                     Log::e($tag, "Bank adding failed item : " . $bank->to_string() . 'Error : '.  mysql_error());
-                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
             } else {
                 $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
