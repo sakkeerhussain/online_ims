@@ -38,9 +38,14 @@ function get_form_html($form_id, $id) {
                     <td class="field_name"> 
                         <font>ITEM CODE </font>
                     </td>
+                    <?php
+                    $item = new item();
+                    $item_code = $item->getMaxItemCode()+1;
+                    $item_code = sprintf('%04d', $item_code);
+                    ?>
                     <td class="field"> 
                         <div class="parent">
-                            <input type="text" id="item_code" required />
+                            <input type="text" id="item_code" required value="<?php echo $item_code; ?>"/>
                         </div>
                     </td>
                 </tr>

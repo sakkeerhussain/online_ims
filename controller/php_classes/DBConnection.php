@@ -174,6 +174,25 @@ class DBConnection {
         }
     }
 
+    function get_model_max_value($model, $field, $conditions = NULL) {
+        $table_name = get_class($model);
+        $query = 'SELECT max(`'.$field.'`) as `max` FROM `:table_name`';
+        $query = str_replace(':table_name', $table_name, $query);
+        if ($conditions != NULL) {
+            $query = $query . ' WHERE ' . $conditions;
+        }
+        $result = $this->executeQuery($query);
+        if ($result) {
+            if ($row = mysql_fetch_assoc($result)) {
+                return $row['max'];
+            } else {
+                return FALSE;
+            }
+        } else {
+            return FALSE;
+        }
+    }
+
     function get_model_list_from_query($query, $table_name) {
         $array = array();
         $result = $this->executeQuery($query);

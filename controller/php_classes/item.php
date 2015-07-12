@@ -66,4 +66,7 @@ class item {
     function getItems(){
         return $this->db_handler->get_model_list($this);
     }
+    function getMaxItemCode(){
+        return $this->db_handler->get_model_max_value($this, 'item_code');
+    }
 }
