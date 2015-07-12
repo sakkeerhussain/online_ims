@@ -12,7 +12,10 @@ spl_autoload_register(function($class_name) {
 });
 
 session_start();
-if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
+if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id']) 
+        and isset($_GET['user_id']) and !empty($_GET['user_id']) 
+        and ($_SESSION['user_id'] === $_GET['user_id'])) {
+    
     if (isset($_POST['form_id']) and !empty($_POST['form_id'])) {
         $form_id = $_POST['form_id'];
         $tag = "ADD_FORM_DATA";
@@ -184,7 +187,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         'data' => array('message' => 'Vendor Added successfully'));
                 } else {
                     Log::e($tag, "Vendor adding failed item : " . $vendor->to_string());
-                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
             } else {
                 $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
@@ -258,7 +266,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         'data' => array('message' => 'Shop Added successfully'));
                 } else {
                     Log::e($tag, "Shop adding failed item : " . $company->to_string() . 'Error : '.  mysql_error());
-                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
             } else {
                 $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
@@ -281,7 +294,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         'data' => array('message' => 'User Added successfully'));
                 } else {
                     Log::e($tag, "User adding failed item : " . $user->to_string() . 'Error : '.  mysql_error());
-                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
             } else {
                 $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());

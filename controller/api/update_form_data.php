@@ -12,7 +12,10 @@ spl_autoload_register(function($class_name) {
 });
 
 session_start();
-if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
+if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id']) 
+        and isset($_GET['user_id']) and !empty($_GET['user_id']) 
+        and ($_SESSION['user_id'] === $_GET['user_id'])) {
+    
     if (isset($_POST['form_id']) and !empty($_POST['form_id'])) {
         $form_id = $_POST['form_id'];
         $tag = "UPDATE_FORM_DATA";
@@ -170,7 +173,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         'data' => array('message' => 'Bank Deposit Updated successfully'));
                 } else {
                     Log::e($tag, "Bank Deposit updation failed Expence : " . $bank_deposit->to_string() . 'Error : '.  mysql_error());
-                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
             } else {
                 ob_start();
@@ -191,7 +199,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                         'data' => array('message' => 'Expence Updated successfully'));
                 } else {
                     Log::e($tag, "Expence updation failed Expence : " . $expence->to_string() . 'Error : '.  mysql_error());
-                    $responce = array('status' => 'failed', 'error' => 'Some server error occured', 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
             } else {
                 ob_start();
@@ -213,8 +226,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Customer update failed, Customer : ".$customer->to_string();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }               
                 
             }else {
@@ -252,8 +269,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Purchace update failed, Purchace : ".$purchace->to_string();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }               
                 
             }else {
@@ -281,8 +302,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Vendor update failed, vendor : ".$vendor->to_string();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }               
                 
             }else {
@@ -315,8 +340,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Item update failed, item : ".$item->to_string();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }               
                 
             }else {
@@ -344,8 +373,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Bank update failed, Bank : ".$bank->to_string();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }               
                 
             }else {
@@ -372,8 +405,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Stock update failed, Stock : ".$inv->to_string();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }               
                 
             }else {
@@ -397,8 +434,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Shop update failed, Shop : ".$company->to_string();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 } 
             }else {
                 ob_start();
@@ -425,8 +466,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "User update failed, user : ".$user->to_string();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 } 
             }else {
                 ob_start();
@@ -487,8 +532,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Purchace update failed, Purchace : ".$purchace->to_string();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'success', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }               
                 
             }else {

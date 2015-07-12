@@ -1,8 +1,13 @@
+ var current_user_id = 0;
  function ajax(url, type, data, responceHandler) {
     enable_spinner();    
         console.log("Loadin URL : " + url);
+        console.log("User ID    : " + current_user_id);
         if(type=='POST'){
             console.dir(data);
+        }
+        if(current_user_id !== 0){
+            url = url + '?user_id=' + current_user_id;
         }
     $.ajax({
         url: url,
@@ -31,6 +36,8 @@
 function is_loged_in(success_handler, failure_handler) {
     ajax('../controller/api/is_logged_in.php', 'GET', '', function(responce) {
         if (responce.status === 'success') {
+            current_user_id = responce.data.user.id;
+            console.log("User loged in Already, ID : "+current_user_id);
             success_handler(responce.data.user);
         } else {
             failure_handler();
@@ -56,6 +63,8 @@ function login(user_name, password, success_handler, failure_handler) {
     }
     ajax('../controller/api/login.php', 'POST', data, function(responce) {
         if (responce.status === 'success') {
+            current_user_id = responce.data.user.id;
+            console.log("User loged in successfully, ID : "+current_user_id);
             success_handler(responce.data.user);
         } else {
             failure_handler(responce.error);

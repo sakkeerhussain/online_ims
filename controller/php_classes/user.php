@@ -30,7 +30,9 @@ class user {
         $this->db_handler = new DBConnection();
     }
 
-    function login($user_name, $password) {        
+    function login($user_name, $password) {    
+        $user_name = mysql_real_escape_string($user_name);
+        $password = mysql_real_escape_string($password);
         $description = "Login attempt with credentials username (" . $user_name . "), passwor(md5) (" . md5($password) . ")";
         Log::i($this->tag, $description);
         $query = "SELECT `id` FROM `user` WHERE `user_name` = '" . $user_name. "'";

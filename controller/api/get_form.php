@@ -12,7 +12,10 @@ spl_autoload_register(function($class_name) {
 });
 
 session_start();
-if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
+if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id']) 
+        and isset($_GET['user_id']) and !empty($_GET['user_id']) 
+        and ($_SESSION['user_id'] === $_GET['user_id'])) {
+    
     if (isset($_POST['menu_item_id']) and !empty($_POST['menu_item_id'])) {
         $form_id = $_POST['menu_item_id'];
         $id = $_POST['id'];

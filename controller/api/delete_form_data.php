@@ -12,7 +12,10 @@ spl_autoload_register(function($class_name) {
 });
 
 session_start();
-if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
+if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id']) 
+        and isset($_GET['user_id']) and !empty($_GET['user_id']) 
+        and ($_SESSION['user_id'] === $_GET['user_id'])) {
+    
     if (isset($_POST['form_id']) and !empty($_POST['form_id'])) {
         $form_id = $_POST['form_id'];
         $tag = "DELETE_FORM_DATA";
@@ -26,8 +29,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Item delete failed, item : ".$item->to_string();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
                 ob_start();
@@ -45,8 +52,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Vendor delete failed, item : ".$vendor->to_string();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
                 ob_start();
@@ -68,8 +79,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                     }else{
                         $description = "Purchace delete failed, Purchace : ".$purchace->to_string();
                         Log::e($tag, $description);
-                        $message = "Some server error occured";
-                        $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                        if(empty(mysql_error())){
+                            $error_message = 'Some server error occured';
+                        }else{
+                            $error_message = mysql_error();
+                        }
+                        $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                     }   
                 }
             }else {
@@ -88,8 +103,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Inventry delete failed, item : ".$inventry->to_string();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
                 ob_start();
@@ -107,8 +126,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Customer delete failed, item : ".$customer->to_string();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
                 ob_start();
@@ -126,8 +149,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Bank delete failed, item : ".$bank->to_string()." Error : ".  mysql_error();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
                 ob_start();
@@ -145,8 +172,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Shop delete failed, item : ".$company->to_string()." Error : ".  mysql_error();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
                 ob_start();
@@ -164,8 +195,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "User delete failed, User : ".$user->to_string()." Error : ".  mysql_error();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
                 ob_start();
@@ -183,8 +218,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Expence delete failed, Expence : ".$expence->to_string()." Error : ".  mysql_error();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
                 ob_start();
@@ -202,8 +241,12 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])) {
                 }else{
                     $description = "Expence delete failed, Expence : ".$bank_deposit->to_string()." Error : ".  mysql_error();
                     Log::e($tag, $description);
-                    $message = "Some server error occured";
-                    $responce = array('status' => 'failed', 'error' => $message, 'data' => array());
+                    if(empty(mysql_error())){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = mysql_error();
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
                 ob_start();

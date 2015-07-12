@@ -12,7 +12,10 @@ spl_autoload_register(function($class_name) {
 
 
 $user = new user();
-if(isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])){    
+if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id']) 
+        and isset($_GET['user_id']) and !empty($_GET['user_id']) 
+        and ($_SESSION['user_id'] === $_GET['user_id'])) {
+    
     $form_id = $_SESSION['user_id'];
     $user->id = $form_id;
     $user->getUser();
