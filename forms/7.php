@@ -54,13 +54,17 @@ function get_form_html($form_id, $id) {
                         </div>
                     </td>
                 </tr>
+                <?php
+                $purchace = new purchaces();
+                $bill_number = $purchace->getMaxBillNumber() + 1;
+                ?>
                 <tr>
                     <td class="field_name"> 
                         <font>BILL NUMBER</font>
                     </td>
                     <td class="field"> 
                         <div class="parent">
-                            <input type="text" id="bill_number" />
+                            <input type="text" id="bill_number" value="<?php echo $bill_number; ?>" />
                         </div>
                     </td>
                 </tr>
@@ -116,7 +120,7 @@ function get_form_html($form_id, $id) {
                                     foreach ($items as $item) {
                                         echo '<option id="' . $item->id . '"'
                                         . 'purchace_rate="' . $item->purchace_rate . '"'
-                                        . ' value="' . $item->item_name . ' - ' . $item->item_code.'" >'
+                                        . ' value="' . $item->item_name . ' - ' . $item->item_code . '" >'
                                         . $item->item_name . ' - ' . $item->item_code
                                         . '</option>';
                                     }
@@ -225,7 +229,7 @@ function get_form_html($form_id, $id) {
                 if ($.isNumeric(item_total) && row_status == 'active') {
                     total = parseFloat(total) + parseFloat(item_total);
                 }
-            });            
+            });
             total = parseFloat(total).toFixed(2);
             $('span#total').html(total);
         }

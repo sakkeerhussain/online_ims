@@ -171,6 +171,9 @@ class purchaces {
         $purchaces_count = $this->db_handler->get_model_count($this, 'company_id = ' . $company_id );
         return $purchaces_count;
     }
+    function getMaxBillNumber(){
+        return $this->db_handler->get_model_max_value($this, 'bill_number');
+    }
 
 }
 
