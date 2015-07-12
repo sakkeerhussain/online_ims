@@ -133,8 +133,8 @@ class sales {
         return $sales;
     }
 
-    function getLastThreeDaysSales($company_id) {
-        $sales = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . ' and `sale_at` >= DATE_SUB(CURDATE(), INTERVAL 2 DAY) ORDER BY `id` DESC');
+    function getLastThreeDaysSales($company_id, $start, $limit) {
+        $sales = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . " and `sale_at` >= DATE_SUB(CURDATE(), INTERVAL 2 DAY) ORDER BY `id` DESC LIMIT  $start,$limit");
         if (is_array($sales) and count($sales) != 0) {
             foreach ($sales as $sale) {
                 $sale_item = new sales_items();
@@ -142,6 +142,11 @@ class sales {
             }
         }
         return $sales;
+    }
+
+    function getLastThreeDaysSalesCount($company_id) {
+        $last_three_days_sales_count = $this->db_handler->get_model_count($this, 'company_id = ' . $company_id . ' and `sale_at` >= DATE_SUB(CURDATE(), INTERVAL 2 DAY) ORDER BY `id` DESC');
+        return $last_three_days_sales_count;
     }
 
     function getSalesOfADay($company_id, $date) {
