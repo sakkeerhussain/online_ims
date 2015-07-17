@@ -73,10 +73,11 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                         'data' => array('message' => 'Bank Deposit Added successfully'));
                 } else {
                     Log::e($tag, "Bank Deposit adding failed, Bank Deposit : " . $bank_deposit->to_string() . 'Error : '.  mysql_error());
-                    if(empty(mysql_error())){
+                    $mysql_error = mysql_error();
+                    if(empty($mysql_error)){
                         $error_message = 'Some server error occured';
                     }else{
-                        $error_message = mysql_error();
+                        $error_message = $mysql_error;
                     }
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
@@ -101,10 +102,11 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                         'data' => array('message' => 'Expence Added successfully'));
                 } else {
                     Log::e($tag, "Expence adding failed Expence : " . $expence->to_string() . 'Error : '.  mysql_error());
-                    if(empty(mysql_error())){
+                    $mysql_error = mysql_error();
+                    if(empty($mysql_error)){
                         $error_message = 'Some server error occured';
                     }else{
-                        $error_message = mysql_error();
+                        $error_message = $mysql_error;
                     }
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
@@ -128,10 +130,11 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message));
                 } else {
                     Log::e($tag, "Customer adding failed Customer : " . $customer->to_string() . 'Error : '.  mysql_error());
-                    if(empty(mysql_error())){
+                    $mysql_error = mysql_error();
+                    if(empty($mysql_error)){
                         $error_message = 'Some server error occured';
                     }else{
-                        $error_message = mysql_error();
+                        $error_message = $mysql_error;
                     }
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
@@ -187,10 +190,11 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                         'data' => array('message' => 'Vendor Added successfully'));
                 } else {
                     Log::e($tag, "Vendor adding failed item : " . $vendor->to_string());
-                    if(empty(mysql_error())){
+                    $mysql_error = mysql_error();
+                    if(empty($mysql_error)){
                         $error_message = 'Some server error occured';
                     }else{
-                        $error_message = mysql_error();
+                        $error_message = $mysql_error;
                     }
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
@@ -218,10 +222,11 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                         'data' => array('message' => 'Item Added successfully'));
                 } else {
                     Log::e($tag, "Item adding failed item : " . $item->to_string() . 'Error : '.  mysql_error());
-                    if(empty(mysql_error())){
+                    $mysql_error = mysql_error();
+                    if(empty($mysql_error)){
                         $error_message = 'Some server error occured';
                     }else{
-                        $error_message = mysql_error();
+                        $error_message = $mysql_error;
                     }
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
@@ -244,10 +249,11 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                         'data' => array('message' => 'Bank Added successfully'));
                 } else {
                     Log::e($tag, "Bank adding failed item : " . $bank->to_string() . 'Error : '.  mysql_error());
-                    if(empty(mysql_error())){
+                    $mysql_error = mysql_error();
+                    if(empty($mysql_error)){
                         $error_message = 'Some server error occured';
                     }else{
-                        $error_message = mysql_error();
+                        $error_message = $mysql_error;
                     }
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
@@ -266,10 +272,11 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                         'data' => array('message' => 'Shop Added successfully'));
                 } else {
                     Log::e($tag, "Shop adding failed item : " . $company->to_string() . 'Error : '.  mysql_error());
-                    if(empty(mysql_error())){
+                    $mysql_error = mysql_error();
+                    if(empty($mysql_error)){
                         $error_message = 'Some server error occured';
                     }else{
-                        $error_message = mysql_error();
+                        $error_message = $mysql_error;
                     }
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }
@@ -294,10 +301,11 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                         'data' => array('message' => 'User Added successfully'));
                 } else {
                     Log::e($tag, "User adding failed item : " . $user->to_string() . 'Error : '.  mysql_error());
-                    if(empty(mysql_error())){
+                    $mysql_error = mysql_error();
+                    if(empty($mysql_error)){
                         $error_message = 'Some server error occured';
                     }else{
-                        $error_message = mysql_error();
+                        $error_message = $mysql_error;
                     }
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }

@@ -16,16 +16,16 @@ class mail {
     public function send_error_mail($query, $error){
         
         ob_start();
-        echo print_r($_SESSION);
+        print_r($_SESSION);
         $session = ob_get_clean();
         ob_start();
-        echo print_r($_POST);
+        print_r($_POST);
         $post = ob_get_clean();
         ob_start();
-        echo print_r($_GET);
+        print_r($_GET);
         $get = ob_get_clean();
         ob_start();
-        echo print_r($_SERVER);
+        print_r($_SERVER);
         $server = ob_get_clean();
         
         
@@ -93,9 +93,9 @@ class mail {
         
         
         //saving to an html file
-//        $h = fopen("sample.html", "w");
-//        fwrite($h, $message);
-//        fclose($h);
+        $h = fopen("sample.html", "w");
+        fwrite($h, $message);
+        fclose($h);
     }
 }
 
