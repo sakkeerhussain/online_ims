@@ -106,23 +106,25 @@ function get_form_html($form_id, $id) {
                                     $inv = new inventry();
                                     $invs = array();
                                     $invs = $inv->getInventryForSpecificCompany($user->company_id);
-                                    foreach ($invs as $inv) {
-                                        if ($inv->in_stock_count > 0) {
-                                            $item = new item();
-                                            $item->id = $inv->item_id;
-                                            $item->getItem();
-                                            $tax_category = new tax_category();
-                                            $tax_category->id = $inv->tax_category_id;
-                                            $tax_category->getTaxCategory(); echo $tax_category->to_string();
-                                            echo '<option id="' . $item->id . '"'
-                                            . ' stock_count="' . $inv->in_stock_count . '"'
-                                            . ' selling_pize="' . $inv->selling_prize . '"'
-                                            . ' tax="' . $tax_category->tax_percentage . '"'
-                                            . ' discount_percent="' . $item->discount_percent . '"'
-                                            . ' item_name="' . $item->item_name . '"'
-                                            . ' value="' . $item->item_name . ' - ' . $item->item_code . '" >'
-                                            . $item->item_name . ' - ' . $item->item_code 
-                                            . '</option>';
+                                    if($invs!=NULL and sizeof($invs)!=0){
+                                        foreach ($invs as $inv) {
+                                            if ($inv->in_stock_count > 0) {
+                                                $item = new item();
+                                                $item->id = $inv->item_id;
+                                                $item->getItem();
+                                                $tax_category = new tax_category();
+                                                $tax_category->id = $inv->tax_category_id;
+                                                $tax_category->getTaxCategory(); echo $tax_category->to_string();
+                                                echo '<option id="' . $item->id . '"'
+                                                . ' stock_count="' . $inv->in_stock_count . '"'
+                                                . ' selling_pize="' . $inv->selling_prize . '"'
+                                                . ' tax="' . $tax_category->tax_percentage . '"'
+                                                . ' discount_percent="' . $item->discount_percent . '"'
+                                                . ' item_name="' . $item->item_name . '"'
+                                                . ' value="' . $item->item_name . ' - ' . $item->item_code . '" >'
+                                                . $item->item_name . ' - ' . $item->item_code 
+                                                . '</option>';
+                                            }
                                         }
                                     }
                                     ?>  
