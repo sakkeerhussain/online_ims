@@ -6,10 +6,15 @@ Class Constants{
     public static $project_name;
     public static $database_name;
     public static $project_root;
+    
     public static $db_host;
     public static $db_user_name;
     public static $db_password;
-    public static $log_file_name;
+    
+    public static $info_log_file_name;
+    public static $error_log_file_name;
+    public static $debug_log_file_name;
+    
     public static $error_page;
     public static $ip;
 
@@ -33,7 +38,9 @@ Class Constants{
         Constants::$ip = $_SERVER['REMOTE_ADDR'];
     }
     static function initialize_log_constants(){        
-        Constants::$log_file_name = "log.txt"; 
+        Constants::$info_log_file_name = "log-info.txt";        
+        Constants::$error_log_file_name = "log-error.txt";        
+        Constants::$debug_log_file_name = "log-debug.txt"; 
     }
 }
 

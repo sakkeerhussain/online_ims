@@ -1,3 +1,5 @@
 /dev_tools/
-/log.txt
+/log-error.txt
+/log-info.txt
+/log-debug.txt
 /nbproject/
