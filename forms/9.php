@@ -78,7 +78,7 @@ function get_form_html($form_id, $id) {
                     $inventries = $inventry->getInventryForSpecificCompany($user->company_id);
                     $i = 0;
                     if($inventries==NULL || sizeof($inventries)==0){
-                        echo '<tr><td colspan="8"> No Purchace Found </td></tr>';
+                        echo '<tr><td colspan="8"> No Stock Found </td></tr>';
                     } else{
                     foreach ($inventries as $inventry) {
                         ?>
