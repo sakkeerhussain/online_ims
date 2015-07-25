@@ -50,8 +50,8 @@ class bank_deposits {
     function getBankDeposit(){
         return $this->db_handler->get_model($this,  $this->id);
     }    
-    function getBankDeposits($company_id){
-        $expences = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . ' ORDER BY `id` DESC LIMIT 50');
+    function getBankDeposits($company_id, $start, $limit){
+        $expences = $this->db_handler->get_model_list($this, 'company_id = ' . $company_id . " ORDER BY `id` DESC LIMIT  $start,$limit");
         return $expences;
     }
     function deleteBankDeposit(){
@@ -81,5 +81,10 @@ class bank_deposits {
         } else {
             return FALSE;
         }
+    }
+    
+    function getBankDepositsCount($company_id) {
+        $bank_deposits_count = $this->db_handler->get_model_count($this, 'company_id = ' . $company_id );
+        return $bank_deposits_count;
     }
 }
