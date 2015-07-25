@@ -13,7 +13,7 @@
 class Log {
     private static $handle;
     private static $mode = "a";
-    private static $date_format = "Y-M-d, H:i:s (D)";
+    private static $date_format = "Y-M-d, H:i:s (D) e";
 
 
     private static function open_file() {
