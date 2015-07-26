@@ -58,14 +58,27 @@ function get_form_html($form_id, $id) {
                     $users = $user->getUsers();
                     $i = 0;
                     if(is_array($users) and count($users)!=0){
+                        $first_admin = true;
+                        $first_owner = true;
                        foreach ($users as $user) {
                            ?>
-                           <tr id="<?php echo $user->id; ?>" <?php if($user->id!=1){echo ' onclick="select_row(this)"';} ?>>
+                           <tr id="<?php echo $user->id; ?>" 
+                                    <?php 
+                                        if($user->user_type_id == 4  and $first_admin ){ 
+                                            $first_admin = false;                                           
+                                        } else if($user->user_type_id == 5  and $first_owner ){ 
+                                            $first_owner = false;                                           
+                                        } else { 
+                                            echo ' onclick="select_row(this)"';                                            
+                                        } 
+                                    ?>  >
                                <td style="text-align: center;"><?php echo ++$i; ?></td>
                                <td id="user_id"><?php echo 'USER-'.$user->id; ?></td>
                                <td id="name"><?php echo $user->name; ?></td>
                                <td id="user_name"><?php echo $user->user_name; ?></td>
                                <?php if($user->user_type_id == 4){
+                                   echo '<td>NA</td>';
+                               }else if($user->user_type_id == 5){
                                    echo '<td>NA</td>';
                                }else{ ?>
                                <td id="company_id" value="<?php echo $user->company_id; ?>"><?php 
