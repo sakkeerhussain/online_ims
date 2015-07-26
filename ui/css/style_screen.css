@@ -249,6 +249,28 @@ a#reset_password{
         padding-bottom: 17px;
     }
 }
+@media screen and (max-device-width:700px){
+    div#content-body-action-dummy-parent{
+        margin-left: 0px; 
+    }
+    .menu-item{
+        height: 40px;
+        line-height: 40px;
+        width: 200px;
+        display: inline-block;
+        margin-bottom: 0;
+        margin-right: 10px;
+        text-align: center;
+        padding-left: 0px;
+    }
+    div#content-body-menu{
+        width:98%;
+        height: 40px;
+        white-space: nowrap;
+        overflow-x: scroll;
+        padding-bottom: 17px;
+    }
+}
 /*@media screen and (max-width:440px){
     div#content{
         display: none !important;
