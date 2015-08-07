@@ -30,9 +30,10 @@ function get_form_html($form_id, $date) {
                 background-color: transparent;
             }
         </style>
-        <div id="purchace_items" style="width: 100%; padding: 10px 0; color: #21ACD7;">           
+        <div id="purchace_items" style="width: 100%; padding: 10px 0; color: #21ACD7;"> 
+            <font>SALES ITEMS</font>
             <table id="sales_items_table" style="border-collapse: collapse; width: 100%; 
-                   background-color: #fff; border-radius: 10px;  color: #21ACD7;">
+                   background-color: #fff; border-radius: 10px;  color: #21ACD7;  margin-top: 5px; margin-bottom: 20px;">
                 <thead style="text-align: center;">
                     <tr>
                         <td style="width: 5%;">
@@ -100,8 +101,9 @@ function get_form_html($form_id, $date) {
                         </tr>
                   </tbody>                               
             </table>
+            <font>STATISTICS</font>
             <table id="sales_statistics_table" style="border-collapse: collapse; width: 100%; 
-                   background-color: #fff; border-radius: 10px;  color: #21ACD7; margin-top: 20px;">
+                   background-color: #fff; border-radius: 10px;  color: #21ACD7; margin-top: 5px; margin-bottom: 20px;">
                 <thead style="text-align: center;">
                     <tr>
                             <td style="width: 5%;">
@@ -140,6 +142,34 @@ function get_form_html($form_id, $date) {
                             <td><?php echo number_format($vals['net_amount'], 2, '.',''); ?></td>
                             <td><?php echo number_format($vals['discount'], 2, '.',''); ?></td>
                             <td><?php echo number_format($vals['amount'], 2, '.',''); ?></td>
+                    </tr>
+                </tbody>                               
+            </table>
+            <font>TAX</font>
+            <table id="sales_statistics_table" style="border-collapse: collapse; width: 100%; 
+                   background-color: #fff; border-radius: 10px;  color: #21ACD7; margin-top: 5px;">
+                <thead style="text-align: center;">
+                    <tr>
+                            <td style="width: 5%;">
+                                #
+                            </td>
+                            <td>
+                                TAX(%)
+                            </td>
+                            <td style="width: 20%;">
+                                TOTAL TAX
+                            </td>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;">
+                    <tr style="margin-top: 20px;">
+                        <?php
+                        $sale = new sales();
+                        $vals = $sale->getOneDaysSaleStatistics($user->company_id, $date);
+                        ?>
+                            <td>1</td>
+                            <td style="text-align: left;">SALES</td>
+                            <td><?php echo $vals['count']; ?></td>
                     </tr>
                 </tbody>                               
             </table>

@@ -30,7 +30,7 @@ function get_form_html($form_id, $date) {
                 background-color: transparent;
             }
         </style>
-        <div id="purchace_items" style="width: 100%; padding: 10px 0; color: #21ACD7;">           
+        <div id="purchace_items" style="width: 100%; padding: 10px 0; color: #21ACD7;display: none;">           
             <table id="sales_items_table" style="border-collapse: collapse; width: 100%; 
                    background-color: #fff; border-radius: 10px;  color: #21ACD7;">
                 <thead style="text-align: center;">
@@ -148,7 +148,7 @@ function get_form_html($form_id, $date) {
     <script type="text/javascript">
         function load_day_end_report(){
             var date = $('input#date_field').val();
-            get_form(24,
+            get_form(40,
                         function(html, tools) {
                              $('div#form-body').html(html);
                              $('div#content-body-action-tools').html(tools);
