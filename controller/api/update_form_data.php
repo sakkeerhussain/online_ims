@@ -423,7 +423,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                 
             }else {
                 ob_start();
-                print_r($_POST);
+//                print_r($_POST);
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
@@ -485,7 +485,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                 } 
             }else {
                 ob_start();
-                print_r($_POST);
+//                print_r($_POST);
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
@@ -553,11 +553,42 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                 
             }else {
                 ob_start();
-                print_r($_POST);
+//                print_r($_POST);
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }            
-        } else {
+        } else if ($form_id == 39) {   ///admin/owner change password
+            if (isset($_POST['password']) and !empty($_POST['password'])) {
+                
+                $password = $_POST['password'];//mysql_real_escape_string($_POST['password']);
+                $user = new user();
+                $user->id = $_SESSION['user_id'];
+                $user->getUser();
+                $user->password_hashed = md5($password);
+                if($user->updateUser()){
+                    $mail = new mail();
+                    $mail->send_password_changed_notification_mail($user->user_name);
+                    $message = "Password Updated Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$user->id)); 
+                }else{
+                    $description = "Password update failed, Stock : ".$user->to_string();
+                    Log::e($tag, $description);
+                    $mysql_error = mysql_error();
+                    if(empty($mysql_error)){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = $mysql_error;
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
+                }               
+                
+            }else {
+                ob_start();
+//                print_r($_POST);
+                $a = ob_get_clean();
+                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+            }
+        }else {
             $responce = array('status' => 'failed', 'error' => 'Invalid Form', 'data' => array());
         }
     } else {

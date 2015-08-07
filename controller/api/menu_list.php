@@ -63,6 +63,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
             array('menu_item_name'=>'Banks','menu_item_id'=>'23'),
             array('menu_item_name'=>'Shops','menu_item_id'=>'26'),
             array('menu_item_name'=>'Users','menu_item_id'=>'28'),
+            array('menu_item_name'=>'Change Password','menu_item_id'=>'39'),
             array('menu_item_name'=>'Help','menu_item_id'=>'34'));
          
         $responce = array('status'=>'success','error'=>'','data'=> array('menu_list'=>$menu_list));
@@ -73,6 +74,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
             array('menu_item_name'=>'Banks','menu_item_id'=>'23'),
             array('menu_item_name'=>'Shops','menu_item_id'=>'26'),
             array('menu_item_name'=>'Users','menu_item_id'=>'28'),
+            array('menu_item_name'=>'Change Password','menu_item_id'=>'39'),
             array('menu_item_name'=>'Help','menu_item_id'=>'38'));
          
         $responce = array('status'=>'success','error'=>'','data'=> array('menu_list'=>$menu_list));

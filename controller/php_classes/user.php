@@ -55,7 +55,7 @@ class user {
         }
     }
 
-    function resetPassword($user_name, $wacher) {
+    function resetPassword() {
         
     }
 
