@@ -78,10 +78,10 @@ class purchaces {
     }
     
     function deletePurchace(){
+        $purchace_item_obj = new purchace_items();
+        $purchace_item_obj->clearPurchaceItems($this->id);
         $result = $this->db_handler->delete_model($this);
         if($result){
-            $purchace_item_obj = new purchace_items();
-            $purchace_item_obj->clearPurchaceItems($this->id);
             $description = "Deleted Purchace (". $this->to_string().")";
             Log::i($this->tag, $description);
             return TRUE;        
