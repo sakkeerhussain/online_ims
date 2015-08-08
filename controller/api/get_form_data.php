@@ -106,6 +106,33 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                 $a = ob_get_clean();
                 $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
             }
+        } else if ($form_id == 9) { //stock report for auto sync manager
+            $user = new user();
+            $user->id = $_SESSION['user_id'];
+            $user->getUser();
+            $inventry = new inventry();
+            $inventries = $inventry->getInventryForSpecificCompany($user->company_id);
+            if($inventries){
+                $stock_array = array();
+                foreach ($inventries as $$inventry) {
+                    $item = new item();
+                    $item->id = $inventry->item_id;
+                    $item->getItem();
+                    $stock_item["item_id"] = $item->id;
+                    $stock_item["item_code"] = $item->item_code;
+                    $stock_item["item_name"] = $item->item_name;
+                    $tax = new tax_category();
+                    $tax->id = $inventry->tax_category_id;
+                    $tax->getTaxCategory();
+                    $stock_item["tax_percentage"] = $tax->tax_percentage;
+                    $stock_item["stock_count"] = number_format($inventry->in_stock_count, 3, '.','');
+                    $stock_item["selling_prize"] = number_format($inventry->selling_prize, 2, '.','');
+                    array_push($stock_array, $stock_item);
+                }
+                $responce = array('status' => 'success', 'error' => '', 'data' => array("stock"=>$stock_array));
+            } else {
+                $responce = array('status' => 'sucess', 'error' => '', 'data' => array("stock"=>array()));
+            } 
         } else {
             $responce = array('status' => 'failed', 'error' => 'Invalid Form', 'data' => array());
         }
