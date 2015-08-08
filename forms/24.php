@@ -164,12 +164,26 @@ function get_form_html($form_id, $date) {
                 <tbody style="text-align: center;">
                     <tr style="margin-top: 20px;">
                         <?php
-                        $sale = new sales();
-                        $vals = $sale->getOneDaysSaleStatistics($user->company_id, $date);
+//                        $sale = new sales();
+//                        $vals = $sale->getOneDaysSaleStatistics($user->company_id, $date);
                         ?>
                             <td>1</td>
-                            <td style="text-align: left;">SALES</td>
-                            <td><?php echo $vals['count']; ?></td>
+                            <td style="text-align: left; padding-left: 10px;">14.5%</td>
+                            <td><?php //echo $vals['count']; ?></td>
+                    </tr>
+                    <tr style="margin-top: 20px;">
+                        <?php
+//                        $sale = new sales();
+//                        $vals = $sale->getOneDaysSaleStatistics($user->company_id, $date);
+                        ?>
+                            <td>2</td>
+                            <td style="text-align: left; padding-left: 10px;">5%</td>
+                            <td><?php //echo $vals['count']; ?></td>
+                    </tr>
+                    <tr style="margin-top: 20px;">
+                        <td></td>
+                        <td style="text-align: right; padding-right: 10px;">TOTAL</td>
+                        <td><?php echo number_format($vals['tax_amount'], 2, '.',''); ?></td>
                     </tr>
                 </tbody>                               
             </table>
