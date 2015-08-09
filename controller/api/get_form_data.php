@@ -114,7 +114,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
             $inventries = $inventry->getInventryForSpecificCompany($user->company_id);
             if($inventries){
                 $stock_array = array();
-                foreach ($inventries as $$inventry) {
+                foreach ($inventries as $inventry) {
                     $item = new item();
                     $item->id = $inventry->item_id;
                     $item->getItem();
