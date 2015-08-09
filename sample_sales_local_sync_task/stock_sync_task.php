@@ -129,24 +129,25 @@ function write_plu_file($stock){
         mkdir(dirname($file_name), 0777, true);
     }
     $handle = fopen($file_name, 'w');
-    fwrite($handle, get_plu_file_content(",", $stock));
+    fwrite($handle, get_plu_file_content($stock));
     fclose($handle);
 }
 
 //utilities
-function get_plu_file_content($glue, $stock) {
+function get_plu_file_content($stock) {
     $ret = '';
     if(is_array($stock)){
         foreach ($stock as $stock_item) {
             if(is_array($stock_item)){
-                foreach ($stock_item as $value) {
-                    $ret .= $value . $glue;
-                }                
+                $ret .= $stock_item["item_id"].','
+                        .$stock_item["item_code"].','
+                        .$stock_item["item_name"].','
+                        .$stock_item["selling_prize"].','
+                        .$stock_item["tax_percentage"].','
+                        .$stock_item["stock_count"];              
             }
-            $ret = substr($ret, 0, (strlen($ret)-1));
             $ret .= "\n";
         }
-        $ret = substr($ret, 0, 0-strlen($glue));
         return $ret;
     }else{
         return $array;
