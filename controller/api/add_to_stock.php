@@ -36,7 +36,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     $item = new item();
                     $item->id = $p_item->item_id;
                     $item->getItem();
-                    $inv->selling_prize = $item->mrp;
+//                    $inv->selling_prize = $item->mrp;
                     $inv->tax_category_id = $item->tax_category_id;
                     $inv->updateInventry();
                 } else {
@@ -45,8 +45,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     $item->id = $p_item->item_id;
                     $item->getItem();
                     $inv->selling_prize = $item->mrp;
-                    //need to update
-                    $inv->tax_category_id = 1;
+                    $inv->tax_category_id = $item->tax_category_id;
                     $inv->addInventry();
                 }
             }

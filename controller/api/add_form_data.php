@@ -49,7 +49,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                 $sale->setSalesItems($sales_items);
                 $inserted_id = $sale->addSales();
                 $message = "Sale completed successfuly";
-                $responce = array('status' => 'success', 'error' => ''.$sale->to_string(), 'data' => array("message" => $message, "id"=>$inserted_id));
+                $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$inserted_id));
             } else {
                 ob_start();
                 $a = ob_get_clean();
@@ -170,9 +170,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                 $message = "Purchace added successfully";
                 $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message));
             } else {
-                ob_start();
-                $a = ob_get_clean();
-                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
             }
         } else if ($form_id == 10) { //vendor form
             if (isset($_POST['vendor_name']) and !empty($_POST['vendor_name']) 
