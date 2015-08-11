@@ -13,6 +13,7 @@ class item {
     public $purchace_rate;
     public $tax_category_id;
     public $discount_percent;
+    public $unit;
     
     private $db_handler;
     private $tag = 'ITEM CONTROLLER';

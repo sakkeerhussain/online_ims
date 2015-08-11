@@ -121,6 +121,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     $stock_item["item_id"] = $item->id;
                     $stock_item["item_code"] = $item->item_code;
                     $stock_item["item_name"] = $item->item_name;
+                    $stock_item["item_unit"] = $item->unit;
                     $tax = new tax_category();
                     $tax->id = $inventry->tax_category_id;
                     $tax->getTaxCategory();

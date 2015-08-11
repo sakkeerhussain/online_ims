@@ -90,6 +90,20 @@ function get_form_html($form_id, $id) {
                 </tr>
                 <tr>
                     <td class="field_name"> 
+                        <font>UNIT</font>
+                    </td>
+                    <td class="field"> 
+                        <div class="parent">
+                            <select id="unit" required >
+                                <option value=""></option>
+                                <option id="1" value="1">KGM</option>
+                                <option id="2" value="2">PCS</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="field_name"> 
                         <font>DISCOUNT PERCENT</font>
                     </td>
                     <td class="field"> 
@@ -132,7 +146,8 @@ function get_form_html($form_id, $id) {
                     mrp: $('form input#mrp').val(),
                     purchace_rate: $('form input#purchace_rate').val(),
                     discount_percent: $('form input#discount_percent').val(),
-                    tax_category_id: $('form select#tax_category').find('option:selected').attr('id')
+                    tax_category_id: $('form select#tax_category').find('option:selected').attr('id'),
+                    unit: $('form select#unit').val()
                 }
                 add_form_data(data, function(message) {
                     get_form(11,
@@ -158,7 +173,8 @@ function get_form_html($form_id, $id) {
                     mrp: $('form input#mrp').val(),
                     purchace_rate: $('form input#purchace_rate').val(),
                     discount_percent: $('form input#discount_percent').val(),
-                    tax_category_id: $('form select#tax_category').find('option:selected').attr('id')
+                    tax_category_id: $('form select#tax_category').find('option:selected').attr('id'),
+                    unit: $('form select#unit').val()
                 }
                 update_form_data(data, function(message) {
                     load_items_list();

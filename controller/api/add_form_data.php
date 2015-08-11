@@ -208,6 +208,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     and isset($_POST['tax_category_id']) and !empty($_POST['tax_category_id']) 
                     and isset($_POST['purchace_rate']) // and !empty($_POST['purchace_rate'])
                     and isset($_POST['discount_percent']) // and !empty($_POST['discount_percent'])
+                    and isset($_POST['unit']) and !empty($_POST['unit'])                    
                     ) {
 
                 $item = new item();
@@ -217,6 +218,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                 $item->tax_category_id = $_POST['tax_category_id'];
                 $item->purchace_rate = $_POST['purchace_rate'];
                 $item->discount_percent = $_POST['discount_percent'];
+                $item->unit = $_POST['unit'];
                 if ($item->addItem()) {
                     $responce = array('status' => 'success', 'error' => '',
                         'data' => array('message' => 'Item Added successfully'));
