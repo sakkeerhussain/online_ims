@@ -160,33 +160,43 @@ function get_form_html($form_id, $date) {
                                 TAX(%)
                             </td>
                             <td style="width: 20%;">
+                                COUNT
+                            </td>
+                            <td style="width: 20%;">
                                 TOTAL TAX
                             </td>
                     </tr>
                 </thead>
                 <tbody style="text-align: center;">
-                    <tr style="margin-top: 20px;">
-                        <?php
-//                        $sale = new sales();
-//                        $vals = $sale->getOneDaysSaleStatistics($user->company_id, $date);
-                        ?>
-                            <td>1</td>
-                            <td style="text-align: left; padding-left: 10px;">14.5%</td>
-                            <td><?php //echo $vals['count']; ?></td>
-                    </tr>
-                    <tr style="margin-top: 20px;">
-                        <?php
-//                        $sale = new sales();
-//                        $vals = $sale->getOneDaysSaleStatistics($user->company_id, $date);
-                        ?>
-                            <td>2</td>
-                            <td style="text-align: left; padding-left: 10px;">5%</td>
-                            <td><?php //echo $vals['count']; ?></td>
-                    </tr>
+                    <?php
+                    $total_tax = 0;
+                    $total_count = 0;
+                    $tax_category = new tax_category();
+                    $tax_categories = $tax_category->getTaxCategories();
+                    if(is_array($tax_categories) and count($tax_categories)){
+                        $i = 0;
+                        foreach ($tax_categories as $tax_category) {
+                            ?>
+                                <tr style="margin-top: 20px;">
+                                    <?php
+                                    $tax_vals = $sale->getOneDayTaxDetails($user->company_id, $date, $tax_category->id);
+                                    ?>
+                                        <td><?php echo ++$i; ?></td>
+                                        <td style="text-align: left; padding-left: 10px;"><?php echo $tax_category->tax_category_name; ?></td>
+                                        <td><?php echo $tax_vals['count']; ?></td>
+                                        <td><?php echo $tax_vals['tax']; ?></td>
+                                </tr>                                
+                            <?php
+                            $total_tax += $tax_vals['tax'];
+                            $total_count += $tax_vals['count'];
+                        }
+                    }
+                    ?>
                     <tr style="margin-top: 20px;">
                         <td></td>
                         <td style="text-align: right; padding-right: 10px;">TOTAL</td>
-                        <td><?php echo number_format($vals['tax_amount'], 2, '.',''); ?></td>
+                        <td><?php echo number_format($total_count, 0, '.',''); ?></td>
+                        <td><?php echo number_format($total_tax, 2, '.',''); ?></td>
                     </tr>
                 </tbody>                               
             </table>

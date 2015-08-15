@@ -200,6 +200,25 @@ class sales {
         }
     }
 
+    function getOneDayTaxDetails($company_id, $date, $tax_category_id) {
+        $query = "SELECT count(*) as `count`, SUM(`tax`) as `tax` 
+                    FROM `sales_items`
+                    LEFT JOIN `item` on `sales_items`.`item_id` = `item`.`id`   
+                    WHERE DATE(`sales_items`.`created_at`) = '$date' 
+                                and `sales_items`.`company_id` = '$company_id' 
+                                and `item`.`tax_category_id` = '$tax_category_id'";
+                $result = $this->db_handler->executeQuery($query);
+        $vals = array();
+        if ($row = mysql_fetch_assoc($result)) {
+            foreach ($row as $key => $value) {
+                $vals[$key] = $value;
+            }
+            return $vals;
+        } else {
+            return FALSE;
+        }
+    }
+
 }
 
 //$s = new sales();
