@@ -46,12 +46,14 @@ function get_form_html($form_id, $id) {
                                 $customer_obj = new customer();
                                 $customers = array();
                                 $customers = $customer_obj->getCustomers($user->company_id);
-                                foreach ($customers as $customer) {
-                                    echo '<option id="' . $customer->id
-                                    . '" customer_name="' . $customer->customer_name
-                                    . '" value="' . $customer->customer_name . ' ( ID : ' . $customer->id . ')" >'
-                                    . $customer->customer_name . ' ( ID : ' . $customer->id . ')'
-                                    . '</option>';
+                                if(is_array($customers) and count($customers)){
+                                    foreach ($customers as $customer) {
+                                        echo '<option id="' . $customer->id
+                                        . '" customer_name="' . $customer->customer_name
+                                        . '" value="' . $customer->customer_name . ' ( ID : ' . $customer->id . ')" >'
+                                        . $customer->customer_name . ' ( ID : ' . $customer->id . ')'
+                                        . '</option>';
+                                    }
                                 }
                                 ?>    
                             </datalist>
