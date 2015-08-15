@@ -62,6 +62,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
             array('menu_item_name'=>'Vendors','menu_item_id'=>'18'),
             array('menu_item_name'=>'Banks','menu_item_id'=>'23'),
             array('menu_item_name'=>'Shops','menu_item_id'=>'26'),
+            array('menu_item_name'=>'Tax Categories','menu_item_id'=>'41'),
             array('menu_item_name'=>'Users','menu_item_id'=>'28'),
             array('menu_item_name'=>'Change My Password','menu_item_id'=>'39'),
             array('menu_item_name'=>'Help','menu_item_id'=>'34'));
@@ -74,6 +75,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
             array('menu_item_name'=>'Vendors','menu_item_id'=>'18'),
             array('menu_item_name'=>'Banks','menu_item_id'=>'23'),
             array('menu_item_name'=>'Shops','menu_item_id'=>'26'),
+            array('menu_item_name'=>'Tax Categories','menu_item_id'=>'41'),
             array('menu_item_name'=>'Users','menu_item_id'=>'28'),
             array('menu_item_name'=>'Change My Password','menu_item_id'=>'39'),
             array('menu_item_name'=>'Help','menu_item_id'=>'38'));
