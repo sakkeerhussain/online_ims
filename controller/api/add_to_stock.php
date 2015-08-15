@@ -31,7 +31,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                 $inv->item_id = $p_item->item_id;
                 $invs = $inv->getInventryForSpecificCompanyAndItem();
                 if ($invs) {
-                    $inv->id = $invs[0]->id;
+                    $inv = $invs[0];
                     $inv->in_stock_count = $invs[0]->in_stock_count + $p_item->quantity;
                     $item = new item();
                     $item->id = $p_item->item_id;
