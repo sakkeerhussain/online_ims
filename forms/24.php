@@ -54,10 +54,13 @@ function get_form_html($form_id, $date) {
                     <?php
                     $grand_total = 0;
                     $total_count = 0;
-                    $sale_item = new sales_items();
                     $user = new user();
                     $user->id = $_SESSION['user_id'];
                     $user->getUser();
+                    $shop = new company();
+                    $shop->id = $user->company_id;
+                    $shop->getCompany();
+                    $sale_item = new sales_items();
                     $date = str_replace('/', '-', $date);
                     $date = date('Y-m-d', strtotime($date));
                     $sales_items = $sale_item->getOneDaysSaleItems($user->company_id, $date);
@@ -205,8 +208,10 @@ function get_form_html($form_id, $date) {
         }
         function on_print_clicked() {
             var date = $('input#date_field').val();
+            var header = '<font style="color:#21ACD7; font-size:24px; "><?php echo $shop->company_name." ".$shop->company_code; ?></font>'
+                            +'<br/><font style="color:#21ACD7; font-size:20px; ">DAY END REPORT OF '+date+'</font>';
             $('div#print_container_header')
-                    .html('<font style="color:#21ACD7; font-size:20px; ">DAY END REPORT OF '+date+'</font>');
+                    .html(header);
             var html = $('div#sales_items_table').html();
             $('div#print_container_body').html(html);  
             print();
