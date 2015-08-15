@@ -36,9 +36,9 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
     }else if($user->user_type_id==2){  
         
         $menu_list = array(array('menu_item_name'=>'Purchace Invoice','menu_item_id'=>'7'),
-            array('menu_item_name'=>'Edit Purchace','menu_item_id'=>'8'),
-            array('menu_item_name'=>'Purchace Return','menu_item_id'=>'30'),
-            array('menu_item_name'=>'Purchace Report','menu_item_id'=>'19'),
+            array('menu_item_name'=>'Edit Purchase','menu_item_id'=>'8'),
+            array('menu_item_name'=>'Purchase Return','menu_item_id'=>'30'),
+            array('menu_item_name'=>'Purchase Report','menu_item_id'=>'19'),
             array('menu_item_name'=>'Stock Report','menu_item_id'=>'9'),
             array('menu_item_name'=>'Help','menu_item_id'=>'36'));
         
@@ -63,7 +63,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
             array('menu_item_name'=>'Banks','menu_item_id'=>'23'),
             array('menu_item_name'=>'Shops','menu_item_id'=>'26'),
             array('menu_item_name'=>'Users','menu_item_id'=>'28'),
-            array('menu_item_name'=>'Change Password','menu_item_id'=>'39'),
+            array('menu_item_name'=>'Change My Password','menu_item_id'=>'39'),
             array('menu_item_name'=>'Help','menu_item_id'=>'34'));
          
         $responce = array('status'=>'success','error'=>'','data'=> array('menu_list'=>$menu_list));
@@ -75,7 +75,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
             array('menu_item_name'=>'Banks','menu_item_id'=>'23'),
             array('menu_item_name'=>'Shops','menu_item_id'=>'26'),
             array('menu_item_name'=>'Users','menu_item_id'=>'28'),
-            array('menu_item_name'=>'Change Password','menu_item_id'=>'39'),
+            array('menu_item_name'=>'Change My Password','menu_item_id'=>'39'),
             array('menu_item_name'=>'Help','menu_item_id'=>'38'));
          
         $responce = array('status'=>'success','error'=>'','data'=> array('menu_list'=>$menu_list));

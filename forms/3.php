@@ -198,7 +198,11 @@ function get_form_html($form_id, $id, $page, $limit, $adjacents) {
                                                 $tax_category->getTaxCategory();
                                                 
                                                 $total = ($s_item->quantity * $s_item->rate);
-                                                $discount_percent = (($s_item->discount*100)/$total);
+                                                if($total == 0){
+                                                    $discount_percent = 0;
+                                                }else{
+                                                    $discount_percent = (($s_item->discount*100)/$total);
+                                                }
                                                 $total = $total - $s_item->discount;
                                             ?>                                        
                                             <td>
@@ -217,7 +221,7 @@ function get_form_html($form_id, $id, $page, $limit, $adjacents) {
                                         <?php
                                     }
                                     }else{
-                                        echo '<tr><td colspan="6">No item found</td></tr>';
+                                        echo '<tr><td colspan="7">No item found</td></tr>';
                                     }
                                     ?>
                                         </tbody>

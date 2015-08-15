@@ -81,7 +81,7 @@ function get_form_html($form_id, $id) {
                             <div style="width: 100%; margin-left: -12px; padding: 12px; 
                                  background-color: #0d92bb; border-radius: 5px; float: left;">
                                 <div style="width: 50%; float: right;  ">
-                                     <input style="width: 100%;" type="submit" value="ADD" />
+                                     <input style="width: 100%;" type="submit" value="UPDATE" />
                                 </div>
                                 <div style="width: 50%;">
                                     <input style="width: 100%;" type="reset" value="CANCEL" />

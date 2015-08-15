@@ -88,6 +88,7 @@ function get_form_html($form_id, $id) {
                             <td id="item_id"><?php echo 'ITEM-'.$item->id; ?></td>
                             <td id="item_name"><?php echo $item->item_name; ?></td>
                             <td id="item_code"><?php echo $item->item_code; ?></td>
+                            <td id="mrp"><?php echo $item->mrp; ?></td>
                             <td id="unit" unit="<?php echo $item->unit; ?>"><?php 
                                                if($item->unit==2){
                                                    echo 'PCS';
@@ -95,7 +96,6 @@ function get_form_html($form_id, $id) {
                                                    echo 'KGM';
                                                }
                                          ?></td>
-                            <td id="mrp"><?php echo $item->mrp; ?></td>
                             <td id="purchace_rate"><?php echo $item->purchace_rate; ?></td>
                             <?php 
                             $tax_category = new tax_category();
