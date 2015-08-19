@@ -183,8 +183,8 @@ function get_form_html($form_id, $date) {
                                     ?>
                                         <td><?php echo ++$i; ?></td>
                                         <td style="text-align: left; padding-left: 10px;"><?php echo $tax_category->tax_category_name; ?></td>
-                                        <td><?php echo $tax_vals['count']; ?></td>
-                                        <td><?php echo $tax_vals['tax']; ?></td>
+                                        <td><?php echo number_format($tax_vals['count'], 0, '.',''); ?></td>
+                                        <td><?php echo number_format($tax_vals['tax'], 2, '.',''); ?></td>
                                 </tr>                                
                             <?php
                             $total_tax += $tax_vals['tax'];

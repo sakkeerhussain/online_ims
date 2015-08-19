@@ -100,9 +100,9 @@ function get_form_html($form_id, $id) {
                     $('div#content-body-action-tools').html(tools);
                     var form = $('div#form-body').find('form.action_form');
                     form.attr('operation', 'update');
-                    form.attr('company_id', id);
+                    form.attr('tax_category_id', id);
                     form.find('input[type=submit]').val('UPDATE');
-                    $('div#head_div').html('ID : SHOP - '+id);
+                    $('div#head_div').html('ID : TAX CATEGORY - '+id);
                     $('div#head_div').css('display', 'block');
                 },
                 function (message){
@@ -132,10 +132,10 @@ function get_form_html($form_id, $id) {
             if(confirm('Are you sure you want to delete TAX-'+id+' ?' )){
                 var data = {
                     form_id : 41,
-                    company_id : id
+                    tax_category_id : id
                 }
                 delete_form_data(data, function(message) {
-                    get_form(26,
+                    get_form(41,
                         function(html, tools) {
                              $('div#form-body').html(html);
                              $('div#content-body-action-tools').html(tools);

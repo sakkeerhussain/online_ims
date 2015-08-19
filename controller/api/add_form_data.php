@@ -312,6 +312,29 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
             } else {
                 $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
             }
+        } else if ($form_id == 42) { //tax category add form
+            if (isset($_POST['tax_category_name']) and !empty($_POST['tax_category_name']) 
+                    and isset($_POST['tax_percent']) and !empty($_POST['tax_percent'])) {
+
+                $tax_category = new tax_category();
+                $tax_category->tax_category_name = $_POST['tax_category_name'];
+                $tax_category->tax_percentage = $_POST['tax_percent'];
+                if ($tax_category->addTaxCategory()) {
+                    $responce = array('status' => 'success', 'error' => '',
+                        'data' => array('message' => 'Tax Category Added successfully'));
+                } else {
+                    Log::e($tag, "Tax Category adding failed item : " . $tax_category->to_string() . 'Error : '.  mysql_error());
+                    $mysql_error = mysql_error();
+                    if(empty($mysql_error)){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = $mysql_error;
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
+                }
+            } else {
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
+            }
         } else {
             $responce = array('status' => 'failed', 'error' => 'Invalid Form', 'data' => array());
         }

@@ -112,7 +112,7 @@ class mail {
               <table style="border : 5px solid #21acd7; padding :20px; width: 100%;">
                 <tr>
                   <td>Login passoword of \''.$username.'\' has been updated.'."\n"
-                    .'If you are not done this your system security.'."\n"
+                    .'If you are not done this your system security is compromised.'."\n"
                     .'Please contact your system admin immediatly.
                   </td>
                 </tr>

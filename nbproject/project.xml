@@ -3,12 +3,7 @@
     <type>org.netbeans.modules.php.project</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/php-project/1">
-            <name>PikNik_IMS</name>
+            <name>piknik_ims</name>
         </data>
-        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
-            <word>dssgdfghzsdhshshs</word>
-            <word>WENDOR</word>
-            <word>zdasfa</word>
-        </spellchecker-wordlist>
     </configuration>
 </project>

@@ -31,14 +31,35 @@ class tax_category {
         if ($tax_c == null){
             $tax_c = $this;
         }
-        $this->db_handler->add_model($tax_c);
-        $description = "Added new Tax category (" . $tax_c->to_string() . ")";
-        Log::i($this->tag, $description);
+        $result = $this->db_handler->add_model($tax_c);
+        if($result){
+            $description = "Added new Tax category (" . $tax_c->to_string() . ")";
+            Log::i($this->tag, $description);
+        }
+        return $result;
     }
     function getTaxCategory(){
         return $this->db_handler->get_model($this,  $this->id);
     }
     function getTaxCategories(){
         return $this->db_handler->get_model_list($this);
+    }
+
+    function updateTaxCategory() {
+        $result = $this->db_handler->update_model($this);
+        if($result){
+            $description = "Updating TaxCategory (" . $this->to_string() . ")";
+            Log::i($this->tag, $description);
+        }
+        return $result;
+    }
+    
+    function deleteTaxCategory() {
+        $result = $this->db_handler->delete_model($this);
+        if($result){
+            $description = "Tax Category deleted, Tax Category ID : ".$this->id;
+            Log::i($this->tag, $description);
+        }
+        return $result;
     }
 }

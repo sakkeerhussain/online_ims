@@ -38,10 +38,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
-                ob_start();
-                print_r($_POST);
-                $a = ob_get_clean();
-                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
             }            
         }else if ($form_id == 18) {   ///vendor delete
             if (isset($_POST['vendor_id']) and !empty($_POST['vendor_id'])) {
@@ -62,10 +59,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
-                ob_start();
-                print_r($_POST);
-                $a = ob_get_clean();
-                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
             }            
         }else if ($form_id == 19) {   ///purchace delete
             if (isset($_POST['purchace_id']) and !empty($_POST['purchace_id'])) {
@@ -91,10 +85,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     }   
                 }
             }else {
-                ob_start();
-                print_r($_POST);
-                $a = ob_get_clean();
-                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+                $responce = array('status' => 'failed', 'error' => 'Data missing' , 'data' => array());
             }            
         }else if ($form_id == 20) {   ///stock: (inventry) delete
             if (isset($_POST['inventry_id']) and !empty($_POST['inventry_id'])) {
@@ -115,10 +106,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
-                ob_start();
-                print_r($_POST);
-                $a = ob_get_clean();
-                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
             }            
         }else if ($form_id == 21) {   ///customer delete
             if (isset($_POST['customer_id']) and !empty($_POST['customer_id'])) {
@@ -139,10 +127,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
-                ob_start();
-                print_r($_POST);
-                $a = ob_get_clean();
-                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+                $responce = array('status' => 'failed', 'error' => 'Data missing' , 'data' => array());
             }            
         }else if ($form_id == 23) {   ///bank delete
             if (isset($_POST['bank_id']) and !empty($_POST['bank_id'])) {
@@ -163,10 +148,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
-                ob_start();
-                print_r($_POST);
-                $a = ob_get_clean();
-                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
             }            
         } else if ($form_id == 26) {   ///shop delete
             if (isset($_POST['company_id']) and !empty($_POST['company_id'])) {
@@ -187,10 +169,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
-                ob_start();
-                print_r($_POST);
-                $a = ob_get_clean();
-                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
             }            
         } else if ($form_id == 28) {   ///user delete
             if (isset($_POST['user_id']) and !empty($_POST['user_id'])) {
@@ -211,10 +190,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
-                ob_start();
-                print_r($_POST);
-                $a = ob_get_clean();
-                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
             }            
         } else if ($form_id == 31) {   ///expence delete
             if (isset($_POST['expence_id']) and !empty($_POST['expence_id'])) {
@@ -235,10 +211,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
-                ob_start();
-                print_r($_POST);
-                $a = ob_get_clean();
-                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
             }            
         } else if ($form_id == 32) {   ///bank deposit delete
             if (isset($_POST['bank_deposit_id']) and !empty($_POST['bank_deposit_id'])) {
@@ -259,10 +232,28 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                     $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
                 }                    
             }else {
-                ob_start();
-                print_r($_POST);
-                $a = ob_get_clean();
-                $responce = array('status' => 'failed', 'error' => 'Data missing' . $a, 'data' => array());
+                $responce = array('status' => 'failed', 'error' => 'Data missing' , 'data' => array());
+            }            
+        } else if ($form_id == 41) {   ///tax category delete
+            if (isset($_POST['tax_category_id']) and !empty($_POST['tax_category_id'])) {
+                $tax_category = new tax_category();
+                $tax_category->id = $_POST['tax_category_id'];
+                if($tax_category->deleteTaxCategory()){
+                    $message = "Tax Category deleted Successfuly";
+                    $responce = array('status' => 'success', 'error' => '', 'data' => array("message" => $message, "id"=>$tax_category->id)); 
+                }else{
+                    $description = "Tax Category delete failed, Tax Category : ".$tax_category->to_string()." Error : ".  mysql_error();
+                    Log::e($tag, $description);
+                    $mysql_error = mysql_error();
+                    if(empty($mysql_error)){
+                        $error_message = 'Some server error occured';
+                    }else{
+                        $error_message = $mysql_error;
+                    }
+                    $responce = array('status' => 'failed', 'error' => $error_message, 'data' => array());
+                }                    
+            }else {
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
             }            
         } else {
             $responce = array('status' => 'failed', 'error' => 'Invalid Form', 'data' => array());
