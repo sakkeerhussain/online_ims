@@ -175,6 +175,20 @@ class purchaces {
         return $this->db_handler->get_model_max_value($this, 'bill_number');
     }
 
+    function getOneDayPurchaseExpence($company_id, $date) {
+        $query = "SELECT SUM(`amount`) as `amount` FROM `purchaces` WHERE DATE(`created_at`) = '$date' and `company_id` = $company_id and `stocked` = 1 ";
+        $result = $this->db_handler->executeQuery($query);
+        $vals = array();
+        if ($row = mysql_fetch_assoc($result)) {
+            foreach ($row as $key => $value) {
+                $vals[$key] = $value;
+            }
+            return $vals;
+        } else {
+            return FALSE;
+        }
+    }
+
 }
 
 //registering for class auto loading

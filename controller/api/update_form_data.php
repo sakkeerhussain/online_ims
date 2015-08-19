@@ -580,10 +580,7 @@ if (isset($_SESSION['user_id']) and !empty($_SESSION['user_id'])
                 }               
                 
             }else {
-                ob_start();
-                print_r($_POST);
-                $a = ob_get_clean();
-                $responce = array('status' => 'failed', 'error' => 'Data missing'.$a, 'data' => array());
+                $responce = array('status' => 'failed', 'error' => 'Data missing', 'data' => array());
             }
         }else {
             $responce = array('status' => 'failed', 'error' => 'Invalid Form', 'data' => array());
