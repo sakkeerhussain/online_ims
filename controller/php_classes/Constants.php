@@ -25,14 +25,14 @@ Class Constants{
     }
     static function initialize_db_constants(){
         Constants::$db_host = "localhost";
-        Constants::$db_user_name = "piknikin_root";
-        Constants::$db_password = "root";
-        Constants::$database_name = "piknikin_piknik_ims";
+        Constants::$db_user_name = "root";
+        Constants::$db_password = "";
+        Constants::$database_name = "online_ims";
     }
     static function initialize_server_constants(){
         Constants::$host = $_SERVER['HTTP_HOST'];
         Constants::$document_root = $_SERVER['DOCUMENT_ROOT'];
-        Constants::$project_name = "piknik_ims";
+        Constants::$project_name = "online_ims";
         Constants::$project_root = Constants::$document_root . "/" . Constants::$project_name;
         Constants::$error_page = ' http://'.Constants::$host.'/'.Constants::$project_name."/error.php";
         Constants::$ip = $_SERVER['REMOTE_ADDR'];

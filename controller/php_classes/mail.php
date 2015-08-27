@@ -10,8 +10,8 @@
  */
 class mail {
     public $to = 'cgtsoft@gmail.com, sakkeerhussainp@gmail.com, piknikdates@gmail.com';
-    public $subject = 'Error Reporting from Pik Nik IMS';
-    public $header = 'From: webmaster@piknikindia.in';
+    public $subject = 'Reporting from Online IMS @ Master';
+    public $header = 'From: webmaster@onlineims.com';
     public $tag = "MAIL CONTROLLER";
     public function send_error_mail($query, $error){
         
