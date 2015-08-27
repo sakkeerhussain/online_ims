@@ -1,1 +1,0 @@
-"C:\xampp\php\php.exe" -f "C:\xampp\htdocs\sample_sales_local_sync_task\sales_sync_task.php"

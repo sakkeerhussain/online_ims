@@ -1,6 +1,0 @@
-1. ---- issue ---
-	same item two times on a bill and returns both items simultaneously then stok count updates only according to on entry , not considering that two
-
-
-2. ---- issue ----
-	same item can be added to one bill multiple times and violates max count restriction
