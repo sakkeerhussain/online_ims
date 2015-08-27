@@ -14,7 +14,7 @@ spl_autoload_register(function($class_name) {
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Pik Nik</title>
+        <title>Online IMS</title>
         <link rel="stylesheet" type="text/css" media="screen" href="css/style_screen.css" />
         <link rel="stylesheet" type="text/css" media="print" href="css/style_print.css" />
         <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.datepick.css" />
